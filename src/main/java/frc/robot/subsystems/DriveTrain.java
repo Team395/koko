@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.IO;
+import frc.robot.commands.TankDrive;
 
 /** Add your docs here. */
 public class DriveTrain extends SubsystemBase {
@@ -18,11 +20,13 @@ public class DriveTrain extends SubsystemBase {
   public TalonFX leftFollower = new TalonFX(Constants.driveLeftFollowerFlaconID);
   public TalonFX rightLeader = new TalonFX(Constants.driveRightLeaderFalconID);
   public TalonFX rightFollower = new TalonFX(Constants.driveRightFollowerFalconID);
-
+  public IO m_io;
+  public TankDrive m_tankDrive;
+  
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public DriveTrain() {
+  public DriveTrain(IO io) {
     leftLeader.configFactoryDefault();
     leftFollower.configFactoryDefault();
     rightLeader.configFactoryDefault();
@@ -34,6 +38,10 @@ public class DriveTrain extends SubsystemBase {
     leftFollower.follow(leftLeader);
     rightFollower.follow(rightLeader);
 
+    m_io = io;
+    m_tankDrive = new TankDrive(this, io);
+
+    this.setDefaultCommand(m_tankDrive);
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {

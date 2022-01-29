@@ -17,10 +17,9 @@ import frc.robot.commands.TankDrive;
 /** Add your docs here. */
 public class DriveTrain extends SubsystemBase {
   public TalonFX leftLeader = new TalonFX(Constants.driveLeftLeaderFalconID);
-  public TalonFX leftFollower = new TalonFX(Constants.driveLeftFollowerFlaconID);
+  public TalonFX leftFollower = new TalonFX(Constants.driveLeftFollowerFalconID);
   public TalonFX rightLeader = new TalonFX(Constants.driveRightLeaderFalconID);
   public TalonFX rightFollower = new TalonFX(Constants.driveRightFollowerFalconID);
-  public IO m_io;
   public TankDrive m_tankDrive;
   
   // Put methods for controlling this subsystem
@@ -38,9 +37,7 @@ public class DriveTrain extends SubsystemBase {
     leftFollower.follow(leftLeader);
     rightFollower.follow(rightLeader);
 
-    m_io = io;
     m_tankDrive = new TankDrive(this, io);
-
     this.setDefaultCommand(m_tankDrive);
   }
 
@@ -59,7 +56,7 @@ public class DriveTrain extends SubsystemBase {
 
     sign = Math.signum(speed);
     if(sign > 0) { speed = Math.max(Constants.kDriveMinimumSpeed, speed); }
-    else if (sign < 0) {speed = Math.min(-1 * Constants.kDriveMinimumSPeed, speed);}
+    else if (sign < 0) {speed = Math.min(-1 * Constants.kDriveMinimumSpeed, speed);}
 
     leftLeader.set(ControlMode.PercentOutput, speed - turn);
     rightLeader.set(ControlMode.PercentOutput, speed + turn);

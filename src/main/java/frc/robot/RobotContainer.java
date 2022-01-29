@@ -20,9 +20,7 @@ public class RobotContainer {
   private final IO m_io = new IO();
   private final DriveTrain m_drivetrain = new DriveTrain(m_io);
   // The robot's subsystems and commands are defined here...
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -44,10 +42,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    // return m_autoCommand; 
-    
-    //TODO: Temporary Fix
+    // no autonomous command for now
     return null;
   }
 }

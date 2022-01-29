@@ -17,7 +17,7 @@ import frc.robot.commands.TankDrive;
 /** Add your docs here. */
 public class DriveTrain extends SubsystemBase {
   public TalonFX leftLeader = new TalonFX(Constants.driveLeftLeaderFalconID);
-  public TalonFX leftFollower = new TalonFX(Constants.driveLeftFollowerFlaconID);
+  public TalonFX leftFollower = new TalonFX(Constants.driveLeftFollowerFalconID);
   public TalonFX rightLeader = new TalonFX(Constants.driveRightLeaderFalconID);
   public TalonFX rightFollower = new TalonFX(Constants.driveRightFollowerFalconID);
   public IO m_io;

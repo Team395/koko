@@ -30,7 +30,9 @@ public class TankDrive extends CommandBase {
   }
     public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
         
-      if (-Constants.kJoystickTurnDeadzone <= turn
+      if ( Math.abs(turn) < Constants.kJoystickTurnDeadzone) {
+      turn = 0.0;
+      }
             && turn <= Constants.kJoystickTurnDeadzone) {
               turn = 0.0;
         }

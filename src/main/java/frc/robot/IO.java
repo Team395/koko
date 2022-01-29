@@ -6,10 +6,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class IO {
 
     XboxController driverController = new XboxController(0);
-    JoystickButton driverXboxAButton = new JoystickButton(driverController, 1);
-    JoystickButton driverXboxBButton = new JoystickButton(driverController, 2);
-    JoystickButton driverXboxYButton = new JoystickButton(driverController, 3);
-    JoystickButton driverXboxXButton = new JoystickButton(driverController, 4);
 
     static final double joystickDeadzone = 0.15;
 

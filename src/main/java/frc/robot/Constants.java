@@ -15,7 +15,7 @@ package frc.robot;
 public final class Constants {
     //Drivetrain Falcon 500s
     public static final int driveLeftLeaderFalconID = 1;
-    public static final int driveLeftFollowerFlaconID = 2;
+    public static final int driveLeftFollowerFalconID = 2;
     public static final int driveRightLeaderFalconID = 3;
     public static final int driveRightFollowerFalconID = 4;
     public static final double kTurnClamp = 0;

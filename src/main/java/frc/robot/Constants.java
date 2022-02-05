@@ -20,10 +20,18 @@ public final class Constants {
     public static final int driveRightLeaderFalconID = 3;
     public static final int driveRightFollowerFalconID = 4;
 
-    //TODO_Tune
+    //Intake 
+    public static final int intakeArmSPXID = 5;
+    public static final int intakeRollerSparkMaxID = 6;
+    
+        //TODO - speed
+    public static final double intakeArmSpeed = 0.8;
+
+        //TODO_Tune
     public static final double kTurnClamp = 0;
     public static final int kDriveMinimumSpeed = 0;
 
     public static final double kJoystickTurnDeadzone = 0.5;
+    
 
 }

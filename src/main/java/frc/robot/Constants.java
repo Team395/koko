@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -14,7 +16,7 @@ package frc.robot;
  */
 public final class Constants {
     //Drivetrain Falcon 500s 
-    //TODO_Label Ports
+        //TODO_Label Ports
     public static final int driveLeftLeaderFalconID = 1;
     public static final int driveLeftFollowerFalconID = 2;
     public static final int driveRightLeaderFalconID = 3;
@@ -32,6 +34,16 @@ public final class Constants {
     public static final int kDriveMinimumSpeed = 0;
 
     public static final double kJoystickTurnDeadzone = 0.5;
+
+    //Climber
+        //TODO_Label Ports
+    public static final int ClimberRotateSparkMaxID = 7;
+    public static final int ClimberLiftSparkMaxID = 0;
+
+    public static final PneumaticsModuleType ClimberLockSolenoidID = null;
+    public static final int ClimberUnlockSolenoidID = 0;
+    public static final PneumaticsModuleType ClimberOpenSolenoidID = null;
+    public static final int ClimberCloseSolenoidID = 0;
     
 
 }

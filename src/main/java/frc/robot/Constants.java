@@ -35,15 +35,14 @@ public final class Constants {
 
     public static final double kJoystickTurnDeadzone = 0.5;
 
-    //Climber
-        //TODO_Label Ports
+    //Climber SparkMax and Solenoids TODo label ports
     public static final int ClimberRotateSparkMaxID = 7;
     public static final int ClimberLiftSparkMaxID = 0;
 
-    public static final PneumaticsModuleType ClimberLockSolenoidID = null;
-    public static final int ClimberUnlockSolenoidID = 0;
-    public static final PneumaticsModuleType ClimberOpenSolenoidID = null;
-    public static final int ClimberCloseSolenoidID = 0;
+    public static final int ClimberLockSolenoidId = 0;
+    public static final int ClimberUnlockSolenoidId = 1;
+    public static final int ClimberOpenSolenoidId = 2;
+    public static final int ClimberCloseSolenoidId = 3;
     
 
 }

@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 public final class Constants {
     //Drivetrain Falcon 500s 
         //TODO_Label Ports
-    public static final int driveLeftLeaderFalconID = 1;
+    public static final int driveLeftLeaderFalconID = 9;
     public static final int driveLeftFollowerFalconID = 2;
-    public static final int driveRightLeaderFalconID = 3;
+    public static final int driveRightLeaderFalconID = 10;
     public static final int driveRightFollowerFalconID = 4;
 
     //Intake 
@@ -36,13 +36,15 @@ public final class Constants {
     public static final double kJoystickTurnDeadzone = 0.5;
 
     //Climber SparkMax and Solenoids TODo label ports
-    public static final int ClimberRotateSparkMaxID = 7;
+    public static final int ClimberRotateSparkMaxID = 5;
     public static final int ClimberLiftSparkMaxID = 0;
 
-    public static final int ClimberLockSolenoidId = 0;
-    public static final int ClimberUnlockSolenoidId = 1;
-    public static final int ClimberOpenSolenoidId = 2;
-    public static final int ClimberCloseSolenoidId = 3;
+    public static final int ClimberUnlockFrontSolenoidId = 0;
+    public static final int ClimberLockFrontSolenoidId = 1;
+    public static final int ClimberOpenFrontSolenoidId = 2;
+    public static final int ClimberCloseFrontSolenoidId = 3;
+    public static final int ClimberUnlockBackSolenoidId = 4;
+    public static final int ClimberLockBackSolenoidId = 5;
     
 
 }

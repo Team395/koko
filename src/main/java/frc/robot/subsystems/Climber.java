@@ -19,12 +19,13 @@ public class Climber extends SubsystemBase {
   public CANSparkMax climberRotate = new CANSparkMax(Constants.ClimberRotateSparkMaxID, MotorType.kBrushless);
   public CANSparkMax climberLift = new CANSparkMax(Constants.ClimberLiftSparkMaxID, MotorType.kBrushless);
   
-  public DoubleSolenoid climberLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberUnlockSolenoidId, Constants.ClimberLockSolenoidId); 
-  public DoubleSolenoid climberValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberOpenSolenoidId, Constants.ClimberCloseSolenoidId);  
-  
-  public ClimberValve currentValve = ClimberValve.CLOSE;
-  public ClimberLock currentAngle = ClimberLock.LOCK;
-  //TODO set the rotation angle and lift angle. 
+  public DoubleSolenoid climberLockFront = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberUnlockFrontSolenoidId, Constants.ClimberLockFrontSolenoidId); 
+  public DoubleSolenoid climberValveFront = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberOpenFrontSolenoidId, Constants.ClimberCloseFrontSolenoidId);  
+  public DoubleSolenoid climberLockBack = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberUnlockBackSolenoidId, Constants.ClimberLockBackSolenoidId);
+
+  // public ClimberValve currentValve = ClimberValve.CLOSE;
+  // public ClimberLock currentAngle = ClimberLock.LOCK;
+  //TODO set the rotation angle and lift angle.  
 
 
   //TODO sequence of climber 

@@ -5,9 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.IO;
 import frc.robot.subsystems.DriveTrain;
+
 
 public class TankDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
@@ -59,7 +61,7 @@ public class TankDrive extends CommandBase {
   public void execute() {
 
     GTADrive(m_io.getControllerLeftTrigger(), m_io.getControlleRightTrigger(), m_io.getControllerTurn());
-
+    System.out.println(m_io.getControllerLeftTrigger());
   }
 
   // Called once the command ends or is interrupted.

@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,7 +47,8 @@ public class DriveTrain extends SubsystemBase {
   public void tankDrive(double leftSpeed, double rightSpeed) {
 
     leftLeader.set(TalonFXControlMode.PercentOutput, leftSpeed);
-    rightLeader.set(TalonFXControlMode.PercentOutput, rightSpeed);    
+    rightLeader.set(TalonFXControlMode.PercentOutput, rightSpeed); 
+    
   }
 
   public void arcadeDrive(double speed, double turn) {

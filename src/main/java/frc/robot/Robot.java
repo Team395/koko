@@ -37,8 +37,13 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     IO io = new IO();
     m_drivetrain = new DriveTrain(io);
-    m_climber = new Climber();
+    m_climber = new Climber(io);
 
+
+
+
+
+    
     m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     m_compressor.enableDigital();
 

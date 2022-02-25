@@ -9,8 +9,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.IO;
+import frc.robot.commands.Climb;
 import frc.robot.enums.ClimberLock;
 import frc.robot.enums.ClimberValve;
 
@@ -23,15 +26,54 @@ public class Climber extends SubsystemBase {
   public DoubleSolenoid climberValveFront = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberOpenFrontSolenoidId, Constants.ClimberCloseFrontSolenoidId);  
   public DoubleSolenoid climberLockBack = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberUnlockBackSolenoidId, Constants.ClimberLockBackSolenoidId);
 
-  // public ClimberValve currentValve = ClimberValve.CLOSE;
-  // public ClimberLock currentAngle = ClimberLock.LOCK;
-  //TODO set the rotation angle and lift angle.  
+  public Climb m_climb;
 
+  public Climber(IO io) {
 
-  //TODO sequence of climber 
+  m_climb = new Climb(this, io);
+  this.setDefaultCommand(m_climb);
 
-  // public void rotateClimber(final ClimberAngles angle) {
-    
+  }
+
+  // public void climberLock(final ClimberLock keyhole) {
+  //   switch(keyhole) {
+  //     case LOCK:
+  //       climberLockFront.set(Value.kForward);
+  //       keyhole = ClimberLock.LOCK;
+  //       break;
+
+  //     case UNLOCK:
+  //       climberLockFront.set(Value.kReverse);
+  //       keyhole = ClimberLock.UNLOCK;
+  //       break;
+
+  //   }
   // }
 
+  //Climber Front 
+  public void ClimberOpenF() {
+    climberValveFront.set(Value.kReverse);
+  }
+  public void ClimberCloseF() {
+    climberValveFront.set(Value.kForward);
+  }
+
+  public void ClimberUnlockF() {
+    climberLockFront.set(Value.kReverse);
+  }
+  public void ClimberLockF() {
+    climberLockFront.set(Value.kForward);
+  }
+
+
+  //Climber Back
+
+  public void ClimberUnlockB() {
+    climberLockBack.set(Value.kReverse);
+  }
+  public void ClimberLockB() {
+    climberLockBack.set(Value.kForward);
+  }
+ 
 }
+

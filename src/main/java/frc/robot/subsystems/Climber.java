@@ -27,11 +27,13 @@ public class Climber extends SubsystemBase {
   public DoubleSolenoid climberLockBack = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberUnlockBackSolenoidId, Constants.ClimberLockBackSolenoidId);
 
   public Climb m_climb;
+  public IO io; 
 
   public Climber(IO io) {
 
   m_climb = new Climb(this, io);
   this.setDefaultCommand(m_climb);
+
 
   }
 

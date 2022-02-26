@@ -36,9 +36,9 @@ public class IO {
     
 
 
-public void OI () {
-    solenoidXboxAButton.whenPressed(new Climb() );
+// public void OI () {
+//     solenoidXboxAButton.whenPressed(new Climb() );
 
-}
+// }
 
 }

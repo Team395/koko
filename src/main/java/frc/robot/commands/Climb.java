@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.IO;
 import frc.robot.enums.ClimberLock;
@@ -32,6 +33,8 @@ public class Climb extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_climber.ClimberLockB();
+    m_climber.climberLockFront.set(Value.kReverse);
     m_climber.ClimberLockF();
     m_climber.ClimberOpenF();
 

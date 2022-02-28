@@ -54,8 +54,14 @@ public class Climber extends SubsystemBase {
 
   //Climber Front 
   public void ClimberOpenF() {
-    climberValveFront.set(Value.kReverse);
+
+    if (io.aSolenoidValveF()) {
+      climberValveFront.set(Value.kReverse);
+    }
   }
+
+
+  
   public void ClimberCloseF() {
     climberValveFront.set(Value.kForward);
   }

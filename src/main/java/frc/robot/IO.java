@@ -28,6 +28,10 @@ public class IO {
         return -1 * driverController.getLeftX();
     }
 
+    public boolean aSolenoidValveF() {
+        return solenoidController.getAButtonPressed();
+    }
+
 
     XboxController solenoidController = new XboxController(1);
     JoystickButton solenoidXboxAButton = new JoystickButton(solenoidController, 1);

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Climb;
+import frc.robot.commands.Climbv2;
 import frc.robot.enums.ClimberLock;
 import frc.robot.subsystems.Climber;
 
@@ -36,9 +37,13 @@ public class IO {
     
 
 
-// public void OI () {
-//     solenoidXboxAButton.whenPressed(new Climb() );
+    // solenoidXboxAButton.whenPressed(new Climbv2());
 
-// }
+    
+
+public void OI () {
+    solenoidXboxAButton.whenPressed(new Climbv2(null) );
+
+}
 
 }

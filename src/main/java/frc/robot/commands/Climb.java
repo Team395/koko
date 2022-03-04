@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.concurrent.locks.Lock;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.IO;
@@ -16,8 +18,8 @@ public class Climb extends CommandBase {
   private final Climber m_climber;
   private final IO m_io;
 
-  public ClimberLock keyhole = ClimberLock.LOCK;
-  public ClimberValve Valve = ClimberValve.OPEN;
+  public ClimberLock LockPosition = ClimberLock.LOCK;
+  public ClimberValve ValvePosition = ClimberValve.OPEN;
 
 
 
@@ -29,21 +31,18 @@ public class Climb extends CommandBase {
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
+ 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.ClimberLockB();
-    m_climber.climberLockFront.set(Value.kReverse);
-    m_climber.ClimberLockF();
-    m_climber.ClimberOpenF();
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    switch(keyhole) {
+    
+        switch(LockPosition) {
       case LOCK:
         m_climber.ClimberLockF();
         break;
@@ -53,7 +52,7 @@ public class Climb extends CommandBase {
         break;
     }
 
-    switch(Valve) {
+    switch(ValvePosition) {
       case OPEN:
         m_climber.ClimberOpenF();
         break;
@@ -63,6 +62,20 @@ public class Climb extends CommandBase {
         break;
     }
 
+  }
+// put valve position down here as well
+  public void climberLock(ClimberLock LockPosition) {
+    switch(LockPosition) {
+      case LOCK:
+        m_climber.climberLockFront.set(Value.kForward);
+        LockPosition = ClimberLock.LOCK;
+        break;
+
+      case UNLOCK:
+        m_climber.climberLockFront.set(Value.kReverse);
+        LockPosition = ClimberLock.UNLOCK;
+        break;
+    }
   }
 
   

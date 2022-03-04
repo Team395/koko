@@ -25,10 +25,9 @@ public class TankDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
 
-
-  }
+  
     public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
         
       if ( Math.abs(turn) < Constants.kJoystickTurnDeadzone) {

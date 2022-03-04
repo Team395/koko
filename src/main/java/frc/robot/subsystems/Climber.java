@@ -29,39 +29,19 @@ public class Climber extends SubsystemBase {
   public Climb m_climb;
   public IO io; 
 
-  public Climber(IO io) {
+  public Climber() {
 
   m_climb = new Climb(this, io);
   this.setDefaultCommand(m_climb);
 
-
   }
 
-  // public void climberLock(final ClimberLock keyhole) {
-  //   switch(keyhole) {
-  //     case LOCK:
-  //       climberLockFront.set(Value.kForward);
-  //       keyhole = ClimberLock.LOCK;
-  //       break;
-
-  //     case UNLOCK:
-  //       climberLockFront.set(Value.kReverse);
-  //       keyhole = ClimberLock.UNLOCK;
-  //       break;
-
-  //   }
-  // }
 
   //Climber Front 
   public void ClimberOpenF() {
-
-    if (io.aSolenoidValveF()) {
-      climberValveFront.set(Value.kReverse);
-    }
+    climberValveFront.set(Value.kReverse);
   }
 
-
-  
   public void ClimberCloseF() {
     climberValveFront.set(Value.kForward);
   }

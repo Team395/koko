@@ -15,10 +15,10 @@ package frc.robot;
 public final class Constants {
     //Drivetrain Falcon 500s 
         //TODO_Label Ports
-    public static final int driveLeftLeaderFalconID = 9;
-    public static final int driveLeftFollowerFalconID = 2;
-    public static final int driveRightLeaderFalconID = 10;
-    public static final int driveRightFollowerFalconID = 4;
+    public static final int driveLeftLeaderFalconID = 1;
+    public static final int driveLeftFollowerFalconID = 3;
+    public static final int driveRightLeaderFalconID = 2;
+    public static final int driveRightFollowerFalconID = 4; 
 
     //Intake 
     public static final int intakeArmSPXID = 5;
@@ -28,7 +28,7 @@ public final class Constants {
     public static final double intakeArmSpeed = 0.8;
 
         //TODO_Tune
-    public static final double kTurnClamp = 0;
+    public static final double kTurnClamp = 0.5;
     public static final int kDriveMinimumSpeed = 0;
 
     public static final double kJoystickTurnDeadzone = 0.5;

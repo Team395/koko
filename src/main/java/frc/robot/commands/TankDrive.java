@@ -39,7 +39,7 @@ public class TankDrive extends CommandBase {
 
         turn = turn * turn * Math.signum(turn);
 
-        if (left < 0) { turn *= -1.0; }
+        // if (left < 0) { turn *= -1.0; }
 
         left += turn;
         right -= turn;
@@ -59,7 +59,7 @@ public class TankDrive extends CommandBase {
   public void execute() {
 
     GTADrive(m_io.getControllerLeftTrigger(), m_io.getControlleRightTrigger(), m_io.getControllerTurn());
-    System.out.println(m_io.getControllerLeftTrigger());
+    // System.out.println(m_io.getControllerLeftTrigger());
   }
 
   // Called once the command ends or is interrupted.

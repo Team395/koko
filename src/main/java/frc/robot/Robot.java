@@ -34,7 +34,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     IO io = new IO();
-    // new DriveTrain(io);
     // new Climber();
 
     // m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);

@@ -20,8 +20,8 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
 
   private final IO m_io = new IO();
+  private final DriveTrain m_driverain = new DriveTrain(m_io);
   // private final Climber m_climber = new Climber();
-  private final DriveTrain m_drivetrain = new DriveTrain(m_io);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

@@ -9,59 +9,30 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.IO;
 import frc.robot.commands.Climb;
-import frc.robot.enums.ClimberLock;
-import frc.robot.enums.ClimberValve;
 
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
-  public CANSparkMax climberRotate = new CANSparkMax(Constants.ClimberRotateSparkMaxID, MotorType.kBrushless);
-  public CANSparkMax climberLift = new CANSparkMax(Constants.ClimberLiftSparkMaxID, MotorType.kBrushless);
+  // public CANSparkMax climberRotate = new CANSparkMax(Constants.ClimberRotateSparkMaxID, MotorType.kBrushless);
+  // public CANSparkMax climberLift = new CANSparkMax(Constants.ClimberLiftSparkMaxID, MotorType.kBrushless);
   
-  public DoubleSolenoid climberLockFront = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberUnlockFrontSolenoidId, Constants.ClimberLockFrontSolenoidId); 
-  public DoubleSolenoid climberValveFront = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberOpenFrontSolenoidId, Constants.ClimberCloseFrontSolenoidId);  
-  public DoubleSolenoid climberLockBack = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberUnlockBackSolenoidId, Constants.ClimberLockBackSolenoidId);
+  public DoubleSolenoid climberFrontLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberFrontUnlockSolenoidID, Constants.ClimberFrontLockSolenoidID); 
+  public DoubleSolenoid climberFrontValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberFrontOpenSolenoidID, Constants.ClimberFrontCloseSolenoidID);  
+  public DoubleSolenoid climberBackLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackUnlockSolenoidID, Constants.ClimberBackLockSolenoidID);
+  // public DoubleSolenoid climberBackValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackOpenSolenoidID, Constants.ClimberBackCloseSolenoidID);
 
   public Climb m_climb;
   public IO io; 
 
   public Climber() {
 
-  m_climb = new Climb(this, io);
-  this.setDefaultCommand(m_climb);
+  // m_climb = new Climb(this, io, null, null);
+  // this.setDefaultCommand(m_climb);
 
   }
 
-
-  //Climber Front 
-  public void ClimberOpenF() {
-    climberValveFront.set(Value.kReverse);
-  }
-
-  public void ClimberCloseF() {
-    climberValveFront.set(Value.kForward);
-  }
-
-  public void ClimberUnlockF() {
-    climberLockFront.set(Value.kReverse);
-  }
-  public void ClimberLockF() {
-    climberLockFront.set(Value.kForward);
-  }
-
-
-  //Climber Back
-
-  public void ClimberUnlockB() {
-    climberLockBack.set(Value.kReverse);
-  }
-  public void ClimberLockB() {
-    climberLockBack.set(Value.kForward);
-  }
- 
 }
 

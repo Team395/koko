@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Climb;
+import frc.robot.enums.LockPositions;
+import frc.robot.enums.ValvePositions;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 
@@ -21,7 +23,7 @@ public class RobotContainer {
 
   private final IO m_io = new IO();
   private final DriveTrain m_driverain = new DriveTrain(m_io);
-  // private final Climber m_climber = new Climber();
+  private final Climber m_climber = new Climber();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -37,7 +39,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // m_io.solenoidXboxAButton.whenPressed(new Climb.LockPosition.LOCK));
+    m_io.solenoidXboxAButton.whenPressed(new Climb(m_climber, m_io, LockPositions.LOCK, null));
+    m_io.solenoidXboxBButton.whenPressed(new Climb(m_climber, m_io, LockPositions.UNLOCK, null));
+    m_io.solenoidXboxXButton.whenPressed(new Climb(m_climber, m_io, null, ValvePositions.CLOSE));
+    m_io.solenoidXboxYButton.whenPressed(new Climb(m_climber, m_io, null, ValvePositions.OPEN));
 
 
 

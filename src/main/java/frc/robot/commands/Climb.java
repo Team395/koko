@@ -4,80 +4,76 @@
 
 package frc.robot.commands;
 
-import java.util.concurrent.locks.Lock;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.IO;
-import frc.robot.enums.ClimberLock;
-import frc.robot.enums.ClimberValve;
+import frc.robot.enums.LockPositions;
+import frc.robot.enums.ValvePositions;
 import frc.robot.subsystems.Climber;
 
 public class Climb extends CommandBase {
 
   private final Climber m_climber;
-  private final IO m_io;
+  private final LockPositions requestedLockPosition;
+  private final ValvePositions requestedValvePosition;
 
-  public ClimberLock LockPosition = ClimberLock.LOCK;
-  public ClimberValve ValvePosition = ClimberValve.OPEN;
+  public LockPositions LockPosition = LockPositions.LOCK;
+  public ValvePositions ValvePosition = ValvePositions.OPEN;
 
 
 
-  public Climb(Climber climber, IO io) {
+  public Climb(Climber climber, IO io, LockPositions requestedLockPosition, ValvePositions requestedValvePosition) {
     m_climber = climber;
-    m_io = io;
     addRequirements(m_climber);
     
-
-    // Use addRequirements() here to declare subsystem dependencies.
+    this.requestedLockPosition = requestedLockPosition;
+    this.requestedValvePosition = requestedValvePosition;
   }
  
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
 
+  public void climberLock(LockPositions position) {
+    switch(position) {
+      case LOCK:
+        m_climber.climberFrontLock.set(Value.kForward);
+        LockPosition = LockPositions.LOCK;
+        break;
+
+      case UNLOCK:
+        m_climber.climberFrontLock.set(Value.kReverse);
+        LockPosition = LockPositions.UNLOCK;
+        break;
+    }
   }
+
+  public void climberValve(ValvePositions position) {
+    switch(position) {
+      case OPEN:
+        m_climber.climberFrontValve.set(Value.kForward);
+        ValvePosition = ValvePositions.OPEN;
+        break;
+
+      case CLOSE:
+        m_climber.climberFrontValve.set(Value.kReverse);
+        ValvePosition = ValvePositions.CLOSE;
+        break;
+    }
+  }
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (requestedLockPosition != null) {
+    climberLock(requestedLockPosition);
+    }
     
-        switch(LockPosition) {
-      case LOCK:
-        m_climber.ClimberLockF();
-        break;
-      
-      case UNLOCK:
-        m_climber.ClimberUnlockF();
-        break;
-    }
-
-    switch(ValvePosition) {
-      case OPEN:
-        m_climber.ClimberOpenF();
-        break;
-
-      case CLOSE:
-        m_climber.ClimberCloseF();
-        break;
-    }
-
+    if (requestedValvePosition != null ) {
+    climberValve(requestedValvePosition);
+    } 
   }
-// put valve position down here as well
-  public void climberLock(ClimberLock LockPosition) {
-    switch(LockPosition) {
-      case LOCK:
-        m_climber.climberLockFront.set(Value.kForward);
-        LockPosition = ClimberLock.LOCK;
-        break;
-
-      case UNLOCK:
-        m_climber.climberLockFront.set(Value.kReverse);
-        LockPosition = ClimberLock.UNLOCK;
-        break;
-    }
-  }
-
   
 
   // Called once the command ends or is interrupted.
@@ -87,6 +83,6 @@ public class Climb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

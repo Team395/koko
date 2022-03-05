@@ -5,7 +5,7 @@
 package frc.robot.enums;
 
 /** Add your docs here. */
-public enum ClimberValve {
+public enum ValvePositions {
     OPEN,
     CLOSE
 

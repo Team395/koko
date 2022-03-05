@@ -5,7 +5,7 @@
 package frc.robot.enums;
 
 /** Add your docs here. */
-public enum ClimberLock {
+public enum LockPositions {
     LOCK,
     UNLOCK
 }

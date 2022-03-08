@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Climb;
+import frc.robot.commands.ClimbLock;
+import frc.robot.enums.LocationPositions;
 import frc.robot.enums.LockPositions;
 import frc.robot.enums.ValvePositions;
 import frc.robot.subsystems.Climber;
@@ -39,10 +41,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_io.solenoidXboxAButton.whenPressed(new Climb(m_climber, m_io, LockPositions.LOCK, null));
-    m_io.solenoidXboxBButton.whenPressed(new Climb(m_climber, m_io, LockPositions.UNLOCK, null));
-    m_io.solenoidXboxXButton.whenPressed(new Climb(m_climber, m_io, null, ValvePositions.CLOSE));
-    m_io.solenoidXboxYButton.whenPressed(new Climb(m_climber, m_io, null, ValvePositions.OPEN));
+    m_io.solenoidXboxAButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.LOCK, LocationPositions.FRONT));
+    m_io.solenoidXboxBButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.UNLOCK, LocationPositions.FRONT));
+    m_io.solenoidXboxXButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.LOCK, LocationPositions.BACK));
+    m_io.solenoidXboxYButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.UNLOCK, LocationPositions.BACK)); 
+    
+
 
 
 

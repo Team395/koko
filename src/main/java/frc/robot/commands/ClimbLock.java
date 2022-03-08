@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import java.util.concurrent.locks.Lock;
+// import java.util.concurrent.locks.Lock;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -38,78 +38,49 @@ public class ClimbLock extends CommandBase {
   @Override
   public void initialize() {}
 
-  // public void lockClimber(LocationPositions location) {
-  //   switch(location) {
-  //     case FRONT:
-  //       LocationPosition = LocationPositions.FRONT;
-  //       break;
-
-  //     case BACK:
-  //       LocationPosition = LocationPositions.BACK;
-  //       break;
-  //   }
-
-  public void lockClimber(LockPositions position, climberLock location) {
-    switch(position) {
-      case LOCK:
-        climberLock(location);
-        m_climber.climberFrontLock.set(Value.kForward);
-        LockPosition = LockPositions.LOCK;
+  public void climbLocation(LockPositions LockPosition, LocationPositions LocationPosition) {
+    switch(LockPosition) {
+      case LOCK: 
+        climbLock(LocationPosition);
         break;
 
       case UNLOCK:
-        m_climber.climberFrontLock.set(Value.kReverse);
-        LockPosition = LockPositions.UNLOCK;
+        climbUnlock(LocationPosition);
+        break;  
+    } 
+  }
+
+  public void climbLock(LocationPositions LocationPosition) {
+    switch(LocationPosition) {
+      case FRONT:
+        m_climber.climberFrontLock.set(Value.kForward);
         break;
-        
+
+      case BACK:
+        m_climber.climberBackLock.set(Value.kForward); 
+        break; 
     }
   }
 
+  public void climbUnlock(LocationPositions LocationPosition) {
+    switch(LocationPosition) {
+      case FRONT:
+        m_climber.climberFrontLock.set(Value.kReverse);
+        break;
 
-
-
-
-  public void climberLock(LocationPositions location) {
-    if (lockClimberFRONT) {
-      switch(position) {
-        case LOCK:
-          // lockClimber(location);
-          m_climber.climberFrontLock.set(Value.kForward);
-          LockPosition = LockPositions.LOCK;
-          break;
-
-        case UNLOCK:
-          m_climber.climberFrontLock.set(Value.kReverse);
-          LockPosition = LockPositions.UNLOCK;
-          break;
-      }
-    }
-
-    else {
-      switch(position) {
-        case LOCK:
-          m_climber.climberBackLock.set(Value.kForward);
-          LockPosition = LockPositions.LOCK;
-          break;
-
-        case UNLOCK:
-          m_climber.climberBackLock.set(Value.kReverse);
-          LockPosition = LockPositions.UNLOCK;
-          break;
-      }
-
+      case BACK:
+        m_climber.climberBackLock.set(Value.kReverse);
+        break;
     }
   }
-
-
-  
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climberLock(requestedLockPosition);
-    
+    climbLocation(requestedLockPosition, requestedLocationPosition);
+    climbLock(requestedLocationPosition);
+    climbUnlock(requestedLocationPosition);
 
   }
 

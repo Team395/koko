@@ -22,6 +22,7 @@ public class Climber extends SubsystemBase {
   public DoubleSolenoid climberFrontLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberFrontUnlockSolenoidID, Constants.ClimberFrontLockSolenoidID); 
   public DoubleSolenoid climberFrontValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberFrontOpenSolenoidID, Constants.ClimberFrontCloseSolenoidID);  
   public DoubleSolenoid climberBackLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackUnlockSolenoidID, Constants.ClimberBackLockSolenoidID);
+  public DoubleSolenoid climberBackValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackUnlockSolenoidID, Constants.ClimberBackLockSolenoidID);
   // public DoubleSolenoid climberBackValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackOpenSolenoidID, Constants.ClimberBackCloseSolenoidID);
 
   public Climb m_climb;

@@ -46,6 +46,10 @@ public class RobotContainer {
     m_io.solenoidXboxXButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.LOCK, LocationPositions.BACK));
     m_io.solenoidXboxYButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.UNLOCK, LocationPositions.BACK)); 
     
+    m_io.driverXboxAButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.LOCK, LocationPositons.FRONT)); 
+    m_io.driverXboxBButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.UNLOCK, LocationPositons.FRONT)); 
+    m_io.driverXboxXButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.LOCK, LocationPositions.BACK));
+    m_io.driverXboxYButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.UNLOCK, LocationPositons.BACK));
 
 
 

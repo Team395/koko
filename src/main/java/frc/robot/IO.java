@@ -26,6 +26,11 @@ public class IO {
     JoystickButton solenoidXboxBButton = new JoystickButton(solenoidController, 2);
     JoystickButton solenoidXboxXButton = new JoystickButton(solenoidController, 3);
     JoystickButton solenoidXboxYButton = new JoystickButton(solenoidController, 4);
+
+    JoystickButton driverXboxAButton = new JoystickButton(driverController, 0);
+    JoystickButton driverXboxBButton = new JoystickButton(driverController, 0); 
+    JoystickButton driverXboxXButton = new JoystickButton(driverController, 0); 
+    JoystickButton driverXboxYButton = new JoystickButton(driverController, 0); 
     
 
 }

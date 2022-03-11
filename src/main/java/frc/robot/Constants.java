@@ -21,7 +21,7 @@ public final class Constants {
 
     public static final double kTurnClamp = 0.5;
     public static final int kDriveMinimumSpeed = 0;
-    public static final double kJoystickTurnDeadzone = 0.5;
+    public static final double kJoystickTurnDeadzone = 0.15;
 
     //Intake 
     public static final int intakeArmSPXID = 5;

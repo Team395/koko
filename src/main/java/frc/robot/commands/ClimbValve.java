@@ -15,9 +15,9 @@ public class ClimbValve extends CommandBase {
 // issue with the final field asssignment lines 18-20
 // errors go away when final is removed here 
 // but gets warning on unused requestedLocationPosition line 30
-  private final Climber m_climber; 
-  private final ValvePositions requestedValvePosition;
-  private final LocationPositions requestedLocationPosition; 
+  private Climber m_climber; 
+  private ValvePositions requestedValvePosition;
+  private LocationPositions requestedLocationPosition; 
 
   public ValvePositions ValvePosition = ValvePositions.OPEN;
   public LocationPositions LocationPosition = LocationPositions.FRONT; 
@@ -53,7 +53,7 @@ public class ClimbValve extends CommandBase {
         break;
 
       case BACK:
-        m_climber.climberBackValve.set(Value.kForward); 
+        m_climber.climberBackValve.set(Value.kForward);
         break;
     }
   }

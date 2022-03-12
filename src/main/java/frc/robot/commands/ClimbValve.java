@@ -75,8 +75,6 @@ public class ClimbValve extends CommandBase {
   public void execute() {
 
     climbOpenClose(requestedValvePosition, requestedLocationPosition);
-    // climbOpen(requestedLocationPosition);
-    // climbClose(requestedLocationPosition);
 
   }
 

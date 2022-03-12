@@ -39,7 +39,7 @@ public final class Constants {
 
     public static final int ClimberBackUnlockSolenoidID = 4;
     public static final int ClimberBackLockSolenoidID = 5;
-    // public static final int ClimberBackOpenSolenoidID = 6;
-    // public static final int ClimberBackCloseSolenoidID = 7;
+    public static final int ClimberBackOpenSolenoidID = 6;
+    public static final int ClimberBackCloseSolenoidID = 7;
     
 }

@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.IO;
-import frc.robot.commands.Climb;
+// import frc.robot.commands.Climb;
+import frc.robot.commands.ClimbLock;
+import frc.robot.commands.ClimbValve;
 
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
@@ -22,16 +24,18 @@ public class Climber extends SubsystemBase {
   public DoubleSolenoid climberFrontLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberFrontUnlockSolenoidID, Constants.ClimberFrontLockSolenoidID); 
   public DoubleSolenoid climberFrontValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberFrontOpenSolenoidID, Constants.ClimberFrontCloseSolenoidID);  
   public DoubleSolenoid climberBackLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackUnlockSolenoidID, Constants.ClimberBackLockSolenoidID);
-  public DoubleSolenoid climberBackValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackUnlockSolenoidID, Constants.ClimberBackLockSolenoidID);
-  // public DoubleSolenoid climberBackValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackOpenSolenoidID, Constants.ClimberBackCloseSolenoidID);
+  public DoubleSolenoid climberBackValve = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberBackOpenSolenoidID, Constants.ClimberBackCloseSolenoidID);
+  //5th elevate solenoid
 
-  public Climb m_climb;
+
+  public ClimbLock m_climblock;
+  public ClimbValve m_climbvalve;
   public IO io; 
 
   public Climber() {
 
-  // m_climb = new Climb(this, io, null, null);
-  // this.setDefaultCommand(m_climb);
+  // // m_climb = new ClimbLock(this, io, null, null);
+  // // this.setDefaultCommand(m_climb);
 
   }
 

@@ -22,8 +22,8 @@ public class ClimbValve extends CommandBase {
   public ValvePositions ValvePosition = ValvePositions.OPEN;
   public LocationPositions LocationPosition = LocationPositions.FRONT; 
 
-  public void climbValve(Climber climber, IO io, ValvePositions requestedValvePosition, LocationPositions requestedLocationPositon) {
-    m_climber = climber; 
+  public ClimbValve(Climber climber, IO m_io, ValvePositions requestedValvePosition, LocationPositions requestedLocationPositon) {
+    m_climber = climber;
     addRequirements(m_climber); 
 
     this.requestedValvePosition = requestedValvePosition;
@@ -34,7 +34,7 @@ public class ClimbValve extends CommandBase {
   @Override
   public void initialize() {}
 
-  public void climbVLocation(ValvePositions ValvePosition, LocationPositions LocatioPositions) {
+  public void climbOpenClose(ValvePositions ValvePosition, LocationPositions LocatioPositions) {
     switch(ValvePosition) {
       case OPEN:
         climbOpen(LocationPosition); 
@@ -53,7 +53,7 @@ public class ClimbValve extends CommandBase {
         break;
 
       case BACK:
-        m_climber.climberBackValve.set(Value.kForward);
+        // m_climber.climberBackValve.set(Value.kForward);
         break;
     }
   }
@@ -65,7 +65,7 @@ public class ClimbValve extends CommandBase {
         break;
 
       case BACK:
-        m_climber.climberBackValve.set(Value.kReverse); 
+        // m_climber.climberBackValve.set(Value.kReverse); 
         break; 
     }
   }
@@ -74,9 +74,9 @@ public class ClimbValve extends CommandBase {
   @Override
   public void execute() {
 
-    climbVLocation(requestedValvePosition, requestedLocationPosition);
-    climbOpen(requestedLocationPosition);
-    climbClose(requestedLocationPosition);
+    climbOpenClose(requestedValvePosition, requestedLocationPosition);
+    // climbOpen(requestedLocationPosition);
+    // climbClose(requestedLocationPosition);
 
   }
 

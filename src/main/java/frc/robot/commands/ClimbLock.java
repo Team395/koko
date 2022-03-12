@@ -38,7 +38,7 @@ public class ClimbLock extends CommandBase {
   @Override
   public void initialize() {}
 
-  public void climbLocation(LockPositions LockPosition, LocationPositions LocationPosition) {
+  public void climbLockUnlock(LockPositions LockPosition, LocationPositions LocationPosition) {
     switch(LockPosition) {
       case LOCK: 
         climbLock(LocationPosition);
@@ -78,9 +78,9 @@ public class ClimbLock extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climbLocation(requestedLockPosition, requestedLocationPosition);
-    climbLock(requestedLocationPosition);
-    climbUnlock(requestedLocationPosition);
+    climbLockUnlock(requestedLockPosition, requestedLocationPosition);
+    // climbLock(requestedLocationPosition);
+    // climbUnlock(requestedLocationPosition);
 
   }
 

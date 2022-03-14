@@ -18,8 +18,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  // private Compressor m_compressor;
-  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -30,10 +28,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     IO io = new IO();
-
-    // m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    // m_compressor.enableDigital();
-
   }
 
   /**
@@ -45,7 +39,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

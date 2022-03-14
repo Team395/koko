@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-// import java.util.concurrent.locks.Lock;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.IO;
@@ -14,16 +12,9 @@ import frc.robot.enums.LockPositions;
 import frc.robot.subsystems.Climber;
 
 public class ClimbLock extends CommandBase {
-
   private final Climber m_climber;
   private final LockPositions requestedLockPosition;
   private final LocationPositions requestedLocationPosition;
-
-  public LockPositions LockPosition = LockPositions.LOCK;
-  public LocationPositions LocationPosition = LocationPositions.FRONT;
-  
-  
-  //lock, unlock, front, back
 
   /** Creates a new ClimbLock. */
   public ClimbLock(Climber climber, IO io, LockPositions requestedLockPosition, LocationPositions requestedLocationPosition) {
@@ -38,32 +29,30 @@ public class ClimbLock extends CommandBase {
   @Override
   public void initialize() {}
 
-  public void climbLockUnlock(LockPositions LockPosition, LocationPositions LocationPosition) {
-    switch(LockPosition) {
+  public void climbLockUnlock(LockPositions lockPosition, LocationPositions locationPosition) {
+    switch(lockPosition) {
       case LOCK: 
-        climbLock(LocationPosition);
+        climbLock(locationPosition);
         break;
-
       case UNLOCK:
-        climbUnlock(LocationPosition);
+        climbUnlock(locationPosition);
         break;  
     } 
   }
 
-  public void climbLock(LocationPositions LocationPosition) {
-    switch(LocationPosition) {
+  public void climbLock(LocationPositions locationPosition) {
+    switch(locationPosition) {
       case FRONT:
         m_climber.climberFrontLock.set(Value.kForward);
         break;
-
       case BACK:
         m_climber.climberBackLock.set(Value.kForward); 
         break; 
     }
   }
 
-  public void climbUnlock(LocationPositions LocationPosition) {
-    switch(LocationPosition) {
+  public void climbUnlock(LocationPositions locationPosition) {
+    switch(locationPosition) {
       case FRONT:
         m_climber.climberFrontLock.set(Value.kReverse);
         break;
@@ -79,9 +68,6 @@ public class ClimbLock extends CommandBase {
   @Override
   public void execute() {
     climbLockUnlock(requestedLockPosition, requestedLocationPosition);
-    // climbLock(requestedLocationPosition);
-    // climbUnlock(requestedLocationPosition);
-
   }
 
   // Called once the command ends or is interrupted.

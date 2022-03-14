@@ -17,7 +17,7 @@ public final class Constants {
     public static final int driveLeftLeaderFalconID = 1;
     public static final int driveLeftFollowerFalconID = 3;
     public static final int driveRightLeaderFalconID = 2;
-    public static final int driveRightFollowerFalconID = 4; 
+    public static final int driveRightFollowerFalconID = 4;
 
     public static final double kTurnClamp = 0.5;
     public static final int kDriveMinimumSpeed = 0;

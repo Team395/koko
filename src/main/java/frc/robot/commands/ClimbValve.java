@@ -12,9 +12,6 @@ import frc.robot.enums.ValvePositions;
 import frc.robot.subsystems.Climber;
 
 public class ClimbValve extends CommandBase {
-// issue with the final field asssignment lines 18-20
-// errors go away when final is removed here 
-// but gets warning on unused requestedLocationPosition line 30
   private Climber m_climber; 
   private ValvePositions requestedValvePosition;
   private LocationPositions requestedLocationPosition; 
@@ -34,24 +31,22 @@ public class ClimbValve extends CommandBase {
   @Override
   public void initialize() {}
 
-  public void climbOpenClose(ValvePositions ValvePosition, LocationPositions LocatioPositions) {
-    switch(ValvePosition) {
+  public void climbOpenClose(ValvePositions valvePosition, LocationPositions locationPosition) {
+    switch(valvePosition) {
       case OPEN:
-        climbOpen(LocationPosition); 
+        climbOpen(locationPosition); 
         break; 
-
       case CLOSE:
-        climbClose(LocationPosition); 
+        climbClose(locationPosition); 
         break;  
     }
   }
 
-  public void climbOpen(LocationPositions LocationPosition) {
-    switch(LocationPosition) {
+  public void climbOpen(LocationPositions locationPosition) {
+    switch(locationPosition) {
       case FRONT:
         m_climber.climberFrontValve.set(Value.kForward);
         break;
-
       case BACK:
         // m_climber.climberBackValve.set(Value.kForward);
         break;
@@ -73,11 +68,7 @@ public class ClimbValve extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     climbOpenClose(requestedValvePosition, requestedLocationPosition);
-    // climbOpen(requestedLocationPosition);
-    // climbClose(requestedLocationPosition);
-
   }
 
   // Called once the command ends or is interrupted.

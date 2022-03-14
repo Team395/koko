@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class IO {
 
     XboxController driverController = new XboxController(0);
-    //TODO
-    static final double joystickDeadzone = 0.15;
 
     public double getControllerLeftTrigger() {
         return -1 * driverController.getLeftTriggerAxis();
@@ -32,5 +30,3 @@ public class IO {
     JoystickButton driverXboxXButton = new JoystickButton(driverController, 3); 
     JoystickButton driverXboxYButton = new JoystickButton(driverController, 4); 
     
-
-}

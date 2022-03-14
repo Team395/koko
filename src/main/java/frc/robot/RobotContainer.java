@@ -24,9 +24,8 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
 
   private final IO m_io = new IO();
-  // private final DriveTrain m_driverain = new DriveTrain(m_io);
+  private final DriveTrain m_drivetrain = new DriveTrain(m_io);
   private final Climber m_climber = new Climber();
-
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,7 +49,6 @@ public class RobotContainer {
     m_io.driverXboxBButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.CLOSE, LocationPositions.FRONT)); 
     m_io.driverXboxXButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.OPEN, LocationPositions.BACK));
     m_io.driverXboxYButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.CLOSE, LocationPositions.BACK));
-  
   }
 
   /**

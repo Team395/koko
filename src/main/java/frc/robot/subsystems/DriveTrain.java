@@ -36,12 +36,10 @@ public class DriveTrain extends SubsystemBase {
     rightFollower.setNeutralMode(NeutralMode.Brake);
     rightLeader.setNeutralMode(NeutralMode.Brake);
 
-
     leftFollower.setInverted(true);
     leftLeader.setInverted(true);
     rightFollower.setInverted(false);
     rightLeader.setInverted(false);
-
 
     leftFollower.follow(leftLeader);
     rightFollower.follow(rightLeader);
@@ -54,6 +52,5 @@ public class DriveTrain extends SubsystemBase {
 
     leftLeader.set(TalonFXControlMode.PercentOutput, leftSpeed);
     rightLeader.set(TalonFXControlMode.PercentOutput, rightSpeed); 
-    
   }
 }

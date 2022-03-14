@@ -24,7 +24,6 @@ public class Intake extends SubsystemBase {
   
   public IntakePositions currentPosition = IntakePositions.UP;
 
-
   public Intake() {
     intakeRoller.setNeutralMode(NeutralMode.Brake);
     intakeArm.setIdleMode(IdleMode.kBrake);
@@ -41,7 +40,6 @@ public class Intake extends SubsystemBase {
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
   }
-
 
   public void set(final double speed) {
     intakeRoller.set(ControlMode.PercentOutput, speed);

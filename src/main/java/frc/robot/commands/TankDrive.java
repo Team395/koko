@@ -24,22 +24,25 @@ public class TankDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
 
-
-  }
+  
     public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
         
       if ( Math.abs(turn) < Constants.kJoystickTurnDeadzone) {
           turn = 0.0;
         }
 
+      turn = Math.abs(turn) < Constants.kJoystickTurnDeadzone
+        ? 0.0
+        : (turn - Math.signum(turn) * Constants.kJoystickTurnDeadzone) / (1.0 - Constants.kJoystickTurnDeadzone);
+
         double left = rightTrigger - leftTrigger;
         double right = rightTrigger - leftTrigger;
 
         turn = turn * turn * Math.signum(turn);
 
-        if (left < 0) { turn *= -1.0; }
+        turn = turn * 2/3;
 
         left += turn;
         right -= turn;
@@ -48,8 +51,6 @@ public class TankDrive extends CommandBase {
         right = Math.max(-1.0, Math.min(1.0, right));
 
         m_drivetrain.tankDrive(left, right);
-
-
     }
 
   
@@ -59,7 +60,6 @@ public class TankDrive extends CommandBase {
   public void execute() {
 
     GTADrive(m_io.getControllerLeftTrigger(), m_io.getControlleRightTrigger(), m_io.getControllerTurn());
-
   }
 
   // Called once the command ends or is interrupted.

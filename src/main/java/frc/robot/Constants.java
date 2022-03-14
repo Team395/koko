@@ -14,16 +14,32 @@ package frc.robot;
  */
 public final class Constants {
     //Drivetrain Falcon 500s 
-    //TODO_Label Ports
     public static final int driveLeftLeaderFalconID = 1;
-    public static final int driveLeftFollowerFalconID = 2;
-    public static final int driveRightLeaderFalconID = 3;
+    public static final int driveLeftFollowerFalconID = 3;
+    public static final int driveRightLeaderFalconID = 2;
     public static final int driveRightFollowerFalconID = 4;
 
-    //TODO_Tune
-    public static final double kTurnClamp = 0;
+    public static final double kTurnClamp = 0.5;
     public static final int kDriveMinimumSpeed = 0;
+    public static final double kJoystickTurnDeadzone = 0.15;
 
-    public static final double kJoystickTurnDeadzone = 0.5;
+    //Intake 
+    public static final int intakeArmSPXID = 5;
+    public static final int intakeRollerSparkMaxID = 6;
+    public static final double intakeArmSpeed = 0.8;
 
+    //Climber 4Solenoid, 2Sparks
+    public static final int ClimberRotateSparkMaxID = 5;
+    public static final int ClimberLiftSparkMaxID = 0;
+
+    public static final int ClimberFrontUnlockSolenoidID = 0;
+    public static final int ClimberFrontLockSolenoidID = 1;
+    public static final int ClimberFrontOpenSolenoidID = 2;
+    public static final int ClimberFrontCloseSolenoidID = 3;
+
+    public static final int ClimberBackUnlockSolenoidID = 4;
+    public static final int ClimberBackLockSolenoidID = 5;
+    public static final int ClimberBackOpenSolenoidID = 6;
+    public static final int ClimberBackCloseSolenoidID = 7;
+    
 }

@@ -13,6 +13,7 @@ import frc.robot.enums.LocationPositions;
 import frc.robot.enums.LockPositions;
 import frc.robot.enums.ValvePositions;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,8 +25,7 @@ public class RobotContainer {
 
   private final IO m_io = new IO();
   private final Climber m_climber = new Climber();
-
-
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings

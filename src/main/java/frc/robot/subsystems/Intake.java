@@ -14,6 +14,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.DeployIntake;
+import frc.robot.commands.StowIntake;
 import frc.robot.enums.IntakePositions;
 
 /** Add your docs here. */
@@ -21,10 +23,11 @@ public class Intake extends SubsystemBase {
   public VictorSPX intakeRoller = new VictorSPX(Constants.intakeArmSPXID);
   public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeRollerSparkMaxID, MotorType.kBrushless);
   public RelativeEncoder armEncoder;
+  public StowIntake m_stowintake;
+  public DeployIntake m_deployintake;
   
   public IntakePositions currentPosition = IntakePositions.UP;
-
-
+ 
   public Intake() {
     intakeRoller.setNeutralMode(NeutralMode.Brake);
     intakeArm.setIdleMode(IdleMode.kBrake);
@@ -40,6 +43,9 @@ public class Intake extends SubsystemBase {
 
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
+
+    m_stowintake = new StowIntake(this);
+    m_deployintake = new DeployIntake(this);
   }
 
 

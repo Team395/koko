@@ -21,6 +21,11 @@ public class IO {
         return -1 * driverController.getLeftX();
     }
 
+    public double getIntakeLeftTrigger() {
+        return solenoidController.getLeftTriggerAxis();
+    }
+
+
     XboxController solenoidController = new XboxController(1);
     JoystickButton solenoidXboxAButton = new JoystickButton(solenoidController, 1);
     JoystickButton solenoidXboxBButton = new JoystickButton(solenoidController, 2);
@@ -32,7 +37,7 @@ public class IO {
     JoystickButton driverXboxXButton = new JoystickButton(driverController, 3); 
     JoystickButton driverXboxYButton = new JoystickButton(driverController, 4); 
 
-    JoystickButton driverXboxCButton = new JoystickButton(driverController, 5);
+    JoystickButton intakeXboxCButton = new JoystickButton(driverController, 5);
     
 
 }

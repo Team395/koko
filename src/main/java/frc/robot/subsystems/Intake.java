@@ -14,12 +14,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.DeployIntake;
-import frc.robot.commands.StowIntake;
+import frc.robot.commands.Intake.DeployIntake;
+import frc.robot.commands.Intake.StowIntake;
 import frc.robot.enums.IntakePositions;
 
 /** Add your docs here. */
 public class Intake extends SubsystemBase {
+  //double check which is which for Intake
   public VictorSPX intakeRoller = new VictorSPX(Constants.intakeArmSPXID);
   public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeRollerSparkMaxID, MotorType.kBrushless);
   public RelativeEncoder armEncoder;
@@ -49,7 +50,7 @@ public class Intake extends SubsystemBase {
   }
 
 
-  public void set(final double speed) {
+  public void setIntakeSpeed(final double speed) {
     intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 

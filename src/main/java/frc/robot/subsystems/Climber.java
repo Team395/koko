@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.IO;
-import frc.robot.commands.ClimbLock;
-import frc.robot.commands.ClimbValve;
+import frc.robot.commands.Climb.ClimbLock;
+import frc.robot.commands.Climb.ClimbValve;
 
 /** Add your docs here. */
 public class Climber extends SubsystemBase {

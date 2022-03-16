@@ -23,13 +23,13 @@ public class IntakeBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.setIntakeSpeed(0);
+    m_intake.setIntakeRollSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.setIntakeSpeed(m_io.getIntakeLeftTrigger());
+    m_intake.setIntakeRollSpeed(m_io.getIntakeControllerRoller());
     //right trigger, pull up, left trigger, pull down;
   }
 

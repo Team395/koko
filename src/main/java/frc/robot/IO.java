@@ -21,10 +21,18 @@ public class IO {
         return -1 * driverController.getLeftX();
     }
 
+    //Intake Testing
     public double getIntakeLeftTrigger() {
         return solenoidController.getLeftTriggerAxis();
     }
 
+    public double getIntakeRightTrigger() {
+        return solenoidController.getRightTriggerAxis();
+    }
+
+    public double getIntakeControllerRoller() {
+        return solenoidController.getLeftX();
+    }
 
     XboxController solenoidController = new XboxController(1);
     JoystickButton solenoidXboxAButton = new JoystickButton(solenoidController, 1);

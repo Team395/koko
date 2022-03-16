@@ -5,14 +5,17 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.IO;
 import frc.robot.enums.IntakePositions;
 import frc.robot.subsystems.Intake;
 
 public class DeployIntake extends CommandBase {
-  private final Intake m_intake;
+  private Intake m_intake;
+  private IO m_io;
 
-  public DeployIntake(Intake intake) {
+  public DeployIntake(Intake intake, IO m_io) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_io = new IO();
     m_intake = new Intake();
     addRequirements(m_intake);
   }
@@ -24,7 +27,8 @@ public class DeployIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.intakeLift(IntakePositions.DOWN);  
+    // m_intake.intakeLift(IntakePositions.DOWN);
+    m_intake.setIntakeArmSpeed(m_io.getIntakeRightTrigger());  
   }
 
   // Called once the command ends or is interrupted.

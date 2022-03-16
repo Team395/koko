@@ -24,8 +24,8 @@ public final class Constants {
     public static final double kJoystickTurnDeadzone = 0.15;
 
     //Intake 
-    public static final int intakeArmSPXID = 5;
-    public static final int intakeRollerSparkMaxID = 6;
+    public static final int intakeRollerSPXID = 5;
+    public static final int intakeArmSparkMaxID = 6;
     public static final double intakeArmSpeed = 0.8;
 
     //Climber 4Solenoid, 2Sparks

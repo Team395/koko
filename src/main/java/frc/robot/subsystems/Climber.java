@@ -33,7 +33,6 @@ public class Climber extends SubsystemBase {
   public IO io; 
 
   public Climber() {
-
   // // m_climb = new ClimbLock(this, io, null, null);
   // // this.setDefaultCommand(m_climb);
 

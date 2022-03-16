@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.IO;
 import frc.robot.commands.Intake.DeployIntake;
 import frc.robot.commands.Intake.StowIntake;
 import frc.robot.enums.IntakePositions;
@@ -21,11 +22,12 @@ import frc.robot.enums.IntakePositions;
 /** Add your docs here. */
 public class Intake extends SubsystemBase {
   //double check which is which for Intake
-  public VictorSPX intakeRoller = new VictorSPX(Constants.intakeArmSPXID);
-  public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeRollerSparkMaxID, MotorType.kBrushless);
+  public VictorSPX intakeRoller = new VictorSPX(Constants.intakeRollerSPXID);
+  public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeArmSparkMaxID, MotorType.kBrushless);
   public RelativeEncoder armEncoder;
   public StowIntake m_stowintake;
   public DeployIntake m_deployintake;
+  public IO m_io; 
   
   public IntakePositions currentPosition = IntakePositions.UP;
  
@@ -45,13 +47,17 @@ public class Intake extends SubsystemBase {
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
 
-    m_stowintake = new StowIntake(this);
-    m_deployintake = new DeployIntake(this);
+    m_stowintake = new StowIntake(this, m_io);
+    m_deployintake = new DeployIntake(this, m_io);
   }
 
 
-  public void setIntakeSpeed(final double speed) {
+  public void setIntakeRollSpeed(final double speed) {
     intakeRoller.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setIntakeArmSpeed(final double speed) {
+    intakeArm.set(speed);
   }
 
   public void intakeLift(final IntakePositions position) {

@@ -48,5 +48,8 @@ public final class Constants {
     public static final int ClimberElevateUpSolenoidID = 8;
     public static final int ClimberElevateDownSolenoidID = 9;
     
+    public static int climbFBaseONSolenoidID;
+    public static int climbFBaseOFFSolenoidID;
+    
     
 }

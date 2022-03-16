@@ -27,10 +27,14 @@ public final class Constants {
     public static final int intakeRollerSPXID = 5;
     public static final int intakeArmSparkMaxID = 6;
     public static final double intakeArmSpeed = 0.8;
+    public static final double kJoystickRollerDeadzone = 0.2;
+    public static final double kJoystickArmDeadzone = 0.2;
 
-    //Climber 4Solenoid, 2Sparks
+
+    //Climber 7Solenoid, 1Sparks
     public static final int ClimberRotateSparkMaxID = 5;
-    public static final int ClimberLiftSparkMaxID = 0;
+    public static final int ClimberLiftUpSolenoidID = 0;
+    public static final int ClimberLiftDownSolenoidID = 0;
 
     public static final int ClimberFrontUnlockSolenoidID = 0;
     public static final int ClimberFrontLockSolenoidID = 1;
@@ -43,5 +47,6 @@ public final class Constants {
     public static final int ClimberBackCloseSolenoidID = 7;
     public static final int ClimberElevateUpSolenoidID = 8;
     public static final int ClimberElevateDownSolenoidID = 9;
+    
     
 }

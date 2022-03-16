@@ -8,16 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.IO;
 import frc.robot.subsystems.Intake;
 
-public class IntakeBalls extends CommandBase {
-  /** Creates a new IntakeBalls. */
+public class RollIntake extends CommandBase {
   public Intake m_intake;
-  private IO m_io;
-
-  public IntakeBalls() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public IO m_io; 
+  
+  public RollIntake() {
     m_io = new IO();
     m_intake = new Intake();
-    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +27,6 @@ public class IntakeBalls extends CommandBase {
   @Override
   public void execute() {
     m_intake.setIntakeRollSpeed(m_io.getIntakeControllerRoller());
-    //right trigger, pull up, left trigger, pull down;
   }
 
   // Called once the command ends or is interrupted.

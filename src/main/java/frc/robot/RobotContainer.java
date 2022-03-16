@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Climb.ClimbLock;
 import frc.robot.commands.Climb.ClimbValve;
-import frc.robot.commands.Intake.DeployIntake;
-import frc.robot.commands.Intake.StowIntake;
+import frc.robot.commands.Intake.LiftIntake;
+import frc.robot.commands.Intake.RollIntake;
 import frc.robot.enums.LocationPositions;
 import frc.robot.enums.LockPositions;
 import frc.robot.enums.ValvePositions;
@@ -28,7 +28,9 @@ public class RobotContainer {
   private final IO m_io = new IO();
   private final Climber m_climber = new Climber();
   private final Intake m_intake = new Intake();
-  
+  private final LiftIntake m_liftIntake = new LiftIntake();
+  private final RollIntake m_rollIntake = new RollIntake();
+    
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings

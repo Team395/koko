@@ -8,28 +8,31 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.IO;
 import frc.robot.subsystems.Intake;
 
-public class Score extends CommandBase {
-  /** Creates a new Score. */
-  private Intake m_intake;
+public class LiftIntake extends CommandBase {
+  public Intake m_intake;
   private IO m_io;
-  
-  public Score() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_intake = new Intake();
+
+  public LiftIntake() {
     m_io = new IO();
-    addRequirements(m_intake);
+    m_intake = new Intake();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.setIntakeRollSpeed(0);
+    m_intake.setRaiseArmSpeed(0);
+    m_intake.setLowerArmSpeed(0);
   }
+
+    public void MoveIntake(double raiseArmSpeed, double lowerArmSpeed) {
+      raiseArmSpeed = raiseArmSpeed - lowerArmSpeed;
+      lowerArmSpeed = raiseArmSpeed - lowerArmSpeed;
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.setIntakeRollSpeed(m_io.getIntakeControllerRoller());
+    MoveIntake(m_io.getIntakeRightTrigger(), m_io.getIntakeLeftTrigger());
   }
 
   // Called once the command ends or is interrupted.

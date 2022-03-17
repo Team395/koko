@@ -33,23 +33,20 @@ public final class Constants {
 
     //Climber 7Solenoid, 1Sparks
     public static final int ClimberRotateSparkMaxID = 5;
-    public static final int ClimberLiftUpSolenoidID = 0;
-    public static final int ClimberLiftDownSolenoidID = 0;
-
-    public static final int ClimberFrontUnlockSolenoidID = 0;
-    public static final int ClimberFrontLockSolenoidID = 1;
-    public static final int ClimberFrontOpenSolenoidID = 2;
-    public static final int ClimberFrontCloseSolenoidID = 3;
-
-    public static final int ClimberBackUnlockSolenoidID = 4;
-    public static final int ClimberBackLockSolenoidID = 5;
-    public static final int ClimberBackOpenSolenoidID = 6;
-    public static final int ClimberBackCloseSolenoidID = 7;
-    public static final int ClimberElevateUpSolenoidID = 8;
-    public static final int ClimberElevateDownSolenoidID = 9;
     
-    public static int climbFBaseONSolenoidID;
-    public static int climbFBaseOFFSolenoidID;
-    
-    
+    public static final int ClimberLiftUPSolenoidID = 0;
+    public static final int ClimberLiftDOWNSolenoidID = 0;
+    public static final int ClimbFApproachGO = 0;
+    public static final int ClimberFApproachLEAVE = 0;
+    public static final int ClimbFCloseGO = 0;
+    public static final int ClimbFCloseLEAVE = 0;
+    public static final int climbFLock = 0;
+    public static final int climbFUnlock = 0;
+    public static final int climbBApproachGO = 0;
+    public static final int climbBApproachLEAVE = 0; 
+    public static final int climbBCloseGO = 0; 
+    public static final int climbBCloseLEAVE = 0;
+    public static final int climbBlock = 0; 
+    public static final int climbBLock = 0; 
+    public static final int climbBUnlock = 0; 
 }

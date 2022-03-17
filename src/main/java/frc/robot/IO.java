@@ -34,6 +34,9 @@ public class IO {
         return solenoidController.getLeftX();
     }
 
+    //Climber Testing
+    public double get
+
     XboxController solenoidController = new XboxController(1);
     JoystickButton solenoidXboxAButton = new JoystickButton(solenoidController, 1);
     JoystickButton solenoidXboxBButton = new JoystickButton(solenoidController, 2);

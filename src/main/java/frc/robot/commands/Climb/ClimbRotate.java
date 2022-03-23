@@ -5,6 +5,8 @@
 package frc.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.IO; 
+import frc.robot.subsystems.Climber; 
 
 public class ClimbRotate extends CommandBase {
   public Climber m_climber;
@@ -23,7 +25,9 @@ public class ClimbRotate extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_climber.setRotateSpeed(m_io.getIntakeControllerRoller()); 
+  }
 
   // Called once the command ends or is interrupted.
   @Override

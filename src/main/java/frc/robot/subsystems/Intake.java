@@ -14,16 +14,19 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.IO;
 import frc.robot.enums.IntakePositions;
 
 /** Add your docs here. */
 public class Intake extends SubsystemBase {
-  public VictorSPX intakeRoller = new VictorSPX(Constants.intakeArmSPXID);
-  public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeRollerSparkMaxID, MotorType.kBrushless);
+  //double check which is which for Intake
+  public VictorSPX intakeRoller = new VictorSPX(Constants.intakeRollerSPXID);
+  public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeArmSparkMaxID, MotorType.kBrushless);
   public RelativeEncoder armEncoder;
+  public IO m_io; 
   
   public IntakePositions currentPosition = IntakePositions.UP;
-
+ 
   public Intake() {
     intakeRoller.setNeutralMode(NeutralMode.Brake);
     intakeArm.setIdleMode(IdleMode.kBrake);
@@ -39,11 +42,31 @@ public class Intake extends SubsystemBase {
 
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
     intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
+
   }
 
-  public void set(final double speed) {
+
+  public void setIntakeRollSpeed(double speed) {
+    if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
+      speed = 0.0;
+    }
     intakeRoller.set(ControlMode.PercentOutput, speed);
   }
+
+  public void setRaiseArmSpeed(double raiseArmSpeed) {
+    if (Math.abs(raiseArmSpeed) < Constants.kJoystickArmDeadzone) {
+      raiseArmSpeed = 0;
+    }
+    intakeArm.set(raiseArmSpeed);
+  }
+
+  public void setLowerArmSpeed(double lowerArmSpeed) {
+    if (Math.abs(lowerArmSpeed) < Constants.kJoystickArmDeadzone) {
+      lowerArmSpeed = 0;
+    }
+    intakeArm.set(lowerArmSpeed);
+  }
+
 
   public void intakeLift(final IntakePositions position) {
     switch(position) {

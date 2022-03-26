@@ -24,22 +24,30 @@ public final class Constants {
     public static final double kJoystickTurnDeadzone = 0.15;
 
     //Intake 
-    public static final int intakeArmSPXID = 5;
-    public static final int intakeRollerSparkMaxID = 6;
+    public static final int intakeRollerSPXID = 5;
+    public static final int intakeArmSparkMaxID = 6;
     public static final double intakeArmSpeed = 0.8;
+    public static final double kJoystickRollerDeadzone = 0.2;
+    public static final double kJoystickArmDeadzone = 0.2;
 
-    //Climber 4Solenoid, 2Sparks
-    public static final int ClimberRotateSparkMaxID = 5;
-    public static final int ClimberLiftSparkMaxID = 0;
 
-    public static final int ClimberFrontUnlockSolenoidID = 0;
-    public static final int ClimberFrontLockSolenoidID = 1;
-    public static final int ClimberFrontOpenSolenoidID = 2;
-    public static final int ClimberFrontCloseSolenoidID = 3;
+    //Climber 7Solenoid, 1Sparks
+    public static final int ClimberRotate1SparkMaxID = 5;
+    public static final int ClimberRotate2SparkMaxID = 5;
 
-    public static final int ClimberBackUnlockSolenoidID = 4;
-    public static final int ClimberBackLockSolenoidID = 5;
-    public static final int ClimberBackOpenSolenoidID = 6;
-    public static final int ClimberBackCloseSolenoidID = 7;
-    
+    public static final int ClimberLiftUPSolenoidID = 0;
+    public static final int ClimberLiftDOWNSolenoidID = 0;
+    public static final int ClimbFApproachGO = 0;
+    public static final int ClimberFApproachLEAVE = 0;
+    public static final int ClimbFCloseGO = 0;
+    public static final int ClimbFCloseLEAVE = 0;
+    public static final int climbFLock = 0;
+    public static final int climbFUnlock = 0;
+    public static final int climbBApproachGO = 0;
+    public static final int climbBApproachLEAVE = 0; 
+    public static final int climbBCloseGO = 0; 
+    public static final int climbBCloseLEAVE = 0;
+    public static final int climbBlock = 0; 
+    public static final int climbBLock = 0; 
+    public static final int climbBUnlock = 0; 
 }

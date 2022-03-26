@@ -4,11 +4,17 @@
 
 package frc.robot.commands.Climb;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.IO;
+import frc.robot.subsystems.Climber;
 
-public class ClimbBackLock extends CommandBase {
-  /** Creates a new ClimbBackLock. */
-  public ClimbBackLock() {
+public class OpenH3 extends CommandBase {
+  /** Creates a new OpenH3. */
+  public Climber m_climber;
+  public IO m_io; 
+  
+  public OpenH3() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -18,7 +24,10 @@ public class ClimbBackLock extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_climber.Hook3.set(Value.kReverse);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -27,6 +36,6 @@ public class ClimbBackLock extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -32,8 +32,9 @@ public final class Constants {
 
 
     //Climber 7Solenoid, 1Sparks
-    public static final int ClimberRotateSparkMaxID = 5;
-    
+    public static final int ClimberRotate1SparkMaxID = 5;
+    public static final int ClimberRotate2SparkMaxID = 5;
+
     public static final int ClimberLiftUPSolenoidID = 0;
     public static final int ClimberLiftDOWNSolenoidID = 0;
     public static final int ClimbFApproachGO = 0;

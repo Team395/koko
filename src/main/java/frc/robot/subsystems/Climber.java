@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.IO;
@@ -18,30 +19,35 @@ import frc.robot.IO;
 
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
-  public CANSparkMax climbRotate = new CANSparkMax(Constants.ClimberRotateSparkMaxID, MotorType.kBrushless);
+  public static final String Unlock6 = null;
+  public CANSparkMax climbRotate1 = new CANSparkMax(Constants.ClimberRotate1SparkMaxID, MotorType.kBrushless);
+  public CANSparkMax climbRotate2 = new CANSparkMax(Constants.ClimberRotate2SparkMaxID, MotorType.kBrushless); 
   public DoubleSolenoid climbLift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimberLiftUPSolenoidID, Constants.ClimberLiftDOWNSolenoidID);
-  public DoubleSolenoid climbFApproach = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimbFApproachGO, Constants.ClimberFApproachLEAVE); 
-  public DoubleSolenoid climbFClose = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimbFCloseGO, Constants.ClimbFCloseLEAVE); 
-  public DoubleSolenoid climbFLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbFLock, Constants.climbFUnlock);   
-  public DoubleSolenoid climbBApproach = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbBApproachGO, Constants.climbBApproachLEAVE); 
-  public DoubleSolenoid climbBClose = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbBCloseGO, Constants.climbBCloseLEAVE); 
-  public DoubleSolenoid climbBLock = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbBLock, Constants.climbBUnlock); 
+
+  //fix ports
+  public DoubleSolenoid Hook1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimbFApproachGO, Constants.ClimberFApproachLEAVE); 
+  public DoubleSolenoid Hook2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.ClimbFCloseGO, Constants.ClimbFCloseLEAVE); 
+  public DoubleSolenoid Hook3 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbFLock, Constants.climbFUnlock);   
+  public DoubleSolenoid Hook4 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbBApproachGO, Constants.climbBApproachLEAVE); 
+  public DoubleSolenoid Lock5 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbBCloseGO, Constants.climbBCloseLEAVE); 
+  public DoubleSolenoid Lock6 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.climbBLock, Constants.climbBUnlock); 
+
+  public Climber() {
+    climbRotate1.setInverted(false);
+    climbRotate2.setInverted(true);
+    climbRotate2.follow(climbRotate1);
+  }
+
 
   public void setRotateSpeed(double speed) {
     if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
       speed = 0.0; 
     }
-    climbRotate.set(ControlMode.PercentOutput, speed); 
+    climbRotate1.set(speed); 
   }
 
-
-  // public ClimbLock m_climblock;
-  // public ClimbValve m_climbvalve;
-  public IO io; 
-
-  public Climber() {
-
+  public void openH1() {
+    Hook1.set(Value.kReverse);
   }
 
 }
-

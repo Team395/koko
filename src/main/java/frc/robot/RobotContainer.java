@@ -7,13 +7,22 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Climb.ClimbLock;
-import frc.robot.commands.Climb.ClimbValve;
+import frc.robot.commands.Climb.ClimbLower;
+import frc.robot.commands.Climb.ClimbRaise;
+import frc.robot.commands.Climb.CloseH1;
+import frc.robot.commands.Climb.CloseH2;
+import frc.robot.commands.Climb.CloseH3;
+import frc.robot.commands.Climb.CloseH4;
+import frc.robot.commands.Climb.Lock5;
+import frc.robot.commands.Climb.Lock6;
+import frc.robot.commands.Climb.OpenH1;
+import frc.robot.commands.Climb.OpenH2;
+import frc.robot.commands.Climb.OpenH3;
+import frc.robot.commands.Climb.OpenH4;
+import frc.robot.commands.Climb.Unlock5;
+import frc.robot.commands.Climb.Unlock6;
 import frc.robot.commands.Intake.LiftIntake;
 import frc.robot.commands.Intake.RollIntake;
-import frc.robot.enums.LocationPositions;
-import frc.robot.enums.LockPositions;
-import frc.robot.enums.ValvePositions;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 
@@ -27,6 +36,7 @@ public class RobotContainer {
 
   private final IO m_io = new IO();
   private final Climber m_climber = new Climber();
+  
   private final Intake m_intake = new Intake();
   private final LiftIntake m_liftIntake = new LiftIntake();
   private final RollIntake m_rollIntake = new RollIntake();
@@ -44,18 +54,24 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_io.solenoidXboxAButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.LOCK, LocationPositions.FRONT));
-    m_io.solenoidXboxBButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.UNLOCK, LocationPositions.FRONT));
-    m_io.solenoidXboxXButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.LOCK, LocationPositions.BACK));
-    m_io.solenoidXboxYButton.whenPressed(new ClimbLock(m_climber, m_io, LockPositions.UNLOCK, LocationPositions.BACK)); 
+    m_io.solenoidXboxAButton.whenPressed(new OpenH1());
+    m_io.solenoidXboxBButton.whenPressed(new OpenH2());
+    m_io.solenoidXboxXButton.whenPressed(new OpenH3());
+    m_io.solenoidXboxXButton.whenPressed(new OpenH4());
+    
+    m_io.driverXboxAButton.whenPressed(new CloseH1());
+    m_io.driverXboxBButton.whenPressed(new CloseH2());
+    m_io.driverXboxXButton.whenPressed(new CloseH3());
+    m_io.driverXboxYButton.whenPressed(new CloseH4());
 
-    m_io.driverXboxAButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.OPEN, LocationPositions.FRONT)); 
-    m_io.driverXboxBButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.CLOSE, LocationPositions.FRONT)); 
-    m_io.driverXboxXButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.OPEN, LocationPositions.BACK));
-    m_io.driverXboxYButton.whenPressed(new ClimbValve(m_climber, m_io, ValvePositions.CLOSE, LocationPositions.BACK));
+    m_io.solenoidStartButton.whenPressed(new ClimbRaise());
+    m_io.solenoidBackButton.whenPressed(new ClimbLower());
+    
+    m_io.solenoidRightTriggerButton.whenPressed(new Lock5());
+    m_io.solenoidLeftTriggerButton.whenPressed(new Unlock5());
+    m_io.solenoidRightTriggerButton.whenPressed(new Lock6());
+    m_io.solenoidLeftTriggerButton.whenPressed(new Unlock6());
 
-
-  
   }
 
   /**

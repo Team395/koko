@@ -4,12 +4,19 @@
 
 package frc.robot.commands.Climb;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.IO;
+import frc.robot.subsystems.Climber;
 
-public class ClimbFrontClose extends CommandBase {
-  /** Creates a new ClimbFrontClose. */
-  public ClimbFrontClose() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class ClimbRaise extends CommandBase {
+  /** Creates a new ClimbLift. */
+  public Climber m_climber;
+  public IO m_io;
+
+  public ClimbRaise() {
+    m_io = new IO();
+    m_climber = new Climber();
   }
 
   // Called when the command is initially scheduled.
@@ -18,7 +25,9 @@ public class ClimbFrontClose extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_climber.climbLift.set(Value.kForward);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -27,6 +36,6 @@ public class ClimbFrontClose extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

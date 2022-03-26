@@ -9,7 +9,6 @@ import frc.robot.Constants;
 import frc.robot.IO;
 import frc.robot.subsystems.DriveTrain;
 
-
 public class TankDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
   private final IO m_io;
@@ -37,14 +36,12 @@ public class TankDrive extends CommandBase {
       turn = Math.abs(turn) < Constants.kJoystickTurnDeadzone
         ? 0.0
         : (turn - Math.signum(turn) * Constants.kJoystickTurnDeadzone) / (1.0 - Constants.kJoystickTurnDeadzone);
-        
 
         double left = rightTrigger - leftTrigger;
         double right = rightTrigger - leftTrigger;
 
         turn = turn * turn * Math.signum(turn);
 
-        // if (left < 0) { turn *= -1.0; }
         turn = turn * 2/3;
 
         left += turn;
@@ -63,7 +60,6 @@ public class TankDrive extends CommandBase {
   public void execute() {
 
     GTADrive(m_io.getControllerLeftTrigger(), m_io.getControlleRightTrigger(), m_io.getControllerTurn());
-    // System.out.println(m_io.getControllerLeftTrigger());
   }
 
   // Called once the command ends or is interrupted.

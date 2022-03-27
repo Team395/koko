@@ -7,8 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.Climb.ClimbLower;
 import frc.robot.commands.Climb.ClimbRaise;
+import frc.robot.commands.Climb.ClimbRotate;
 import frc.robot.commands.Climb.CloseH1;
 import frc.robot.commands.Climb.CloseH2;
 import frc.robot.commands.Climb.CloseH3;
@@ -31,14 +33,15 @@ import frc.robot.subsystems.Climber;
  */
 public class RobotContainer {
 
-  private final IO m_io = new IO();
-  private final Climber m_climber = new Climber();
+  private final IO io = new IO();
+  private final Climber climber = new Climber();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
-    //set climber default command ot climber rotate + pass in IO, climber rather than instanciating in the CLimberRotate command. 
     configureButtonBindings();
+
+    // climber.setDefaultCommand(new ClimbRotate(climber, io));
   }
 
   /**
@@ -48,24 +51,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_io.solenoidXboxAButton.whenPressed(new OpenH1());
-    m_io.solenoidXboxBButton.whenPressed(new OpenH2());
-    m_io.solenoidXboxXButton.whenPressed(new OpenH3());
-    m_io.solenoidXboxXButton.whenPressed(new OpenH4());
-    
-    m_io.driverXboxAButton.whenPressed(new CloseH1());
-    m_io.driverXboxBButton.whenPressed(new CloseH2());
-    m_io.driverXboxXButton.whenPressed(new CloseH3());
-    m_io.driverXboxYButton.whenPressed(new CloseH4());
+    io.solenoidLeftShoulderButton.whenPressed(new InstantCommand(climber::toggleLock1, climber));
+    io.solenoidXboxXButton.whenPressed(new InstantCommand(climber::toggleHook1, climber));
+    io.solenoidXboxYButton.whenPressed(new InstantCommand(climber::toggleHook2, climber));
 
-    m_io.solenoidStartButton.whenPressed(new ClimbRaise());
-    m_io.solenoidBackButton.whenPressed(new ClimbLower());
-    
-    m_io.solenoidRightTriggerButton.whenPressed(new Lock5());
-    m_io.solenoidLeftTriggerButton.whenPressed(new Unlock5());
-    m_io.solenoidRightTriggerButton.whenPressed(new Lock6());
-    m_io.solenoidLeftTriggerButton.whenPressed(new Unlock6());
+    io.solenoidRightShoulderButton.whenPressed(new InstantCommand(climber::toggleLock2, climber));
+    io.solenoidXboxAButton.whenPressed(new InstantCommand(climber::toggleHook3, climber));
+    io.solenoidXboxBButton.whenPressed(new InstantCommand(climber::toggleHook4, climber));
 
+    io.solenoidLeftStick.whenPressed(new InstantCommand(climber::toggleRaise, climber));
   }
 
   /**

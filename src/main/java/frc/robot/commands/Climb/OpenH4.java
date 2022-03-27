@@ -25,7 +25,7 @@ public class OpenH4 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.Hook4.set(Value.kReverse);
+    m_climber.hook4.set(Value.kReverse);
 
   }
 

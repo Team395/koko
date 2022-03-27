@@ -26,7 +26,7 @@ public class CloseH2 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.Hook2.set(Value.kForward);
+    m_climber.hook2.set(Value.kForward);
 
   }
 

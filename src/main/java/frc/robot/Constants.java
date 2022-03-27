@@ -47,10 +47,10 @@ public final class Constants {
     public static final int ClimbHook4CloseSolenoidID = 7;
 
      //PCM 1
-    public static final int ClimbLock5SolenoidID = 0;
-    public static final int ClimbUnlock5SolenoidID = 1;
-    public static final int ClimbLock6SolenoidID = 2;
-    public static final int ClimbUnlock6SolenoidID = 3; 
+    public static final int ClimbLock1SolenoidID = 0;
+    public static final int ClimbUnlock1SolenoidID = 1;
+    public static final int ClimbLock2SolenoidID = 2;
+    public static final int ClimbUnlock2SolenoidID = 3; 
 
     public static final int ClimbRaiseSolenoidID = 4;
     public static final int ClimbLowerSolenoidID = 5;

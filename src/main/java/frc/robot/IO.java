@@ -9,10 +9,12 @@ public class IO {
     XboxController solenoidController = new XboxController(1);
 
     public double getControllerLeftTrigger() {
+        // TODO: why are we inverting the trigger value? they're bound to [0,+1] already
         return -1 * driverController.getLeftTriggerAxis();
     }
 
     public double getControlleRightTrigger() {
+        // TODO: why are we inverting the trigger values? they're bound to [0,+1] already
         return -1 * driverController.getRightTriggerAxis();
     }
 
@@ -30,11 +32,10 @@ public class IO {
     }
 
     public double getIntakeControllerRoller() {
-        return solenoidController.getLeftX();
+        return -1 * solenoidController.getLeftX();
     }
 
     JoystickButton intakeXboxCButton = new JoystickButton(driverController, 5);
-
 
     //Climber Testing
     JoystickButton solenoidXboxAButton = new JoystickButton(solenoidController, 1);
@@ -47,13 +48,12 @@ public class IO {
     JoystickButton driverXboxXButton = new JoystickButton(driverController, 3); 
     JoystickButton driverXboxYButton = new JoystickButton(driverController, 4); 
 
-    JoystickButton solenoidStartButton = new JoystickButton(solenoidController, 7);
-    JoystickButton solenoidBackButton = new JoystickButton(solenoidController, 8);
+    JoystickButton solenoidLeftStick = new JoystickButton(solenoidController, 9);
 
-    JoystickButton solenoidRightTriggerButton = new JoystickButton(solenoidController, 6);
-    JoystickButton solenoidLeftTriggerButton = new JoystickButton(solenoidController, 5);
+    JoystickButton solenoidRightShoulderButton = new JoystickButton(solenoidController, 6);
+    JoystickButton solenoidLeftShoulderButton = new JoystickButton(solenoidController, 5);
 
-    JoystickButton driverRightTriggerButton = new JoystickButton(driverController, 6);
-    JoystickButton driverLeftTriggerButton = new JoystickButton(driverController, 5);
+    JoystickButton driverRightShoulderButton = new JoystickButton(driverController, 6);
+    JoystickButton driverLeftShoulderButton = new JoystickButton(driverController, 5);
 
 }

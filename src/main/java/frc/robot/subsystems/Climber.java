@@ -4,27 +4,41 @@
 
 package frc.robot.subsystems;
 
+import java.util.concurrent.locks.Lock;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+class ClimberState {
+  public DoubleSolenoid.Value Hook1State;
+  public DoubleSolenoid.Value Hook2State;
+  public DoubleSolenoid.Value Hook3State;
+  public DoubleSolenoid.Value Hook4State;
+  public DoubleSolenoid.Value Lock1State;
+  public DoubleSolenoid.Value Lock2State;
+  public DoubleSolenoid.Value RaiseState;
+}
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
   public CANSparkMax climbRotate1 = new CANSparkMax(Constants.ClimberRotate1SparkMaxID, MotorType.kBrushless);
   public CANSparkMax climbRotate2 = new CANSparkMax(Constants.ClimberRotate2SparkMaxID, MotorType.kBrushless); 
 
-  public DoubleSolenoid Hook1 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook1OpenSolenoidID, Constants.ClimbHook1CloseSolenoidID); 
-  public DoubleSolenoid Hook2 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook2OpenSolenoidID, Constants.ClimbHook2CloseSolenoidID); 
-  public DoubleSolenoid Hook3 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook3OpenSolenoidID, Constants.ClimbHook3CloseSolenoidID);   
-  public DoubleSolenoid Hook4 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook4OpenSolenoidID, Constants.ClimbHook4CloseSolenoidID); 
-  
-  public DoubleSolenoid Lock5 = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbLock5SolenoidID, Constants.ClimbUnlock5SolenoidID); 
-  public DoubleSolenoid Lock6 = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbLock6SolenoidID, Constants.ClimbUnlock6SolenoidID); 
-  public DoubleSolenoid climbLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbRaiseSolenoidID, Constants.ClimbLowerSolenoidID);
+  DoubleSolenoid hook1 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook1OpenSolenoidID, Constants.ClimbHook1CloseSolenoidID); 
+  DoubleSolenoid hook2 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook2OpenSolenoidID, Constants.ClimbHook2CloseSolenoidID); 
+  DoubleSolenoid hook3 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook3OpenSolenoidID, Constants.ClimbHook3CloseSolenoidID);   
+  DoubleSolenoid hook4 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook4OpenSolenoidID, Constants.ClimbHook4CloseSolenoidID); 
+
+  DoubleSolenoid lock1 = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbLock1SolenoidID, Constants.ClimbUnlock1SolenoidID); 
+  DoubleSolenoid lock2 = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbLock2SolenoidID, Constants.ClimbUnlock2SolenoidID); 
+  DoubleSolenoid raise = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbRaiseSolenoidID, Constants.ClimbLowerSolenoidID);
+
+  ClimberState state = new ClimberState();
 
   public Climber() {
     climbRotate1.setInverted(false);
@@ -39,4 +53,38 @@ public class Climber extends SubsystemBase {
     climbRotate1.set(speed); 
   }
 
+  public void toggleHook1() {
+    hook1.toggle();
+    state.Hook1State = hook1.get();
+  }
+
+  public void toggleHook2() {
+    hook2.toggle();
+    state.Hook2State = hook2.get();
+  }
+
+  public void toggleHook3() {
+    hook3.toggle();
+    state.Hook3State = hook3.get();
+  }
+
+  public void toggleHook4() {
+    hook4.toggle();
+    state.Hook4State = hook4.get();
+  }
+
+  public void toggleLock1() {
+    lock1.toggle();
+    state.Lock1State = lock1.get();
+  }
+
+  public void toggleLock2() {
+    lock2.toggle();
+    state.Lock2State = lock2.get();
+  }
+
+  public void toggleRaise() {
+    raise.toggle();
+    state.RaiseState = raise.get();
+  }
 }

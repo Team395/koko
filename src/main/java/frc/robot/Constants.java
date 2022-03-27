@@ -31,10 +31,11 @@ public final class Constants {
     public static final double kJoystickRollerDeadzone = 0.2;
     public static final double kJoystickArmDeadzone = 0.2;
 
+    public static final double kMaxRotateSpeed = 0.5;
 
     //Climber 7Solenoid, 2Sparks
-    public static final int ClimberRotate1SparkMaxID = 0;
-    public static final int ClimberRotate2SparkMaxID = 0;
+    // public static final int ClimberRotate1SparkMaxID = 0;
+    // public static final int ClimberRotate2SparkMaxID = 0;
 
      //PCM 0
     public static final int ClimbHook1OpenSolenoidID = 0;

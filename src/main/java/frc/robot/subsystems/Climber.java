@@ -26,8 +26,8 @@ class ClimberState {
 }
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
-  public CANSparkMax climbRotate1 = new CANSparkMax(Constants.ClimberRotate1SparkMaxID, MotorType.kBrushless);
-  public CANSparkMax climbRotate2 = new CANSparkMax(Constants.ClimberRotate2SparkMaxID, MotorType.kBrushless); 
+  // public CANSparkMax climbRotate1 = new CANSparkMax(Constants.ClimberRotate1SparkMaxID, MotorType.kBrushless);
+  // public CANSparkMax climbRotate2 = new CANSparkMax(Constants.ClimberRotate2SparkMaxID, MotorType.kBrushless); 
 
   DoubleSolenoid hook1 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook1OpenSolenoidID, Constants.ClimbHook1CloseSolenoidID); 
   DoubleSolenoid hook2 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook2OpenSolenoidID, Constants.ClimbHook2CloseSolenoidID); 
@@ -41,18 +41,32 @@ public class Climber extends SubsystemBase {
   ClimberState state = new ClimberState();
 
   public Climber() {
-    climbRotate1.setInverted(false);
-    climbRotate2.setInverted(true);
-    climbRotate2.follow(climbRotate1);
+    // climbRotate1.setInverted(false);
+    // climbRotate2.setInverted(true);
+    // climbRotate2.follow(climbRotate1);
 
     // TODO: set default states for solenoids
+    hook1.set(Value.kForward);
+    hook2.set(Value.kForward);
+    hook3.set(Value.kReverse);
+    hook4.set(Value.kForward);
+
+    lock1.set(Value.kReverse);
+    lock2.set(Value.kForward);
+
+    raise.set(Value.kReverse);
   }
 
   public void setRotateSpeed(double speed) {
+    speed = speed*speed;
+
     if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
-      speed = 0.0; 
+      speed = 0.0;
     }
-    climbRotate1.set(speed); 
+
+    speed = Math.min(speed, Constants.kMaxRotateSpeed);
+
+    // climbRotate1.set(speed);
   }
 
   public void toggleHook1() {

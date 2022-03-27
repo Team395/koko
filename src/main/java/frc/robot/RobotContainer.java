@@ -21,10 +21,7 @@ import frc.robot.commands.Climb.OpenH3;
 import frc.robot.commands.Climb.OpenH4;
 import frc.robot.commands.Climb.Unlock5;
 import frc.robot.commands.Climb.Unlock6;
-import frc.robot.commands.Intake.LiftIntake;
-import frc.robot.commands.Intake.RollIntake;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -36,14 +33,11 @@ public class RobotContainer {
 
   private final IO m_io = new IO();
   private final Climber m_climber = new Climber();
-  
-  private final Intake m_intake = new Intake();
-  private final LiftIntake m_liftIntake = new LiftIntake();
-  private final RollIntake m_rollIntake = new RollIntake();
-    
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    //set climber default command ot climber rotate + pass in IO, climber rather than instanciating in the CLimberRotate command. 
     configureButtonBindings();
   }
 

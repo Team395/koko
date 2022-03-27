@@ -27,27 +27,31 @@ public final class Constants {
     public static final int intakeRollerSPXID = 5;
     public static final int intakeArmSparkMaxID = 6;
     public static final double intakeArmSpeed = 0.8;
+
     public static final double kJoystickRollerDeadzone = 0.2;
     public static final double kJoystickArmDeadzone = 0.2;
 
 
-    //Climber 7Solenoid, 1Sparks
-    public static final int ClimberRotate1SparkMaxID = 5;
-    public static final int ClimberRotate2SparkMaxID = 5;
+    //Climber 7Solenoid, 2Sparks
+    public static final int ClimberRotate1SparkMaxID = 0;
+    public static final int ClimberRotate2SparkMaxID = 0;
 
-    public static final int ClimberLiftUPSolenoidID = 0;
-    public static final int ClimberLiftDOWNSolenoidID = 0;
-    public static final int ClimbFApproachGO = 0;
-    public static final int ClimberFApproachLEAVE = 0;
-    public static final int ClimbFCloseGO = 0;
-    public static final int ClimbFCloseLEAVE = 0;
-    public static final int climbFLock = 0;
-    public static final int climbFUnlock = 0;
-    public static final int climbBApproachGO = 0;
-    public static final int climbBApproachLEAVE = 0; 
-    public static final int climbBCloseGO = 0; 
-    public static final int climbBCloseLEAVE = 0;
-    public static final int climbBlock = 0; 
-    public static final int climbBLock = 0; 
-    public static final int climbBUnlock = 0; 
+     //PCM 0
+    public static final int ClimbHook1OpenSolenoidID = 0;
+    public static final int ClimbHook1CloseSolenoidID = 1;
+    public static final int ClimbHook2OpenSolenoidID = 2;
+    public static final int ClimbHook2CloseSolenoidID = 3;
+    public static final int ClimbHook3OpenSolenoidID = 4;
+    public static final int ClimbHook3CloseSolenoidID = 5;
+    public static final int ClimbHook4OpenSolenoidID = 6;
+    public static final int ClimbHook4CloseSolenoidID = 7;
+
+     //PCM 1
+    public static final int ClimbLock5SolenoidID = 0;
+    public static final int ClimbUnlock5SolenoidID = 1;
+    public static final int ClimbLock6SolenoidID = 2;
+    public static final int ClimbUnlock6SolenoidID = 3; 
+
+    public static final int ClimbRaiseSolenoidID = 4;
+    public static final int ClimbLowerSolenoidID = 5;
 }

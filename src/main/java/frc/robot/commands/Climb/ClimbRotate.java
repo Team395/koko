@@ -12,9 +12,10 @@ public class ClimbRotate extends CommandBase {
   public Climber m_climber;
   public IO m_io; 
 
-  public ClimbRotate() {
+  public ClimbRotate(Climber cllimber, IO io) {
     m_io = new IO(); 
     m_climber = new Climber(); 
+    addRequirements(m_climber);
   }
 
   // Called when the command is initially scheduled.

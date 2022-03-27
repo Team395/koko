@@ -11,12 +11,9 @@ import frc.robot.subsystems.Climber;
 
 public class OpenH1 extends CommandBase {
   private final Climber m_climber;
-  private IO m_io;
   
-  /** Creates a new Open1. */
   public OpenH1() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_io = new IO();
+    new IO();
     m_climber = new Climber();
   }
 

@@ -44,6 +44,8 @@ public class Climber extends SubsystemBase {
     climbRotate1.setInverted(false);
     climbRotate2.setInverted(true);
     climbRotate2.follow(climbRotate1);
+
+    // TODO: set default states for solenoids
   }
 
   public void setRotateSpeed(double speed) {

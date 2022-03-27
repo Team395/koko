@@ -1,0 +1,28 @@
+{
+  "NetworkTables": {
+    "LiveWindow": {
+      "Climber": {
+        "open": true
+      },
+      "Ungrouped": {
+        "DoubleSolenoid[0,0]": {
+          "open": true
+        },
+        "Scheduler": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Climber": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+    }
+  },
+  "NetworkTables Settings": {
+    "mode": "Client",
+    "serverTeam": "395"
+  }
+}

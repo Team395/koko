@@ -25,7 +25,7 @@ public class Unlock5 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.lock1.set(Value.kReverse);
+    // m_climber.lock1.set(Value.kReverse);
   }
 
   // Called once the command ends or is interrupted.

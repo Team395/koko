@@ -25,7 +25,7 @@ public class Lock6 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.lock2.set(Value.kForward);
+    // m_climber.lock2.set(Value.kForward);
   }
 
   // Called once the command ends or is interrupted.

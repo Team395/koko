@@ -32,7 +32,11 @@ public class IO {
     }
 
     public double getIntakeControllerRoller() {
-        return -1 * solenoidController.getLeftX();
+        return -1 * solenoidController.getLeftY();
+    }
+
+    public double getIntake() {
+        return -1 * solenoidController.getRightY();
     }
 
     JoystickButton intakeXboxCButton = new JoystickButton(driverController, 5);
@@ -55,5 +59,4 @@ public class IO {
 
     JoystickButton driverRightShoulderButton = new JoystickButton(driverController, 6);
     JoystickButton driverLeftShoulderButton = new JoystickButton(driverController, 5);
-
 }

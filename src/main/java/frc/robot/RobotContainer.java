@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.Climb.ClimbLower;
 import frc.robot.commands.Climb.ClimbRaise;
 import frc.robot.commands.Climb.ClimbRotate;
@@ -23,7 +24,10 @@ import frc.robot.commands.Climb.OpenH3;
 import frc.robot.commands.Climb.OpenH4;
 import frc.robot.commands.Climb.Unlock5;
 import frc.robot.commands.Climb.Unlock6;
+import frc.robot.commands.Intake.LiftIntake;
+import frc.robot.commands.Intake.RollIntake;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,7 +38,8 @@ import frc.robot.subsystems.Climber;
 public class RobotContainer {
 
   private final IO io = new IO();
-  private final Climber climber = new Climber();
+  // private final Climber climber = new Climber();
+  private final Intake intake = new Intake();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,6 +47,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     // climber.setDefaultCommand(new ClimbRotate(climber, io));
+    intake.setDefaultCommand(
+      new ParallelCommandGroup(
+        new LiftIntake(io, intake).perpetually(),
+        new RollIntake(io, intake).perpetually()
+    ));
   }
 
   /**
@@ -51,15 +61,23 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    io.solenoidLeftShoulderButton.whenPressed(new InstantCommand(climber::toggleLock1, climber));
-    io.solenoidXboxXButton.whenPressed(new InstantCommand(climber::toggleHook1, climber));
-    io.solenoidXboxYButton.whenPressed(new InstantCommand(climber::toggleHook2, climber));
+    configureClimberBindings();
+    configureIntakeBindings();
+  }
 
-    io.solenoidRightShoulderButton.whenPressed(new InstantCommand(climber::toggleLock2, climber));
-    io.solenoidXboxAButton.whenPressed(new InstantCommand(climber::toggleHook3, climber));
-    io.solenoidXboxBButton.whenPressed(new InstantCommand(climber::toggleHook4, climber));
+  private void configureClimberBindings() {
+    // io.solenoidLeftShoulderButton.whenPressed(new InstantCommand(climber::toggleLock1, climber));
+    // io.solenoidXboxXButton.whenPressed(new InstantCommand(climber::toggleHook1, climber));
+    // io.solenoidXboxYButton.whenPressed(new InstantCommand(climber::toggleHook2, climber));
 
-    io.solenoidLeftStick.whenPressed(new InstantCommand(climber::toggleRaise, climber));
+    // io.solenoidRightShoulderButton.whenPressed(new InstantCommand(climber::toggleLock2, climber));
+    // io.solenoidXboxAButton.whenPressed(new InstantCommand(climber::toggleHook3, climber));
+    // io.solenoidXboxBButton.whenPressed(new InstantCommand(climber::toggleHook4, climber));
+
+    // io.solenoidLeftStick.whenPressed(new InstantCommand(climber::toggleRaise, climber));
+  }
+
+  private void configureIntakeBindings() {
   }
 
   /**

@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,8 +27,8 @@ class ClimberState {
 }
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
-  // public CANSparkMax climbRotate1 = new CANSparkMax(Constants.ClimberRotate1SparkMaxID, MotorType.kBrushless);
-  // public CANSparkMax climbRotate2 = new CANSparkMax(Constants.ClimberRotate2SparkMaxID, MotorType.kBrushless); 
+  public CANSparkMax climbRotate1 = new CANSparkMax(Constants.ClimberRotate1SparkMaxID, MotorType.kBrushless);
+  public CANSparkMax climbRotate2 = new CANSparkMax(Constants.ClimberRotate2SparkMaxID, MotorType.kBrushless); 
 
   DoubleSolenoid hook1 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook1OpenSolenoidID, Constants.ClimbHook1CloseSolenoidID); 
   DoubleSolenoid hook2 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook2OpenSolenoidID, Constants.ClimbHook2CloseSolenoidID); 
@@ -39,6 +40,8 @@ public class Climber extends SubsystemBase {
   DoubleSolenoid raise = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbRaiseSolenoidID, Constants.ClimbLowerSolenoidID);
 
   ClimberState state = new ClimberState();
+
+  // public String solenoidState = "Actuated";
 
   public Climber() {
     // climbRotate1.setInverted(false);
@@ -103,4 +106,34 @@ public class Climber extends SubsystemBase {
     raise.toggle();
     state.RaiseState = raise.get();
   }
+
+  public 
+  //changes solenoid value to string
+
+  // public void whatIsSolenoidState(ClimberState state) {
+  //   switch(state) {
+  //     case "kForward":
+  //       solenoidState = "Actuated";
+
+  //     case "kReverse":
+  //       solenoidState = "Not actuated";
+
+  //   }
+
+  // }
+
+  public void periodic() {
+    SmartDashboard.putNumber("raise state", raise.getFwdChannel());
+    SmartDashboard.putNumber("rotate 1 speed", climbRotate1.get());
+    SmartDashboard.putNumber("rotate 2 speed", climbRotate2.get());
+  //   SmartDashboard.putNumber("lock 1 state", ; 
+  //   SmartDashboard.putNumber("lock 2 state", lock2.state.get());
+
+  //   SmartDashboard.putNumber("hook 1 state", hook1.getFwdChannel());
+  //   SmartDashboard.putNumber("hook 2 state", hook2.get());
+  //   SmartDashboard.putNumber("hook 3 state", hook3.getFwdChannel());
+  //   SmartDashboard.putNumber("hook 4 state", hook4.getFwdChannel());
+  }
+
+
 }

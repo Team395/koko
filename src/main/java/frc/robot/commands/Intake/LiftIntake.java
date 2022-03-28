@@ -9,30 +9,30 @@ import frc.robot.IO;
 import frc.robot.subsystems.Intake;
 
 public class LiftIntake extends CommandBase {
-  public Intake m_intake;
-  private IO m_io;
+  public Intake intake;
+  private IO io;
 
-  public LiftIntake() {
-    m_io = new IO();
-    m_intake = new Intake();
+  public LiftIntake(IO io, Intake intake) {
+    this.io = io;
+    this.intake = intake;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.setRaiseArmSpeed(0);
-    m_intake.setLowerArmSpeed(0);
+    intake.move(0);
   }
 
-    public void MoveIntake(double raiseArmSpeed, double lowerArmSpeed) {
-      raiseArmSpeed = raiseArmSpeed - lowerArmSpeed;
-      lowerArmSpeed = raiseArmSpeed - lowerArmSpeed;
-    }
+  public void MoveIntake(double raiseArmSpeed, double lowerArmSpeed) {
+    raiseArmSpeed = raiseArmSpeed - lowerArmSpeed;
+    lowerArmSpeed = raiseArmSpeed - lowerArmSpeed;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    MoveIntake(m_io.getIntakeRightTrigger(), m_io.getIntakeLeftTrigger());
+    double speed = io.getIntake();
+    intake.move(speed);
   }
 
   // Called once the command ends or is interrupted.

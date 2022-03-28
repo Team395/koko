@@ -12,6 +12,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.IO;
@@ -40,48 +41,50 @@ public class Intake extends SubsystemBase {
     intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
     intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
-    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
-    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
+    // figure these out
+    // intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
+    // intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
 
+    intakeArm.burnFlash();
+
+    intakeRoller.set(ControlMode.PercentOutput, 0);
+    intakeArm.set(0);
   }
 
 
-  public void setIntakeRollSpeed(double speed) {
+  public void roll(double speed) {
     if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
-      speed = 0.0;
+      speed = 0;
     }
     intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
-  public void setRaiseArmSpeed(double raiseArmSpeed) {
-    if (Math.abs(raiseArmSpeed) < Constants.kJoystickArmDeadzone) {
-      raiseArmSpeed = 0;
+  public void move(double armSpeed) {
+    if (Math.abs(armSpeed) < Constants.kJoystickArmDeadzone) {
+      armSpeed = 0;
     }
-    intakeArm.set(raiseArmSpeed);
+    intakeArm.set(armSpeed);
   }
 
-  public void setLowerArmSpeed(double lowerArmSpeed) {
-    if (Math.abs(lowerArmSpeed) < Constants.kJoystickArmDeadzone) {
-      lowerArmSpeed = 0;
-    }
-    intakeArm.set(lowerArmSpeed);
+  // public void intakeLift(final IntakePositions position) {
+  //   switch(position) {
+  //     case UP:
+  //       intakeArm.set(-Constants.intakeArmSpeed);
+  //       intakeArm.setIdleMode(IdleMode.kCoast);
+  //       currentPosition = IntakePositions.UP;
+  //       break;
+
+  //     case DOWN: 
+  //       intakeArm.setIdleMode(IdleMode.kBrake);
+  //       intakeArm.set(Constants.intakeArmSpeed);
+  //       currentPosition = IntakePositions.DOWN;
+  //       break;
+  //   }
+  // }
+
+  public void periodic() {
+    SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
+    SmartDashboard.putNumber("roller speed", intakeRoller.getMotorOutputPercent());
+    SmartDashboard.putNumber("arm speed", intakeArm.get());
   }
-
-
-  public void intakeLift(final IntakePositions position) {
-    switch(position) {
-      case UP:
-        intakeArm.set(-Constants.intakeArmSpeed);
-        intakeArm.setIdleMode(IdleMode.kCoast);
-        currentPosition = IntakePositions.UP;
-        break;
-
-      case DOWN: 
-        intakeArm.setIdleMode(IdleMode.kBrake);
-        intakeArm.set(Constants.intakeArmSpeed);
-        currentPosition = IntakePositions.DOWN;
-        break;
-    }
-  }
-
 }

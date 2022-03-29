@@ -27,6 +27,7 @@ import frc.robot.commands.Climb.Unlock6;
 import frc.robot.commands.Intake.LiftIntake;
 import frc.robot.commands.Intake.RollIntake;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 
 /**
@@ -36,10 +37,10 @@ import frc.robot.subsystems.Intake;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
   private final IO io = new IO();
-  // private final Climber climber = new Climber();
-  private final Intake intake = new Intake();
+  public final Climber climber = new Climber();
+  public final Intake intake = new Intake();
+  // public final DriveTrain drivetrain = new DriveTrain(io);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,11 +48,13 @@ public class RobotContainer {
     configureButtonBindings();
 
     // climber.setDefaultCommand(new ClimbRotate(climber, io));
-    intake.setDefaultCommand(
-      new ParallelCommandGroup(
-        new LiftIntake(io, intake).perpetually(),
-        new RollIntake(io, intake).perpetually()
-    ));
+
+    //TODO: create `IntakeJoystick` command and set as default for Intake
+    // intake.setDefaultCommand(new LiftIntake(io, intake));
+    //   new ParallelCommandGroup(
+    //     new LiftIntake(io, intake),
+    //     new RollIntake(io, intake)
+    // ));
   }
 
   /**

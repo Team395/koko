@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-class ClimberState {
+class ClimberState { // TODO: implement Sendable
   public DoubleSolenoid.Value Hook1State;
   public DoubleSolenoid.Value Hook2State;
   public DoubleSolenoid.Value Hook3State;
@@ -41,12 +41,22 @@ public class Climber extends SubsystemBase {
 
   ClimberState state = new ClimberState();
 
-  // public String solenoidState = "Actuated";
-
   public Climber() {
-    // climbRotate1.setInverted(false);
-    // climbRotate2.setInverted(true);
-    // climbRotate2.follow(climbRotate1);
+    climbRotate1.restoreFactoryDefaults();
+    climbRotate2.restoreFactoryDefaults();
+
+    climbRotate1.setInverted(false);
+    climbRotate2.setInverted(false);
+    // TODO: follow wasn't working...why??
+    //climbRotate2.follow(climbRotate1, true);
+
+    climbRotate1.burnFlash();
+    climbRotate2.burnFlash();
+
+    climbRotate1.set(0);
+
+    climbRotate1.getEncoder().setPosition(0);
+    climbRotate2.getEncoder().setPosition(0);
 
     // TODO: set default states for solenoids
     hook1.set(Value.kForward);
@@ -61,15 +71,17 @@ public class Climber extends SubsystemBase {
   }
 
   public void setRotateSpeed(double speed) {
-    speed = speed*speed;
+    double sign = Math.signum(speed);
+    speed = sign * Math.pow(speed, 4);
 
     if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
       speed = 0.0;
     }
 
-    speed = Math.min(speed, Constants.kMaxRotateSpeed);
+    speed = sign * Math.min(Math.abs(speed), Constants.kMaxRotateSpeed);
 
-    // climbRotate1.set(speed);
+    climbRotate1.set(speed);
+    climbRotate2.set(-1 * speed);
   }
 
   public void toggleHook1() {
@@ -107,33 +119,24 @@ public class Climber extends SubsystemBase {
     state.RaiseState = raise.get();
   }
 
-  public 
   //changes solenoid value to string
-
-  // public void whatIsSolenoidState(ClimberState state) {
-  //   switch(state) {
-  //     case "kForward":
-  //       solenoidState = "Actuated";
-
-  //     case "kReverse":
-  //       solenoidState = "Not actuated";
-
-  //   }
-
-  // }
-
-  public void periodic() {
-    SmartDashboard.putNumber("raise state", raise.getFwdChannel());
-    SmartDashboard.putNumber("rotate 1 speed", climbRotate1.get());
-    SmartDashboard.putNumber("rotate 2 speed", climbRotate2.get());
-  //   SmartDashboard.putNumber("lock 1 state", ; 
-  //   SmartDashboard.putNumber("lock 2 state", lock2.state.get());
-
-  //   SmartDashboard.putNumber("hook 1 state", hook1.getFwdChannel());
-  //   SmartDashboard.putNumber("hook 2 state", hook2.get());
-  //   SmartDashboard.putNumber("hook 3 state", hook3.getFwdChannel());
-  //   SmartDashboard.putNumber("hook 4 state", hook4.getFwdChannel());
+  public String doubleSolenoidValueToString(DoubleSolenoid.Value state) {
+    switch(state) {
+      case kForward:
+        return "forward";
+      case kReverse:
+        return "reverse";
+      case kOff:
+        return "off";
+      default:
+        return "unknown";
+    }
   }
 
-
+  public void periodic() {
+    SmartDashboard.putNumber("rotate 1 speed", climbRotate1.get());
+    SmartDashboard.putNumber("rotate 2 speed", climbRotate2.get());
+    SmartDashboard.putNumber("rotate 1 encoder", climbRotate1.getEncoder().getPosition());
+    SmartDashboard.putNumber("rotate 2 encoder", climbRotate2.getEncoder().getPosition());
+  }
 }

@@ -21,9 +21,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private Intake m_intake;
-  private Climber m_climber;
-  private DriveTrain m_drivetrain;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -49,9 +47,9 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    m_intake.periodic();
-    m_climber.periodic();
-    m_drivetrain.periodic();
+    m_robotContainer.intake.periodic();
+    m_robotContainer.climber.periodic();
+    // m_robotContainer.drivetrain.periodic();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

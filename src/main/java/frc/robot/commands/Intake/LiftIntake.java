@@ -15,12 +15,15 @@ public class LiftIntake extends CommandBase {
   public LiftIntake(IO io, Intake intake) {
     this.io = io;
     this.intake = intake;
+
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     intake.move(0);
+    intake.roll(0);
   }
 
   public void MoveIntake(double raiseArmSpeed, double lowerArmSpeed) {
@@ -33,11 +36,15 @@ public class LiftIntake extends CommandBase {
   public void execute() {
     double speed = io.getIntake();
     intake.move(speed);
+    intake.roll(io.getIntakeControllerRoller());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.move(0);
+    intake.roll(0);
+  }
 
   // Returns true when the command should end.
   @Override

@@ -12,6 +12,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.opencv.core.Mat;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,7 +23,7 @@ import frc.robot.enums.IntakePositions;
 /** Add your docs here. */
 public class Intake extends SubsystemBase {
   //double check which is which for Intake
-  public VictorSPX intakeRoller = new VictorSPX(Constants.intakeRollerSPXID);
+  // public VictorSPX intakeRoller = new VictorSPX(Constants.intakeRollerSPXID);
   public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeArmSparkMaxID, MotorType.kBrushless);
   public RelativeEncoder armEncoder;
   public IO m_io; 
@@ -29,25 +31,26 @@ public class Intake extends SubsystemBase {
   public IntakePositions currentPosition = IntakePositions.UP;
  
   public Intake() {
-    intakeRoller.setNeutralMode(NeutralMode.Brake);
+    intakeArm.restoreFactoryDefaults();
+    // intakeRoller.setNeutralMode(NeutralMode.Brake);
     intakeArm.setIdleMode(IdleMode.kBrake);
     
     armEncoder = intakeArm.getEncoder();
     armEncoder.setPosition(0); 
 
     // Set position units to degrees
-    armEncoder.setPositionConversionFactor(1/360);
+    //armEncoder.setPositionConversionFactor(1/360);
 
     intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
     intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
     // figure these out
-    // intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
-    // intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
+    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 2f);
+    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -18f);
 
     intakeArm.burnFlash();
 
-    intakeRoller.set(ControlMode.PercentOutput, 0);
+    // intakeRoller.set(ControlMode.PercentOutput, 0);
     intakeArm.set(0);
   }
 
@@ -56,13 +59,17 @@ public class Intake extends SubsystemBase {
     if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
       speed = 0;
     }
-    intakeRoller.set(ControlMode.PercentOutput, speed);
+    // intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
   public void move(double armSpeed) {
     if (Math.abs(armSpeed) < Constants.kJoystickArmDeadzone) {
       armSpeed = 0;
     }
+
+    double sign = Math.signum(armSpeed);
+    armSpeed = sign * Math.pow(armSpeed, 4);
+    armSpeed = Math.min(armSpeed, 0.5);
     intakeArm.set(armSpeed);
   }
 
@@ -84,7 +91,7 @@ public class Intake extends SubsystemBase {
 
   public void periodic() {
     SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
-    SmartDashboard.putNumber("roller speed", intakeRoller.getMotorOutputPercent());
+    // SmartDashboard.putNumber("roller speed", intakeRoller.getMotorOutputPercent());
     SmartDashboard.putNumber("arm speed", intakeArm.get());
   }
 }

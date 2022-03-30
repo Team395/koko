@@ -22,24 +22,26 @@ import frc.robot.enums.IntakePositions;
 
 /** Add your docs here. */
 public class Intake extends SubsystemBase {
-  //double check which is which for Intake
-  // public VictorSPX intakeRoller = new VictorSPX(Constants.intakeRollerSPXID);
-  public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeArmSparkMaxID, MotorType.kBrushless);
+  public VictorSPX intakeRoller;
+  public CANSparkMax intakeArm;
   public RelativeEncoder armEncoder;
-  public IO m_io; 
-  
-  public IntakePositions currentPosition = IntakePositions.UP;
- 
-  public Intake() {
-    intakeArm.restoreFactoryDefaults();
-    // intakeRoller.setNeutralMode(NeutralMode.Brake);
-    intakeArm.setIdleMode(IdleMode.kBrake);
-    
-    armEncoder = intakeArm.getEncoder();
-    armEncoder.setPosition(0); 
+  public IO m_io;
 
+  public IntakePositions currentPosition = IntakePositions.UP;
+
+  public Intake() {
+    intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
+    intakeRoller.setNeutralMode(NeutralMode.Brake);
+
+    intakeArm = new CANSparkMax(Constants.Intake.kArmSparkMaxID, MotorType.kBrushless);
+    intakeArm.restoreFactoryDefaults();
+    intakeArm.setIdleMode(IdleMode.kBrake);
+
+    armEncoder = intakeArm.getEncoder();
+    armEncoder.setPosition(0);
+    // TODO: this was failing...why?
     // Set position units to degrees
-    //armEncoder.setPositionConversionFactor(1/360);
+    // armEncoder.setPositionConversionFactor(1/360);
 
     intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
     intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
@@ -50,20 +52,19 @@ public class Intake extends SubsystemBase {
 
     intakeArm.burnFlash();
 
-    // intakeRoller.set(ControlMode.PercentOutput, 0);
+    intakeRoller.set(ControlMode.PercentOutput, 0);
     intakeArm.set(0);
   }
 
-
   public void roll(double speed) {
-    if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
+    if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
       speed = 0;
     }
-    // intakeRoller.set(ControlMode.PercentOutput, speed);
+    intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
   public void move(double armSpeed) {
-    if (Math.abs(armSpeed) < Constants.kJoystickArmDeadzone) {
+    if (Math.abs(armSpeed) < Constants.IO.kJoystickDeadzone) {
       armSpeed = 0;
     }
 
@@ -73,25 +74,11 @@ public class Intake extends SubsystemBase {
     intakeArm.set(armSpeed);
   }
 
-  // public void intakeLift(final IntakePositions position) {
-  //   switch(position) {
-  //     case UP:
-  //       intakeArm.set(-Constants.intakeArmSpeed);
-  //       intakeArm.setIdleMode(IdleMode.kCoast);
-  //       currentPosition = IntakePositions.UP;
-  //       break;
-
-  //     case DOWN: 
-  //       intakeArm.setIdleMode(IdleMode.kBrake);
-  //       intakeArm.set(Constants.intakeArmSpeed);
-  //       currentPosition = IntakePositions.DOWN;
-  //       break;
-  //   }
-  // }
-
   public void periodic() {
+    SmartDashboard.putBoolean("Intake enabled", Constants.Intake.Enabled);
     SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
-    // SmartDashboard.putNumber("roller speed", intakeRoller.getMotorOutputPercent());
+    SmartDashboard.putNumber("roller speed",
+        intakeRoller.getMotorOutputPercent());
     SmartDashboard.putNumber("arm speed", intakeArm.get());
   }
 }

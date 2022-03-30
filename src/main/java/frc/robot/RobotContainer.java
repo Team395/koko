@@ -4,80 +4,68 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.Climb.ClimbLower;
-import frc.robot.commands.Climb.ClimbRaise;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.Climb.ClimbRotate;
-import frc.robot.commands.Climb.CloseH1;
-import frc.robot.commands.Climb.CloseH2;
-import frc.robot.commands.Climb.CloseH3;
-import frc.robot.commands.Climb.CloseH4;
-import frc.robot.commands.Climb.Lock5;
-import frc.robot.commands.Climb.Lock6;
-import frc.robot.commands.Climb.OpenH1;
-import frc.robot.commands.Climb.OpenH2;
-import frc.robot.commands.Climb.OpenH3;
-import frc.robot.commands.Climb.OpenH4;
-import frc.robot.commands.Climb.Unlock5;
-import frc.robot.commands.Climb.Unlock6;
 import frc.robot.commands.Intake.LiftIntake;
-import frc.robot.commands.Intake.RollIntake;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   private final IO io = new IO();
-  public final Climber climber = new Climber();
-  public final Intake intake = new Intake();
-  // public final DriveTrain drivetrain = new DriveTrain(io);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-
-    // climber.setDefaultCommand(new ClimbRotate(climber, io));
-
-    //TODO: create `IntakeJoystick` command and set as default for Intake
-    // intake.setDefaultCommand(new LiftIntake(io, intake));
-    //   new ParallelCommandGroup(
-    //     new LiftIntake(io, intake),
-    //     new RollIntake(io, intake)
-    // ));
-  }
+  public DriveTrain drivetrain;
+  public Climber climber;
+  public Intake intake;
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  private void configureButtonBindings() {
-    configureClimberBindings();
-    configureIntakeBindings();
+  public RobotContainer() {
+    if (Constants.Drivetrain.Enabled) {
+      drivetrain = new DriveTrain(io);
+      drivetrain.setDefaultCommand(new TankDrive(drivetrain, io));
+    }
+
+    if (Constants.Climber.Enabled) {
+      climber = new Climber();
+      climber.setDefaultCommand(new ClimbRotate(climber, io));
+      configureClimberBindings();
+    }
+
+    if (Constants.Intake.Enabled) {
+      intake = new Intake();
+      // TODO: create `IntakeJoystick` command and set as default for Intake
+      intake.setDefaultCommand(new LiftIntake(io, intake));
+      configureIntakeBindings();
+    }
   }
 
   private void configureClimberBindings() {
-    // io.solenoidLeftShoulderButton.whenPressed(new InstantCommand(climber::toggleLock1, climber));
-    // io.solenoidXboxXButton.whenPressed(new InstantCommand(climber::toggleHook1, climber));
-    // io.solenoidXboxYButton.whenPressed(new InstantCommand(climber::toggleHook2, climber));
+    io.solenoidLeftShoulderButton.whenPressed(new InstantCommand(climber::toggleLock1, climber));
+    io.solenoidXboxXButton.whenPressed(new InstantCommand(climber::toggleHook1,
+        climber));
+    io.solenoidXboxYButton.whenPressed(new InstantCommand(climber::toggleHook2,
+        climber));
 
-    // io.solenoidRightShoulderButton.whenPressed(new InstantCommand(climber::toggleLock2, climber));
-    // io.solenoidXboxAButton.whenPressed(new InstantCommand(climber::toggleHook3, climber));
-    // io.solenoidXboxBButton.whenPressed(new InstantCommand(climber::toggleHook4, climber));
+    io.solenoidRightShoulderButton.whenPressed(new InstantCommand(climber::toggleLock2, climber));
+    io.solenoidXboxAButton.whenPressed(new InstantCommand(climber::toggleHook3,
+        climber));
+    io.solenoidXboxBButton.whenPressed(new InstantCommand(climber::toggleHook4,
+        climber));
 
-    // io.solenoidLeftStick.whenPressed(new InstantCommand(climber::toggleRaise, climber));
+    io.solenoidLeftStick.whenPressed(new InstantCommand(climber::toggleRaise,
+        climber));
   }
 
   private void configureIntakeBindings() {

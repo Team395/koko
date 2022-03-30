@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.concurrent.locks.Lock;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -25,30 +23,71 @@ class ClimberState { // TODO: implement Sendable
   public DoubleSolenoid.Value Lock2State;
   public DoubleSolenoid.Value RaiseState;
 }
+
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
-  public CANSparkMax climbRotate1 = new CANSparkMax(Constants.ClimberRotate1SparkMaxID, MotorType.kBrushless);
-  public CANSparkMax climbRotate2 = new CANSparkMax(Constants.ClimberRotate2SparkMaxID, MotorType.kBrushless); 
+  public CANSparkMax climbRotate1 = new CANSparkMax(Constants.Climber.kRotateLeaderSparkMaxID, MotorType.kBrushless);
+  public CANSparkMax climbRotate2 = new CANSparkMax(Constants.Climber.kRotateFollowerSparkMaxID, MotorType.kBrushless);
 
-  DoubleSolenoid hook1 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook1OpenSolenoidID, Constants.ClimbHook1CloseSolenoidID); 
-  DoubleSolenoid hook2 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook2OpenSolenoidID, Constants.ClimbHook2CloseSolenoidID); 
-  DoubleSolenoid hook3 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook3OpenSolenoidID, Constants.ClimbHook3CloseSolenoidID);   
-  DoubleSolenoid hook4 = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, Constants.ClimbHook4OpenSolenoidID, Constants.ClimbHook4CloseSolenoidID); 
+  DoubleSolenoid hook1;
+  DoubleSolenoid hook2;
+  DoubleSolenoid hook3;
+  DoubleSolenoid hook4;
 
-  DoubleSolenoid lock1 = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbLock1SolenoidID, Constants.ClimbUnlock1SolenoidID); 
-  DoubleSolenoid lock2 = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbLock2SolenoidID, Constants.ClimbUnlock2SolenoidID); 
-  DoubleSolenoid raise = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbRaiseSolenoidID, Constants.ClimbLowerSolenoidID);
+  DoubleSolenoid lock1;
+  DoubleSolenoid lock2;
+  DoubleSolenoid raise;
 
   ClimberState state = new ClimberState();
 
   public Climber() {
+    hook1 = new DoubleSolenoid(
+        Constants.Climber.kHook1.pcmId,
+        PneumaticsModuleType.CTREPCM,
+        Constants.Climber.kHook1.forwardChannel,
+        Constants.Climber.kHook1.reverseChannel);
+    hook2 = new DoubleSolenoid(
+        Constants.Climber.kHook2.pcmId,
+        PneumaticsModuleType.CTREPCM,
+        Constants.Climber.kHook2.forwardChannel,
+        Constants.Climber.kHook2.reverseChannel);
+    hook3 = new DoubleSolenoid(
+        Constants.Climber.kHook3.pcmId,
+        PneumaticsModuleType.CTREPCM,
+        Constants.Climber.kHook3.forwardChannel,
+        Constants.Climber.kHook3.reverseChannel);
+    hook4 = new DoubleSolenoid(
+        Constants.Climber.kHook4.pcmId,
+        PneumaticsModuleType.CTREPCM,
+        Constants.Climber.kHook4.forwardChannel,
+        Constants.Climber.kHook4.reverseChannel);
+
+    lock1 = new DoubleSolenoid(
+        Constants.Climber.kLock1.pcmId,
+        PneumaticsModuleType.CTREPCM,
+        Constants.Climber.kLock1.forwardChannel,
+        Constants.Climber.kLock1.forwardChannel);
+    lock2 = new DoubleSolenoid(
+        Constants.Climber.kLock2.pcmId,
+        PneumaticsModuleType.CTREPCM,
+        Constants.Climber.kLock2.forwardChannel,
+        Constants.Climber.kLock2.forwardChannel);
+    raise = new DoubleSolenoid(
+        Constants.Climber.kRaise.pcmId,
+        PneumaticsModuleType.CTREPCM,
+        Constants.Climber.kRaise.forwardChannel,
+        Constants.Climber.kRaise.reverseChannel);
+
+    climbRotate1 = new CANSparkMax(Constants.Climber.kRotateLeaderSparkMaxID, MotorType.kBrushless);
+    climbRotate2 = new CANSparkMax(Constants.Climber.kRotateFollowerSparkMaxID, MotorType.kBrushless);
+
     climbRotate1.restoreFactoryDefaults();
     climbRotate2.restoreFactoryDefaults();
 
     climbRotate1.setInverted(false);
     climbRotate2.setInverted(false);
     // TODO: follow wasn't working...why??
-    //climbRotate2.follow(climbRotate1, true);
+    // climbRotate2.follow(climbRotate1, true);
 
     climbRotate1.burnFlash();
     climbRotate2.burnFlash();
@@ -74,11 +113,11 @@ public class Climber extends SubsystemBase {
     double sign = Math.signum(speed);
     speed = sign * Math.pow(speed, 4);
 
-    if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
+    if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
       speed = 0.0;
     }
 
-    speed = sign * Math.min(Math.abs(speed), Constants.kMaxRotateSpeed);
+    speed = sign * Math.min(Math.abs(speed), Constants.Climber.kRotateMaxSpeed);
 
     climbRotate1.set(speed);
     climbRotate2.set(-1 * speed);
@@ -119,9 +158,9 @@ public class Climber extends SubsystemBase {
     state.RaiseState = raise.get();
   }
 
-  //changes solenoid value to string
+  // changes solenoid value to string
   public String doubleSolenoidValueToString(DoubleSolenoid.Value state) {
-    switch(state) {
+    switch (state) {
       case kForward:
         return "forward";
       case kReverse:
@@ -134,6 +173,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void periodic() {
+    SmartDashboard.putBoolean("climber enabled", Constants.Climber.Enabled);
     SmartDashboard.putNumber("rotate 1 speed", climbRotate1.get());
     SmartDashboard.putNumber("rotate 2 speed", climbRotate2.get());
     SmartDashboard.putNumber("rotate 1 encoder", climbRotate1.getEncoder().getPosition());

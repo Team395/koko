@@ -12,50 +12,45 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.IO;
-import frc.robot.commands.TankDrive;
 
 /** Add your docs here. */
 public class DriveTrain extends SubsystemBase {
-  public TalonFX leftLeader = new TalonFX(Constants.driveLeftLeaderFalconID);
-  public TalonFX leftFollower = new TalonFX(Constants.driveLeftFollowerFalconID);
-  public TalonFX rightLeader = new TalonFX(Constants.driveRightLeaderFalconID);
-  public TalonFX rightFollower = new TalonFX(Constants.driveRightFollowerFalconID);
-  
-  public TankDrive m_tankDrive;
-  
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  public TalonFX leftLeader;
+  public TalonFX leftFollower;
+  public TalonFX rightLeader;
+  public TalonFX rightFollower;
 
   public DriveTrain(IO io) {
+    leftLeader = new TalonFX(Constants.Drivetrain.kLeftLeaderFalconID);
     leftLeader.configFactoryDefault();
-    leftFollower.configFactoryDefault();
-    rightLeader.configFactoryDefault();
-    rightFollower.configFactoryDefault();
-
-    leftFollower.setNeutralMode(NeutralMode.Brake);
     leftLeader.setNeutralMode(NeutralMode.Brake);
-    rightFollower.setNeutralMode(NeutralMode.Brake);
-    rightLeader.setNeutralMode(NeutralMode.Brake);
-
-    leftFollower.setInverted(true);
     leftLeader.setInverted(true);
-    rightFollower.setInverted(false);
+
+    leftFollower = new TalonFX(Constants.Drivetrain.kLeftFollowerFalconID);
+    leftFollower.configFactoryDefault();
+    leftFollower.setNeutralMode(NeutralMode.Brake);
+    leftFollower.setInverted(true);
+    leftFollower.follow(leftLeader);
+
+    rightLeader = new TalonFX(Constants.Drivetrain.kRightLeaderFalconID);
+    rightLeader.configFactoryDefault();
+    rightLeader.setNeutralMode(NeutralMode.Brake);
     rightLeader.setInverted(false);
 
-    leftFollower.follow(leftLeader);
+    rightFollower = new TalonFX(Constants.Drivetrain.kRightFollowerFalconID);
+    rightFollower.configFactoryDefault();
+    rightFollower.setNeutralMode(NeutralMode.Brake);
+    rightFollower.setInverted(false);
     rightFollower.follow(rightLeader);
-
-    m_tankDrive = new TankDrive(this, io);
-    this.setDefaultCommand(m_tankDrive);
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
-
     leftLeader.set(TalonFXControlMode.PercentOutput, leftSpeed);
-    rightLeader.set(TalonFXControlMode.PercentOutput, rightSpeed); 
+    rightLeader.set(TalonFXControlMode.PercentOutput, rightSpeed);
   }
 
   public void periodic() {
+    SmartDashboard.putBoolean("Drivertrain enabled.", Constants.Drivetrain.Enabled);
     SmartDashboard.putNumber("left Leader speed", leftLeader.getMotorOutputPercent());
     SmartDashboard.putNumber("right Leader speed", rightLeader.getMotorOutputPercent());
   }

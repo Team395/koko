@@ -26,8 +26,8 @@ class ClimberState { // TODO: implement Sendable
 
 /** Add your docs here. */
 public class Climber extends SubsystemBase {
-  public CANSparkMax climbRotate1 = new CANSparkMax(Constants.Climber.kRotateLeaderSparkMaxID, MotorType.kBrushless);
-  public CANSparkMax climbRotate2 = new CANSparkMax(Constants.Climber.kRotateFollowerSparkMaxID, MotorType.kBrushless);
+  public CANSparkMax climbRotate1;
+  public CANSparkMax climbRotate2;
 
   DoubleSolenoid hook1;
   DoubleSolenoid hook2;

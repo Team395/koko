@@ -43,7 +43,7 @@ public final class Constants {
     }
 
     public static final class Climber {
-        public static final boolean Enabled = false;
+        public static final boolean Enabled = true;
 
         public static final int kRotateLeaderSparkMaxID = 5;
         public static final int kRotateFollowerSparkMaxID = 6;

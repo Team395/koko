@@ -43,8 +43,8 @@ public class IO {
 
     // TODO: set to appropriate input
     public double getClimberRotate() {
-        return 0;
-        // return -1 * solenoidController.getRightY();
+        // return 0;
+        return -1 * solenoidController.getRightY();
     }
 
     JoystickButton intakeXboxCButton = new JoystickButton(driverController, 5);

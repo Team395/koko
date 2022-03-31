@@ -56,9 +56,15 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    m_robotContainer.intake.periodic();
-    m_robotContainer.climber.periodic();
-    m_robotContainer.drivetrain.periodic();
+    if (m_robotContainer.intake != null) {
+      m_robotContainer.intake.periodic();
+    }
+    if (m_robotContainer.climber != null) {
+      m_robotContainer.climber.periodic();
+    }
+    if (m_robotContainer.drivetrain != null) {
+      m_robotContainer.drivetrain.periodic();
+    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

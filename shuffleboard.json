@@ -2,10 +2,10 @@
   "tabPane": [
     {
       "title": "SmartDashboard",
-      "autoPopulate": true,
+      "autoPopulate": false,
       "autoPopulatePrefix": "SmartDashboard/",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 100.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
@@ -50,7 +50,7 @@
                 "2,1": {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Zero Intake",
-                  "_title": "SmartDashboard/Zero Intake"
+                  "_title": "/SmartDashboard/Zero Intake"
                 },
                 "1,2": {
                   "_type": "Boolean Box",

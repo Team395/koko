@@ -11,7 +11,7 @@
         "vgap": 16.0,
         "titleType": 1,
         "tiles": {
-          "0,0": {
+          "1,0": {
             "size": [
               4,
               2
@@ -47,11 +47,6 @@
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
                 },
-                "2,1": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Zero Intake",
-                  "_title": "/SmartDashboard/Zero Intake"
-                },
                 "1,2": {
                   "_type": "Boolean Box",
                   "_source0": "network_table:///SmartDashboard/Climber Enabled",
@@ -68,8 +63,43 @@
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Enable Climber",
                   "_title": "Enable Climber"
+                },
+                "2,1": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Zero Intake",
+                  "_title": "SmartDashboard/Zero Intake"
                 }
               }
+            }
+          },
+          "5,0": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/arm encoder",
+              "_title": "Intake Position",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 20.0,
+              "Slider Settings/Block increment": 0.0625,
+              "Visuals/Display value": true
+            }
+          },
+          "5,1": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Number Slider",
+              "_source0": "network_table:///SmartDashboard/rotate 1 encoder",
+              "_title": "Climber Position",
+              "Slider Settings/Min": 0.0,
+              "Slider Settings/Max": 150.0,
+              "Slider Settings/Block increment": 0.0625,
+              "Visuals/Display value": true
             }
           }
         }

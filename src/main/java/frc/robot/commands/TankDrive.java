@@ -7,14 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.IO;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Drivetrain;
 
 public class TankDrive extends CommandBase {
-  private final DriveTrain m_drivetrain;
+  private final Drivetrain m_drivetrain;
   private final IO m_io;
 
   /** Creates a new TankDrive. */
-  public TankDrive(DriveTrain drivetrain, IO io) {
+  public TankDrive(Drivetrain drivetrain, IO io) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
     m_io = io;

@@ -17,11 +17,18 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final int kSlotIdx = 0;
+    public static final int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
+
     public static final class IO {
         public static final double kJoystickDeadzone = 0.15;
     }
 
     public static final class Drivetrain {
+        // Direction
+        public static final double drivetrainForward = -1;
+        public static final double drivetrainBackward = 1;
         public static final boolean Enabled = false;
 
         public static final int kLeftLeaderFalconID = 1;
@@ -31,6 +38,51 @@ public final class Constants {
 
         public static final int kMinimumSpeed = 0;
         public static final double kTurnClamp = 0.5;
+        public final static double kTurnAcceptableErrorDegrees = 0.5;
+
+        /**
+         * How many sensor units per rotation.
+         * Using Talon FX Integrated Sensor.
+         * 
+         * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
+         */
+        public final static int kSensorUnitsPerRotation = 2048;
+
+        public static final int pidgeyCanId = 0; // TODO: fix
+        // This is a property of the Pigeon IMU, and should not be changed.
+        public final static int kPigeonUnitsPerRotation = 8192;
+        public final static boolean kGyroReversed = false;
+
+        // Motor neutral dead-band, set to the minimum 0.1%.
+        public final static double kNeutralDeadband = 0.001;
+
+        public final static double kMotorRotationsPerWheelRotation = 20.8333;
+        public final static double kInchesPerFoot = 12.0;
+        public final static double kRotationsPerInch = 1 / (2 * Math.PI * 3);
+        public final static double kSensorUnitsPerFoot = Constants.Drivetrain.kInchesPerFoot
+                * Constants.Drivetrain.kRotationsPerInch
+                * Constants.Drivetrain.kMotorRotationsPerWheelRotation
+                * Constants.Drivetrain.kSensorUnitsPerRotation;
+
+        /**
+         * PID Gains may have to be adjusted based on the responsiveness of control
+         * loop.
+         * kF: 1023 represents output value to Talon at 100%, 6800 represents Velocity
+         * units at 100% output
+         * Not all set of Gains are used in this project and may be removed as desired.
+         * 
+         * kP kI kD kF Iz PeakOut
+         */
+        public final static Gains kGains_Distance = new Gains(0.1, 0.0, 0.0, 0.0, 100, 0.50);
+        public final static Gains kGains_Turning = new Gains(2.0, 0.0, 4.0, 0.0, 200, 1.00);
+        private final static double kGains_Pigeon_kP = 0.025;
+        public final static Gains kGains_Pigeon = new Gains(
+                kGains_Pigeon_kP,
+                0.0,
+                kGains_Pigeon_kP / 10.0,
+                0.0,
+                200,
+                1.00);
     }
 
     public static final class Intake {
@@ -57,5 +109,33 @@ public final class Constants {
         public static final SolenoidConfiguration kLock1 = new SolenoidConfiguration(1, 0, 1);
         public static final SolenoidConfiguration kLock2 = new SolenoidConfiguration(1, 2, 3);
         public static final SolenoidConfiguration kRaise = new SolenoidConfiguration(1, 4, 5);
+    }
+
+    public static final class CTRE {
+        /** ---- Flat constants, you should not need to change these ---- */
+        /*
+         * We allow either a 0 or 1 when selecting an ordinal for remote devices [You
+         * can have up to 2 devices assigned remotely to a talon/victor]
+         */
+        public final static int REMOTE_0 = 0;
+        public final static int REMOTE_1 = 1;
+        /*
+         * We allow either a 0 or 1 when selecting a PID Index, where 0 is primary and 1
+         * is auxiliary
+         */
+        public final static int PID_PRIMARY = 0;
+        public final static int PID_TURN = 1;
+        /*
+         * Firmware currently supports slots [0, 3] and can be used for either PID Set
+         */
+        public final static int SLOT_0 = 0;
+        public final static int SLOT_1 = 1;
+        public final static int SLOT_2 = 2;
+        public final static int SLOT_3 = 3;
+        /* ---- Named slots, used to clarify code ---- */
+        public final static int kSlot_Distance = SLOT_0;
+        public final static int kSlot_Turning = SLOT_1;
+        public final static int kSlot_Velocity = SLOT_2;
+        public final static int kSlot_MotionProfile = SLOT_3;
     }
 }

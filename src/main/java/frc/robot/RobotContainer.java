@@ -10,7 +10,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.Climb.ClimbRotate;
 import frc.robot.commands.Intake.LiftIntake;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 
 /**
@@ -24,7 +24,7 @@ import frc.robot.subsystems.Intake;
  */
 public class RobotContainer {
   private final IO io = new IO();
-  public DriveTrain drivetrain;
+  public Drivetrain drivetrain;
   public Climber climber;
   public Intake intake;
 
@@ -33,7 +33,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     if (Constants.Drivetrain.Enabled) {
-      drivetrain = new DriveTrain(io);
+      drivetrain = new Drivetrain(io);
       drivetrain.setDefaultCommand(new TankDrive(drivetrain, io));
     }
 

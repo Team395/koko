@@ -24,19 +24,10 @@ public class DriveFeet extends CommandBase {
       * Constants.Drivetrain.kMotorRotationsPerWheelRotation
       * Constants.Drivetrain.kSensorUnitsPerRotation;
 
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  // private final ExampleSubsystem m_subsystem;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   public DriveFeet(Drivetrain drivetrain, double distanceInFeet) {
     this.drivetrain = drivetrain;
     this.distanceInFeet = distanceInFeet;
 
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
   }
 

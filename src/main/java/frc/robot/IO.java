@@ -14,16 +14,17 @@ public class IO {
     }
 
     public double getControlleRightTrigger() {
-        // TODO: why are we inverting the trigger values? they're bound to [0,+1] already
+        // TODO: why are we inverting the trigger values? they're bound to [0,+1]
+        // already
         return -1 * driverController.getRightTriggerAxis();
     }
 
     public double getControllerTurn() {
         return -1 * driverController.getLeftX();
     }
-    
-     //Intake Testing
-     public double getIntakeLeftTrigger() {
+
+    // Intake Testing
+    public double getIntakeLeftTrigger() {
         return solenoidController.getLeftTriggerAxis();
     }
 
@@ -49,16 +50,16 @@ public class IO {
 
     JoystickButton intakeXboxCButton = new JoystickButton(driverController, 5);
 
-    //Climber Testing
+    // Climber Testing
     JoystickButton solenoidXboxAButton = new JoystickButton(solenoidController, 1);
     JoystickButton solenoidXboxBButton = new JoystickButton(solenoidController, 2);
     JoystickButton solenoidXboxXButton = new JoystickButton(solenoidController, 3);
     JoystickButton solenoidXboxYButton = new JoystickButton(solenoidController, 4);
 
     JoystickButton driverXboxAButton = new JoystickButton(driverController, 1);
-    JoystickButton driverXboxBButton = new JoystickButton(driverController, 2); 
-    JoystickButton driverXboxXButton = new JoystickButton(driverController, 3); 
-    JoystickButton driverXboxYButton = new JoystickButton(driverController, 4); 
+    JoystickButton driverXboxBButton = new JoystickButton(driverController, 2);
+    JoystickButton driverXboxXButton = new JoystickButton(driverController, 3);
+    JoystickButton driverXboxYButton = new JoystickButton(driverController, 4);
 
     JoystickButton solenoidLeftStick = new JoystickButton(solenoidController, 9);
 

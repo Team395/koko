@@ -86,20 +86,37 @@ public final class Constants {
     }
 
     public static final class Intake {
-        public static final boolean Enabled = false;
+        public static final boolean Enabled = true;
 
         public static final int kRollerSpxID = 5;
         public static final int kArmSparkMaxID = 8;
         public static final double kArmMaxSpeed = 0.8;
         public static final double kRollerMaxSpeed = 0.5;
+
+        public final static Gains kGains = new Gains(0.1, 0.0, 10.0, 0.0, 0, 0.50);
+
+        public final static double kUp = 0;
+        public final static double kDown = 19;
     }
 
     public static final class Climber {
-        public static final boolean Enabled = true;
+        public static final boolean Enabled = false;
 
         public static final int kRotateLeaderSparkMaxID = 5;
         public static final int kRotateFollowerSparkMaxID = 6;
         public static final double kRotateMaxSpeed = 0.5;
+
+        public final static Gains kGainsUnloaded = new Gains(0.4, 0.0, 0.0, 0.0, 0, 0.50);
+        public final static double kDegreesToRotations = 150d / 360d; // rotations/degrees
+
+        public final static double kMidDegrees = 0;
+        public final static double kHighDegrees = kMidDegrees + 140;
+        public final static double kTraversalDegrees = kHighDegrees + 180;
+        public final static double kRestDegrees = kTraversalDegrees + (180 - kTraversalDegrees % 180);
+
+        public final static double degreesToRotations(double degrees) {
+            return degrees * kDegreesToRotations;
+        }
 
         public static final SolenoidConfiguration kHook1 = new SolenoidConfiguration(0, 0, 1);
         public static final SolenoidConfiguration kHook2 = new SolenoidConfiguration(0, 2, 3);

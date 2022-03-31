@@ -166,4 +166,7 @@ public class Drivetrain extends SubsystemBase {
     pidgey.getAccumGyro(pidgeyArray);
     SmartDashboard.putNumber("pidgeyDirect", pidgeyArray[0]);
   }
+
+  public void teleopPeriodic() {
+  }
 }

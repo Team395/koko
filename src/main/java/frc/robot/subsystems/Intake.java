@@ -9,10 +9,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import org.opencv.core.Mat;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,43 +24,59 @@ import frc.robot.enums.IntakePositions;
 public class Intake extends SubsystemBase {
   public VictorSPX intakeRoller;
   public CANSparkMax intakeArm;
+  public SparkMaxPIDController pidController;
   public RelativeEncoder armEncoder;
   public IO m_io;
 
   public IntakePositions currentPosition = IntakePositions.UP;
 
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+
   public Intake() {
-    intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
-    intakeRoller.setNeutralMode(NeutralMode.Brake);
+    // intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
+    // intakeRoller.setNeutralMode(NeutralMode.Brake);
 
     intakeArm = new CANSparkMax(Constants.Intake.kArmSparkMaxID, MotorType.kBrushless);
     intakeArm.restoreFactoryDefaults();
     intakeArm.setIdleMode(IdleMode.kBrake);
 
+    intakeArm.setClosedLoopRampRate(0.5);
+
     armEncoder = intakeArm.getEncoder();
+    pidController = intakeArm.getPIDController();
     armEncoder.setPosition(0);
-    // TODO: this was failing...why?
-    // Set position units to degrees
-    // armEncoder.setPositionConversionFactor(1/360);
 
-    intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-    intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+    pidController.setP(Constants.Intake.kGains.kP);
+    pidController.setI(Constants.Intake.kGains.kI);
+    pidController.setD(Constants.Intake.kGains.kD);
+    pidController.setIZone(Constants.Intake.kGains.kIzone);
+    pidController.setFF(Constants.Intake.kGains.kF);
+    pidController.setOutputRange(-1 * Constants.Intake.kGains.kPeakOutput,
+        Constants.Intake.kGains.kPeakOutput);
 
-    // figure these out
-    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 2f);
-    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -18f);
+    pidController.setReference(0, ControlType.kPosition);
 
     intakeArm.burnFlash();
+  }
 
-    intakeRoller.set(ControlMode.PercentOutput, 0);
-    intakeArm.set(0);
+  public void zeroEncoders() {
+    armEncoder.setPosition(0);
+    System.out.println("Zero'd intake encoders.");
   }
 
   public void roll(double speed) {
     if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
       speed = 0;
     }
-    intakeRoller.set(ControlMode.PercentOutput, speed);
+    // intakeRoller.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void moveUp() {
+    pidController.setReference(Constants.Intake.kUp, ControlType.kPosition);
+  }
+
+  public void moveDown() {
+    pidController.setReference(Constants.Intake.kDown, ControlType.kPosition);
   }
 
   public void move(double armSpeed) {
@@ -71,14 +87,67 @@ public class Intake extends SubsystemBase {
     double sign = Math.signum(armSpeed);
     armSpeed = sign * Math.pow(armSpeed, 4);
     armSpeed = Math.min(armSpeed, 0.5);
-    intakeArm.set(armSpeed);
+    // intakeArm.set(armSpeed);
   }
 
   public void periodic() {
     SmartDashboard.putBoolean("Intake enabled", Constants.Intake.Enabled);
     SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
-    SmartDashboard.putNumber("roller speed",
-        intakeRoller.getMotorOutputPercent());
+    // SmartDashboard.putNumber("roller speed",
+    // intakeRoller.getMotorOutputPercent());
     SmartDashboard.putNumber("arm speed", intakeArm.get());
+
+    SmartDashboard.putNumber("Set P Gain", pidController.getP());
+    SmartDashboard.putNumber("Set I Gain", pidController.getI());
+    SmartDashboard.putNumber("Set D Gain", pidController.getD());
+    SmartDashboard.putNumber("Set I Zone", pidController.getIZone());
+    SmartDashboard.putNumber("Set Feed Forward", pidController.getFF());
+    SmartDashboard.putNumber("Set Max Output", pidController.getOutputMax());
+    SmartDashboard.putNumber("Set Min Output", pidController.getOutputMin());
+  }
+
+  public void teleopPeriodic() {
+    // // read PID coefficients from SmartDashboard
+    // double p = SmartDashboard.getNumber("P Gain", 0);
+    // double i = SmartDashboard.getNumber("I Gain", 0);
+    // double d = SmartDashboard.getNumber("D Gain", 0);
+    // double iz = SmartDashboard.getNumber("I Zone", 0);
+    // double ff = SmartDashboard.getNumber("Feed Forward", 0);
+    // double max = SmartDashboard.getNumber("Max Output", 0);
+    // double min = SmartDashboard.getNumber("Min Output", 0);
+    // double rotations = SmartDashboard.getNumber("Set Rotations", 0);
+
+    // // if PID coefficients on SmartDashboard have changed, write new values to
+    // // controller
+    // if ((p != kP)) {
+    // pidController.setP(p);
+    // kP = p;
+    // }
+    // if ((i != kI)) {
+    // pidController.setI(i);
+    // kI = i;
+    // }
+    // if ((d != kD)) {
+    // pidController.setD(d);
+    // kD = d;
+    // }
+    // if ((iz != kIz)) {
+    // pidController.setIZone(iz);
+    // kIz = iz;
+    // }
+    // if ((ff != kFF)) {
+    // pidController.setFF(ff);
+    // kFF = ff;
+    // }
+    // if ((max != kMaxOutput) || (min != kMinOutput)) {
+    // pidController.setOutputRange(min, max);
+    // kMinOutput = min;
+    // kMaxOutput = max;
+    // }
+
+    // pidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
+
+    // SmartDashboard.putNumber("SetPoint", rotations);
+    // SmartDashboard.putNumber("ProcessVariable", armEncoder.getPosition());
   }
 }

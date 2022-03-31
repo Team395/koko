@@ -56,6 +56,9 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    m_robotContainer.periodic();
+
     if (m_robotContainer.intake != null) {
       m_robotContainer.intake.periodic();
     }

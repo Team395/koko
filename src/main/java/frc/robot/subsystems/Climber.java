@@ -225,7 +225,6 @@ public class Climber extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("climber enabled", Constants.Climber.Enabled);
     SmartDashboard.putNumber("rotate 1 speed", climbRotate1.getAppliedOutput());
     SmartDashboard.putNumber("rotate 2 speed", climbRotate2.getAppliedOutput());
     SmartDashboard.putNumber("rotate 1 encoder", rotate1encoder.getPosition());

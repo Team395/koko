@@ -51,7 +51,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 90,
+          "height": -26,
           "series": [
             {
               "color": [
@@ -65,28 +65,92 @@
           ]
         },
         {
-          "height": 90
+          "height": -26
         },
         {
-          "height": 90
+          "height": -26
         }
       ]
     },
     "Plot <1>": {
       "plots": [
         {
-          "height": 135
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 1 speed"
+            }
+          ]
         },
         {
-          "height": 135
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 2 speed"
+            }
+          ]
         },
         {
-          "height": 135
+          "axis": [
+            {
+              "max": 100.0
+            }
+          ],
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 1 encoder"
+            }
+          ]
         },
         {
-          "height": 135
+          "axis": [
+            {
+              "max": 100.0
+            }
+          ],
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 2 encoder"
+            }
+          ]
         }
       ]
+    },
+    "Plot <2>": {
+      "plots": [
+        {
+          "height": 332
+        }
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

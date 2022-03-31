@@ -48,8 +48,6 @@ public class Climber extends SubsystemBase {
 
   ClimberState state = new ClimberState();
 
-  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-
   public Climber() {
     hook1 = new DoubleSolenoid(
         Constants.Climber.kHook1.pcmId,
@@ -95,8 +93,6 @@ public class Climber extends SubsystemBase {
     climbRotate2.restoreFactoryDefaults();
 
     climbRotate1.setInverted(false);
-    // climbRotate2.setInverted(false);
-    // TODO: follow wasn't working...why??
     var err = climbRotate2.follow(climbRotate1, true);
     if (err != REVLibError.kOk) {
       System.out.println(err);
@@ -111,15 +107,6 @@ public class Climber extends SubsystemBase {
     rotate1encoder.setPosition(0);
     rotate2encoder.setPosition(0);
 
-    // // PID coefficients
-    // kP = 0.1;
-    // kI = 1e-4;
-    // kD = 1;
-    // kIz = 0;
-    // kFF = 0;
-    // kMaxOutput = 0.5;
-    // kMinOutput = -0.5;
-
     // set PID coefficients
     pidController.setP(Constants.Climber.kGainsUnloaded.kP);
     pidController.setI(Constants.Climber.kGainsUnloaded.kI);
@@ -128,17 +115,6 @@ public class Climber extends SubsystemBase {
     pidController.setFF(Constants.Climber.kGainsUnloaded.kF);
     pidController.setOutputRange(-1 * Constants.Climber.kGainsUnloaded.kPeakOutput,
         Constants.Climber.kGainsUnloaded.kPeakOutput);
-
-    // // display PID coefficients on SmartDashboard
-    // SmartDashboard.putNumber("P Gain", kP);
-    // SmartDashboard.putNumber("I Gain", kI);
-    // SmartDashboard.putNumber("D Gain", kD);
-    // SmartDashboard.putNumber("I Zone", kIz);
-    // SmartDashboard.putNumber("Feed Forward", kFF);
-    // SmartDashboard.putNumber("Max Output", kMaxOutput);
-    // SmartDashboard.putNumber("Min Output", kMinOutput);
-    // SmartDashboard.putNumber("Set Rotations", 0);
-    // pidController.setReference(0, ControlType.kPosition);
 
     // TODO: set default states for solenoids
     hook1.set(Value.kForward);
@@ -153,6 +129,11 @@ public class Climber extends SubsystemBase {
 
     climbRotate1.burnFlash();
     climbRotate2.burnFlash();
+  }
+
+  public void zeroEncoders() {
+    rotate1encoder.setPosition(0);
+    rotate2encoder.setPosition(0);
   }
 
   public void rotateToMid() {
@@ -260,47 +241,5 @@ public class Climber extends SubsystemBase {
   }
 
   public void teleopPeriodic() {
-    // read PID coefficients from SmartDashboard
-    // double p = SmartDashboard.getNumber("P Gain", 0);
-    // double i = SmartDashboard.getNumber("I Gain", 0);
-    // double d = SmartDashboard.getNumber("D Gain", 0);
-    // double iz = SmartDashboard.getNumber("I Zone", 0);
-    // double ff = SmartDashboard.getNumber("Feed Forward", 0);
-    // double max = SmartDashboard.getNumber("Max Output", 0);
-    // double min = SmartDashboard.getNumber("Min Output", 0);
-    // double rotations = SmartDashboard.getNumber("Set Rotations", 0);
-
-    // // if PID coefficients on SmartDashboard have changed, write new values to
-    // // controller
-    // if ((p != kP)) {
-    // pidController.setP(p);
-    // kP = p;
-    // }
-    // if ((i != kI)) {
-    // pidController.setI(i);
-    // kI = i;
-    // }
-    // if ((d != kD)) {
-    // pidController.setD(d);
-    // kD = d;
-    // }
-    // if ((iz != kIz)) {
-    // pidController.setIZone(iz);
-    // kIz = iz;
-    // }
-    // if ((ff != kFF)) {
-    // pidController.setFF(ff);
-    // kFF = ff;
-    // }
-    // if ((max != kMaxOutput) || (min != kMinOutput)) {
-    // pidController.setOutputRange(min, max);
-    // kMinOutput = min;
-    // kMaxOutput = max;
-    // }
-
-    // pidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
-
-    // SmartDashboard.putNumber("SetPoint", rotations);
-    SmartDashboard.putNumber("ProcessVariable", rotate1encoder.getPosition());
   }
 }

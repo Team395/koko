@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.Climb.ClimbRotate;
 import frc.robot.commands.Intake.IntakeJoystick;
+import frc.robot.commands.zeroing.ZeroClimber;
 import frc.robot.commands.zeroing.ZeroIntake;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -43,6 +44,8 @@ public class RobotContainer {
     if (Constants.Climber.Enabled) {
       climber = new Climber();
       configureClimberBindings();
+
+      SmartDashboard.putData("Zero Climber", new ZeroClimber(climber));
     }
 
     if (Constants.Intake.Enabled) {

@@ -13,19 +13,21 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.enums.Climb.HookPositions;
+import frc.robot.enums.Climb.LockPositions;
+import frc.robot.enums.Climb.ExtendPositions;
 
 class ClimberState { // TODO: implement Sendable
-  public DoubleSolenoid.Value Hook1State;
-  public DoubleSolenoid.Value Hook2State;
-  public DoubleSolenoid.Value Hook3State;
-  public DoubleSolenoid.Value Hook4State;
-  public DoubleSolenoid.Value Lock1State;
-  public DoubleSolenoid.Value Lock2State;
-  public DoubleSolenoid.Value RaiseState;
+  public HookPositions Hook1State;
+  public HookPositions Hook2State;
+  public HookPositions Hook3State;
+  public HookPositions Hook4State;
+  public LockPositions Lock1State;
+  public LockPositions Lock2State;
+  public ExtendPositions ExtendState;
 }
 
 /** Add your docs here. */
@@ -44,7 +46,7 @@ public class Climber extends SubsystemBase {
 
   DoubleSolenoid lock1;
   DoubleSolenoid lock2;
-  DoubleSolenoid raise;
+  DoubleSolenoid extend;
 
   ClimberState state = new ClimberState();
 
@@ -80,7 +82,7 @@ public class Climber extends SubsystemBase {
         PneumaticsModuleType.CTREPCM,
         Constants.Climber.kLock2.forwardChannel,
         Constants.Climber.kLock2.forwardChannel);
-    raise = new DoubleSolenoid(
+    extend = new DoubleSolenoid(
         Constants.Climber.kRaise.pcmId,
         PneumaticsModuleType.CTREPCM,
         Constants.Climber.kRaise.forwardChannel,
@@ -107,7 +109,6 @@ public class Climber extends SubsystemBase {
     rotate1encoder.setPosition(0);
     rotate2encoder.setPosition(0);
 
-    // set PID coefficients
     pidController.setP(Constants.Climber.kGainsUnloaded.kP);
     pidController.setI(Constants.Climber.kGainsUnloaded.kI);
     pidController.setD(Constants.Climber.kGainsUnloaded.kD);
@@ -116,16 +117,15 @@ public class Climber extends SubsystemBase {
     pidController.setOutputRange(-1 * Constants.Climber.kGainsUnloaded.kPeakOutput,
         Constants.Climber.kGainsUnloaded.kPeakOutput);
 
-    // TODO: set default states for solenoids
-    hook1.set(Value.kForward);
-    hook2.set(Value.kForward);
-    hook3.set(Value.kReverse);
-    hook4.set(Value.kForward);
+    hook2.set(Constants.Climber.Hook.kClose);
+    hook1.set(Constants.Climber.Hook.kClose);
+    hook3.set(Constants.Climber.Hook.kClose);
+    hook4.set(Constants.Climber.Hook.kClose);
 
-    lock1.set(Value.kReverse);
-    lock2.set(Value.kForward);
+    lock1.set(Constants.Climber.Lock.kLock);
+    lock2.set(Constants.Climber.Lock.kLock);
 
-    raise.set(Value.kReverse);
+    extend.set(Constants.Climber.Extend.kLower);
 
     climbRotate1.burnFlash();
     climbRotate2.burnFlash();
@@ -136,27 +136,8 @@ public class Climber extends SubsystemBase {
     rotate2encoder.setPosition(0);
   }
 
-  public void rotateToMid() {
-    double setpoint = Constants.Climber.degreesToRotations(Constants.Climber.kMidDegrees);
-    pidController.setReference(setpoint, ControlType.kPosition);
-    SmartDashboard.putNumber("Setpoint", setpoint);
-  }
-
-  public void rotateToHigh() {
-    double setpoint = Constants.Climber.degreesToRotations(Constants.Climber.kHighDegrees);
-    pidController.setReference(setpoint, ControlType.kPosition);
-    SmartDashboard.putNumber("Setpoint", setpoint);
-  }
-
-  public void rotateToTraversal() {
-    double setpoint = Constants.Climber.degreesToRotations(Constants.Climber.kTraversalDegrees);
-    pidController.setReference(Constants.Climber.kTraversalDegrees, ControlType.kPosition);
-    pidController.setReference(setpoint, ControlType.kPosition);
-    SmartDashboard.putNumber("Setpoint", setpoint);
-  }
-
-  public void rotateToRest() {
-    double setpoint = Constants.Climber.degreesToRotations(Constants.Climber.kRestDegrees);
+  public void rotateToDegrees(Double degrees) {
+    double setpoint = Constants.Climber.degreesToRotations(degrees);
     pidController.setReference(setpoint, ControlType.kPosition);
     SmartDashboard.putNumber("Setpoint", setpoint);
   }
@@ -175,54 +156,41 @@ public class Climber extends SubsystemBase {
     // climbRotate2.set(-1 * speed);
   }
 
-  public void toggleHook1() {
-    hook1.toggle();
-    state.Hook1State = hook1.get();
+  public void setHook1(HookPositions position) {
+    hook1.set(Constants.Climber.Hook.kMap.get(position));
+    state.Hook1State = position;
   }
 
-  public void toggleHook2() {
-    hook2.toggle();
-    state.Hook2State = hook2.get();
+  public void setHook2(HookPositions position) {
+    hook2.set(Constants.Climber.Hook.kMap.get(position));
+    state.Hook2State = position;
   }
 
-  public void toggleHook3() {
-    hook3.toggle();
-    state.Hook3State = hook3.get();
+  public void setHook3(HookPositions position) {
+    hook3.set(Constants.Climber.Hook.kMap.get(position));
+    state.Hook3State = position;
   }
 
-  public void toggleHook4() {
-    hook4.toggle();
-    state.Hook4State = hook4.get();
+  public void setHook4(HookPositions position) {
+    hook4.set(Constants.Climber.Hook.kMap.get(position));
+    state.Hook4State = position;
   }
 
-  public void toggleLock1() {
-    lock1.toggle();
-    state.Lock1State = lock1.get();
+  public void setLock1(LockPositions position) {
+    lock1.set(Constants.Climber.Lock.kMap.get(position));
+    state.Lock1State = position;
   }
 
-  public void toggleLock2() {
-    lock2.toggle();
-    state.Lock2State = lock2.get();
+  public void setLock2(LockPositions position) {
+    lock2.set(Constants.Climber.Lock.kMap.get(position));
+    state.Lock2State = position;
   }
 
-  public void toggleRaise() {
-    raise.toggle();
-    state.RaiseState = raise.get();
+  public void setExtend(ExtendPositions position) {
+    extend.set(Constants.Climber.Extend.kMap.get(position));
+    state.ExtendState = position;
   }
 
-  // changes solenoid value to string
-  public String doubleSolenoidValueToString(DoubleSolenoid.Value state) {
-    switch (state) {
-      case kForward:
-        return "forward";
-      case kReverse:
-        return "reverse";
-      case kOff:
-        return "off";
-      default:
-        return "unknown";
-    }
-  }
 
   public void periodic() {
     SmartDashboard.putNumber("rotate 1 speed", climbRotate1.getAppliedOutput());

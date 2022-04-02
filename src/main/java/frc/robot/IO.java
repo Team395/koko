@@ -36,6 +36,11 @@ public class IO {
         return -1 * operatorController.getLeftY();
     }
 
+    public double getIntake() {
+        return 0;
+        // return -1 * solenoidController.getRightY();
+    }
+
     // TODO: set to appropriate input
     public double getClimberRotate() {
         // return 0;

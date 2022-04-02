@@ -9,29 +9,33 @@ import frc.robot.IO;
 import frc.robot.subsystems.Climber; 
 
 public class ClimbRotate extends CommandBase {
-  public Climber m_climber;
-  public IO m_io; 
+  public Climber climber;
+  public IO io;
 
-  public ClimbRotate() {
-    m_io = new IO(); 
-    m_climber = new Climber(); 
+  public ClimbRotate(Climber climber, IO io) {
+    this.climber = climber;
+    this.io = io;
+
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setRotateSpeed(0); 
+    climber.setRotateSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.setRotateSpeed(m_io.getIntakeControllerRoller()); 
+    climber.setRotateSpeed(io.getClimberRotate());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    climber.setRotateSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override

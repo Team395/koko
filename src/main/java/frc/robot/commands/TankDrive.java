@@ -7,14 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.IO;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Drivetrain;
 
 public class TankDrive extends CommandBase {
-  private final DriveTrain m_drivetrain;
+  private final Drivetrain m_drivetrain;
   private final IO m_io;
 
   /** Creates a new TankDrive. */
-  public TankDrive(DriveTrain drivetrain, IO io) {
+  public TankDrive(Drivetrain drivetrain, IO io) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
     m_io = io;
@@ -24,36 +24,34 @@ public class TankDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
-  
-    public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
-        
-      if ( Math.abs(turn) < Constants.kJoystickTurnDeadzone) {
-          turn = 0.0;
-        }
+  public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
 
-      turn = Math.abs(turn) < Constants.kJoystickTurnDeadzone
-        ? 0.0
-        : (turn - Math.signum(turn) * Constants.kJoystickTurnDeadzone) / (1.0 - Constants.kJoystickTurnDeadzone);
-
-        double left = rightTrigger - leftTrigger;
-        double right = rightTrigger - leftTrigger;
-
-        turn = turn * turn * Math.signum(turn);
-
-        turn = turn * 2/3;
-
-        left += turn;
-        right -= turn;
-
-        left = Math.min(1.0, Math.max(-1.0, left));
-        right = Math.max(-1.0, Math.min(1.0, right));
-
-        m_drivetrain.tankDrive(left, right);
+    if (Math.abs(turn) < Constants.IO.kJoystickDeadzone) {
+      turn = 0.0;
     }
 
-  
+    turn = Math.abs(turn) < Constants.IO.kJoystickDeadzone
+        ? 0.0
+        : (turn - Math.signum(turn) * Constants.IO.kJoystickDeadzone) / (1.0 - Constants.IO.kJoystickDeadzone);
+
+    double left = rightTrigger - leftTrigger;
+    double right = rightTrigger - leftTrigger;
+
+    turn = turn * turn * Math.signum(turn);
+
+    turn = turn * 2 / 3;
+
+    left += turn;
+    right -= turn;
+
+    left = Math.min(1.0, Math.max(-1.0, left));
+    right = Math.max(-1.0, Math.min(1.0, right));
+
+    m_drivetrain.tankDrive(left, right);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -64,7 +62,8 @@ public class TankDrive extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

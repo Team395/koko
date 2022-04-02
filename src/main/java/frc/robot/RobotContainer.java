@@ -4,74 +4,113 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Climb.ClimbLower;
-import frc.robot.commands.Climb.ClimbRaise;
-import frc.robot.commands.Climb.CloseH1;
-import frc.robot.commands.Climb.CloseH2;
-import frc.robot.commands.Climb.CloseH3;
-import frc.robot.commands.Climb.CloseH4;
-import frc.robot.commands.Climb.Lock5;
-import frc.robot.commands.Climb.Lock6;
-import frc.robot.commands.Climb.OpenH1;
-import frc.robot.commands.Climb.OpenH2;
-import frc.robot.commands.Climb.OpenH3;
-import frc.robot.commands.Climb.OpenH4;
-import frc.robot.commands.Climb.Unlock5;
-import frc.robot.commands.Climb.Unlock6;
-import frc.robot.commands.Intake.LiftIntake;
-import frc.robot.commands.Intake.RollIntake;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.TankDrive;
+import frc.robot.commands.Climb.ClimbRotate;
+import frc.robot.commands.Intake.IntakeJoystick;
+import frc.robot.commands.enabling.EnableClimber;
+import frc.robot.commands.enabling.EnableDrivetrain;
+import frc.robot.commands.enabling.EnableIntake;
+import frc.robot.commands.zeroing.ZeroClimber;
+import frc.robot.commands.zeroing.ZeroIntake;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final IO io = new IO();
+  public Drivetrain drivetrain;
+  public Climber climber;
+  public Intake intake;
 
-  private final IO m_io = new IO();
-  private final Climber m_climber = new Climber();
-  
-  private final Intake m_intake = new Intake();
-  private final LiftIntake m_liftIntake = new LiftIntake();
-  private final RollIntake m_rollIntake = new RollIntake();
-    
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-  }
+  public boolean isDrivetrainEnabled = false;
+  public boolean isIntakeEnabled = false;
+  public boolean climberEnabled = false;
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  private void configureButtonBindings() {
-    m_io.solenoidXboxAButton.whenPressed(new OpenH1());
-    m_io.solenoidXboxBButton.whenPressed(new OpenH2());
-    m_io.solenoidXboxXButton.whenPressed(new OpenH3());
-    m_io.solenoidXboxXButton.whenPressed(new OpenH4());
-    
-    m_io.driverXboxAButton.whenPressed(new CloseH1());
-    m_io.driverXboxBButton.whenPressed(new CloseH2());
-    m_io.driverXboxXButton.whenPressed(new CloseH3());
-    m_io.driverXboxYButton.whenPressed(new CloseH4());
+  public RobotContainer() {
+    if (isDrivetrainEnabled) {
+      new EnableDrivetrain(this);
+    }
 
-    m_io.solenoidStartButton.whenPressed(new ClimbRaise());
-    m_io.solenoidBackButton.whenPressed(new ClimbLower());
-    
-    m_io.solenoidRightTriggerButton.whenPressed(new Lock5());
-    m_io.solenoidLeftTriggerButton.whenPressed(new Unlock5());
-    m_io.solenoidRightTriggerButton.whenPressed(new Lock6());
-    m_io.solenoidLeftTriggerButton.whenPressed(new Unlock6());
+    if (climberEnabled) {
+      new EnableClimber(this);
+    }
 
+    if (isIntakeEnabled) {
+      new EnableIntake(this);
+    }
+
+    SmartDashboard.putData("Enable Drivetrain", new EnableDrivetrain(this));
+    SmartDashboard.putData("Enable Intake", new EnableIntake(this));
+    SmartDashboard.putData("Enable Climber", new EnableClimber(this));
+  }
+
+  public void enableDrivetrain() {
+    drivetrain = new Drivetrain(io);
+    drivetrain.setDefaultCommand(new TankDrive(drivetrain, io));
+
+    isDrivetrainEnabled = true;
+  }
+
+  public void enableIntake() {
+    intake = new Intake();
+    configureIntakeBindings();
+
+    SmartDashboard.putData("Zero Intake", new ZeroIntake(intake));
+
+    isIntakeEnabled = true;
+  }
+
+  public void enableClimber() {
+    climber = new Climber();
+    configureClimberBindings();
+
+    SmartDashboard.putData("Zero Climber", new ZeroClimber(climber));
+
+    climberEnabled = true;
+  }
+
+  private void configureClimberBindings() {
+    io.solenoidXboxYButton.whenPressed(new InstantCommand(climber::rotateToMid, climber));
+    io.solenoidXboxBButton.whenPressed(new InstantCommand(climber::rotateToHigh, climber));
+    io.solenoidXboxAButton.whenPressed(new InstantCommand(climber::rotateToTraversal, climber));
+    io.solenoidXboxXButton.whenPressed(new InstantCommand(climber::rotateToRest, climber));
+    // io.solenoidLeftShoulderButton.whenPressed(new
+    // InstantCommand(climber::toggleLock1, climber));
+    // io.solenoidXboxXButton.whenPressed(new InstantCommand(climber::toggleHook1,
+    // climber));
+    // io.solenoidXboxYButton.whenPressed(new InstantCommand(climber::toggleHook2,
+    // climber));
+
+    // io.solenoidRightShoulderButton.whenPressed(new
+    // InstantCommand(climber::toggleLock2, climber));
+    // io.solenoidXboxAButton.whenPressed(new InstantCommand(climber::toggleHook3,
+    // climber));
+    // io.solenoidXboxBButton.whenPressed(new InstantCommand(climber::toggleHook4,
+    // climber));
+
+    // io.solenoidLeftStick.whenPressed(new InstantCommand(climber::toggleRaise,
+    // climber));
+  }
+
+  private void configureIntakeBindings() {
+    io.solenoidRightShoulderButton.whenHeld(new InstantCommand(intake::moveDown, intake));
+    io.solenoidRightShoulderButton.whenReleased(new InstantCommand(intake::moveUp, intake));
   }
 
   /**
@@ -81,5 +120,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return null;
+  }
+
+  public void periodic() {
+    SmartDashboard.putBoolean("Drivetrain Enabled", isDrivetrainEnabled);
+    SmartDashboard.putBoolean("Intake Enabled", isIntakeEnabled);
+    SmartDashboard.putBoolean("Climber Enabled", climberEnabled);
   }
 }

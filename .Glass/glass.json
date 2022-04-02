@@ -1,0 +1,156 @@
+{
+  "NetworkTables": {
+    "LiveWindow": {
+      "Climber": {
+        "open": true
+      },
+      "Ungrouped": {
+        "DoubleSolenoid[0,0]": {
+          "open": true
+        },
+        "DoubleSolenoid[0,2]": {
+          "open": true
+        },
+        "DoubleSolenoid[0,4]": {
+          "open": true
+        },
+        "DoubleSolenoid[0,6]": {
+          "open": true
+        },
+        "DoubleSolenoid[1,0]": {
+          "open": true
+        },
+        "DoubleSolenoid[1,2]": {
+          "open": true
+        },
+        "DoubleSolenoid[1,4]": {
+          "open": true
+        },
+        "Scheduler": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
+    },
+    "SmartDashboard": {
+      "open": true
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Climber": "Subsystem",
+      "/LiveWindow/Intake": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+    }
+  },
+  "NetworkTables Settings": {
+    "mode": "Client",
+    "serverTeam": "395"
+  },
+  "Plots": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "height": -26,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/arm encoder"
+            }
+          ]
+        },
+        {
+          "height": -26
+        },
+        {
+          "height": -26
+        }
+      ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 1 speed"
+            }
+          ]
+        },
+        {
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 2 speed"
+            }
+          ]
+        },
+        {
+          "axis": [
+            {
+              "max": 100.0
+            }
+          ],
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 1 encoder"
+            }
+          ]
+        },
+        {
+          "axis": [
+            {
+              "max": 100.0
+            }
+          ],
+          "height": 200,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/rotate 2 encoder"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <2>": {
+      "plots": [
+        {
+          "height": 332
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    }
+  }
+}

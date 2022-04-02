@@ -9,29 +9,31 @@ import frc.robot.IO;
 import frc.robot.subsystems.Intake;
 
 public class RollIntake extends CommandBase {
-  public Intake m_intake;
-  public IO m_io; 
+  public Intake intake;
+  public IO io; 
   
-  public RollIntake() {
-    m_io = new IO();
-    m_intake = new Intake();
+  public RollIntake(IO io, Intake intake) {
+    this.intake = intake;
+    this.io = io;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.setIntakeRollSpeed(0);
+    intake.roll(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.setIntakeRollSpeed(m_io.getIntakeControllerRoller());
+    intake.roll(io.getIntakeControllerRoller());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.roll(0);
+  }
 
   // Returns true when the command should end.
   @Override

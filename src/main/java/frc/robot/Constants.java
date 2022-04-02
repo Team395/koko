@@ -5,49 +5,154 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //Drivetrain Falcon 500s 
-    public static final int driveLeftLeaderFalconID = 1;
-    public static final int driveLeftFollowerFalconID = 3;
-    public static final int driveRightLeaderFalconID = 2;
-    public static final int driveRightFollowerFalconID = 4;
+    public static final int kSlotIdx = 0;
+    public static final int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
 
-    public static final double kTurnClamp = 0.5;
-    public static final int kDriveMinimumSpeed = 0;
-    public static final double kJoystickTurnDeadzone = 0.15;
+    public static final class IO {
+        public static final double kJoystickDeadzone = 0.15;
+    }
 
-    //Intake 
-    public static final int intakeRollerSPXID = 5;
-    public static final int intakeArmSparkMaxID = 6;
-    public static final double intakeArmSpeed = 0.8;
-    public static final double kJoystickRollerDeadzone = 0.2;
-    public static final double kJoystickArmDeadzone = 0.2;
+    public static final class Drivetrain {
+        // Direction
+        public static final double drivetrainForward = -1;
+        public static final double drivetrainBackward = 1;
+        public static final boolean Enabled = false;
 
+        public static final int kLeftLeaderFalconID = 1;
+        public static final int kLeftFollowerFalconID = 3;
+        public static final int kRightLeaderFalconID = 2;
+        public static final int kRightFollowerFalconID = 4;
 
-    //Climber 7Solenoid, 1Sparks
-    public static final int ClimberRotate1SparkMaxID = 5;
-    public static final int ClimberRotate2SparkMaxID = 5;
+        public static final int kMinimumSpeed = 0;
+        public static final double kTurnClamp = 0.5;
+        public final static double kTurnAcceptableErrorDegrees = 0.5;
 
-    public static final int ClimberLiftUPSolenoidID = 0;
-    public static final int ClimberLiftDOWNSolenoidID = 0;
-    public static final int ClimbFApproachGO = 0;
-    public static final int ClimberFApproachLEAVE = 0;
-    public static final int ClimbFCloseGO = 0;
-    public static final int ClimbFCloseLEAVE = 0;
-    public static final int climbFLock = 0;
-    public static final int climbFUnlock = 0;
-    public static final int climbBApproachGO = 0;
-    public static final int climbBApproachLEAVE = 0; 
-    public static final int climbBCloseGO = 0; 
-    public static final int climbBCloseLEAVE = 0;
-    public static final int climbBlock = 0; 
-    public static final int climbBLock = 0; 
-    public static final int climbBUnlock = 0; 
+        /**
+         * How many sensor units per rotation.
+         * Using Talon FX Integrated Sensor.
+         * 
+         * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
+         */
+        public final static int kSensorUnitsPerRotation = 2048;
+
+        public static final int pidgeyCanId = 0; // TODO: fix
+        // This is a property of the Pigeon IMU, and should not be changed.
+        public final static int kPigeonUnitsPerRotation = 8192;
+        public final static boolean kGyroReversed = false;
+
+        // Motor neutral dead-band, set to the minimum 0.1%.
+        public final static double kNeutralDeadband = 0.001;
+
+        public final static double kMotorRotationsPerWheelRotation = 20.8333;
+        public final static double kInchesPerFoot = 12.0;
+        public final static double kRotationsPerInch = 1 / (2 * Math.PI * 3);
+        public final static double kSensorUnitsPerFoot = Constants.Drivetrain.kInchesPerFoot
+                * Constants.Drivetrain.kRotationsPerInch
+                * Constants.Drivetrain.kMotorRotationsPerWheelRotation
+                * Constants.Drivetrain.kSensorUnitsPerRotation;
+
+        /**
+         * PID Gains may have to be adjusted based on the responsiveness of control
+         * loop.
+         * kF: 1023 represents output value to Talon at 100%, 6800 represents Velocity
+         * units at 100% output
+         * Not all set of Gains are used in this project and may be removed as desired.
+         * 
+         * kP kI kD kF Iz PeakOut
+         */
+        public final static Gains kGains_Distance = new Gains(0.1, 0.0, 0.0, 0.0, 100, 0.50);
+        public final static Gains kGains_Turning = new Gains(2.0, 0.0, 4.0, 0.0, 200, 1.00);
+        private final static double kGains_Pigeon_kP = 0.025;
+        public final static Gains kGains_Pigeon = new Gains(
+                kGains_Pigeon_kP,
+                0.0,
+                kGains_Pigeon_kP / 10.0,
+                0.0,
+                200,
+                1.00);
+    }
+
+    public static final class Intake {
+        public static final boolean Enabled = true;
+
+        public static final int kRollerSpxID = 5;
+        public static final int kArmSparkMaxID = 8;
+        public static final double kArmMaxSpeed = 0.8;
+        public static final double kRollerMaxSpeed = 0.5;
+
+        public final static Gains kGains = new Gains(0.1, 0.0, 10.0, 0.0, 0, 0.50);
+
+        public final static double kUp = 0;
+        public final static double kDown = 19;
+    }
+
+    public static final class Climber {
+        public static final boolean Enabled = false;
+
+        public static final int kRotateLeaderSparkMaxID = 5;
+        public static final int kRotateFollowerSparkMaxID = 6;
+        public static final double kRotateMaxSpeed = 0.5;
+
+        public final static Gains kGainsUnloaded = new Gains(0.4, 0.0, 0.0, 0.0, 0, 0.50);
+        public final static double kDegreesToRotations = 150d / 360d; // rotations/degrees
+
+        public final static double kMidDegrees = 0;
+        public final static double kHighDegrees = kMidDegrees + 140;
+        public final static double kTraversalDegrees = kHighDegrees + 180;
+        public final static double kRestDegrees = kTraversalDegrees + (180 - kTraversalDegrees % 180);
+
+        public final static double degreesToRotations(double degrees) {
+            return degrees * kDegreesToRotations;
+        }
+
+        public static final SolenoidConfiguration kHook1 = new SolenoidConfiguration(0, 0, 1);
+        public static final SolenoidConfiguration kHook2 = new SolenoidConfiguration(0, 2, 3);
+        public static final SolenoidConfiguration kHook3 = new SolenoidConfiguration(0, 4, 5);
+        public static final SolenoidConfiguration kHook4 = new SolenoidConfiguration(0, 6, 7);
+
+        public static final SolenoidConfiguration kLock1 = new SolenoidConfiguration(1, 0, 1);
+        public static final SolenoidConfiguration kLock2 = new SolenoidConfiguration(1, 2, 3);
+        public static final SolenoidConfiguration kRaise = new SolenoidConfiguration(1, 4, 5);
+    }
+
+    public static final class CTRE {
+        /** ---- Flat constants, you should not need to change these ---- */
+        /*
+         * We allow either a 0 or 1 when selecting an ordinal for remote devices [You
+         * can have up to 2 devices assigned remotely to a talon/victor]
+         */
+        public final static int REMOTE_0 = 0;
+        public final static int REMOTE_1 = 1;
+        /*
+         * We allow either a 0 or 1 when selecting a PID Index, where 0 is primary and 1
+         * is auxiliary
+         */
+        public final static int PID_PRIMARY = 0;
+        public final static int PID_TURN = 1;
+        /*
+         * Firmware currently supports slots [0, 3] and can be used for either PID Set
+         */
+        public final static int SLOT_0 = 0;
+        public final static int SLOT_1 = 1;
+        public final static int SLOT_2 = 2;
+        public final static int SLOT_3 = 3;
+        /* ---- Named slots, used to clarify code ---- */
+        public final static int kSlot_Distance = SLOT_0;
+        public final static int kSlot_Turning = SLOT_1;
+        public final static int kSlot_Velocity = SLOT_2;
+        public final static int kSlot_MotionProfile = SLOT_3;
+    }
 }

@@ -9,9 +9,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.IO;
@@ -19,69 +22,87 @@ import frc.robot.enums.IntakePositions;
 
 /** Add your docs here. */
 public class Intake extends SubsystemBase {
-  //double check which is which for Intake
-  public VictorSPX intakeRoller = new VictorSPX(Constants.intakeRollerSPXID);
-  public CANSparkMax intakeArm = new CANSparkMax(Constants.intakeArmSparkMaxID, MotorType.kBrushless);
+  public VictorSPX intakeRoller;
+  public CANSparkMax intakeArm;
+  public SparkMaxPIDController pidController;
   public RelativeEncoder armEncoder;
-  public IO m_io; 
-  
+  public IO m_io;
+
   public IntakePositions currentPosition = IntakePositions.UP;
- 
+
   public Intake() {
+    intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
     intakeRoller.setNeutralMode(NeutralMode.Brake);
+
+    intakeArm = new CANSparkMax(Constants.Intake.kArmSparkMaxID, MotorType.kBrushless);
+    intakeArm.restoreFactoryDefaults();
     intakeArm.setIdleMode(IdleMode.kBrake);
-    
+
+    intakeArm.setClosedLoopRampRate(0.5);
+
     armEncoder = intakeArm.getEncoder();
-    armEncoder.setPosition(0); 
+    pidController = intakeArm.getPIDController();
+    armEncoder.setPosition(0);
 
-    // Set position units to degrees
-    armEncoder.setPositionConversionFactor(1/360);
+    pidController.setP(Constants.Intake.kGains.kP);
+    pidController.setI(Constants.Intake.kGains.kI);
+    pidController.setD(Constants.Intake.kGains.kD);
+    pidController.setIZone(Constants.Intake.kGains.kIzone);
+    pidController.setFF(Constants.Intake.kGains.kF);
+    pidController.setOutputRange(-1 * Constants.Intake.kGains.kPeakOutput,
+        Constants.Intake.kGains.kPeakOutput);
 
-    intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-    intakeArm.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+    pidController.setReference(0, ControlType.kPosition);
 
-    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
-    intakeArm.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 90);
-
+    intakeArm.burnFlash();
   }
 
+  public void zeroEncoders() {
+    armEncoder.setPosition(0);
+    System.out.println("Zero'd intake encoders.");
+  }
 
-  public void setIntakeRollSpeed(double speed) {
-    if (Math.abs(speed) < Constants.kJoystickRollerDeadzone) {
-      speed = 0.0;
+  public void roll(double speed) {
+    if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
+      speed = 0;
     }
     intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
-  public void setRaiseArmSpeed(double raiseArmSpeed) {
-    if (Math.abs(raiseArmSpeed) < Constants.kJoystickArmDeadzone) {
-      raiseArmSpeed = 0;
-    }
-    intakeArm.set(raiseArmSpeed);
+  public void moveUp() {
+    pidController.setReference(Constants.Intake.kUp, ControlType.kPosition);
   }
 
-  public void setLowerArmSpeed(double lowerArmSpeed) {
-    if (Math.abs(lowerArmSpeed) < Constants.kJoystickArmDeadzone) {
-      lowerArmSpeed = 0;
-    }
-    intakeArm.set(lowerArmSpeed);
+  public void moveDown() {
+    pidController.setReference(Constants.Intake.kDown, ControlType.kPosition);
   }
 
-
-  public void intakeLift(final IntakePositions position) {
-    switch(position) {
-      case UP:
-        intakeArm.set(-Constants.intakeArmSpeed);
-        intakeArm.setIdleMode(IdleMode.kCoast);
-        currentPosition = IntakePositions.UP;
-        break;
-
-      case DOWN: 
-        intakeArm.setIdleMode(IdleMode.kBrake);
-        intakeArm.set(Constants.intakeArmSpeed);
-        currentPosition = IntakePositions.DOWN;
-        break;
+  public void move(double armSpeed) {
+    if (Math.abs(armSpeed) < Constants.IO.kJoystickDeadzone) {
+      armSpeed = 0;
     }
+
+    double sign = Math.signum(armSpeed);
+    armSpeed = sign * Math.pow(armSpeed, 4);
+    armSpeed = Math.min(armSpeed, 0.5);
+    intakeArm.set(armSpeed);
   }
 
+  public void periodic() {
+    SmartDashboard.putBoolean("Intake enabled", Constants.Intake.Enabled);
+    SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
+    SmartDashboard.putNumber("roller speed", intakeRoller.getMotorOutputPercent());
+    SmartDashboard.putNumber("arm speed", intakeArm.get());
+
+    SmartDashboard.putNumber("Set P Gain", pidController.getP());
+    SmartDashboard.putNumber("Set I Gain", pidController.getI());
+    SmartDashboard.putNumber("Set D Gain", pidController.getD());
+    SmartDashboard.putNumber("Set I Zone", pidController.getIZone());
+    SmartDashboard.putNumber("Set Feed Forward", pidController.getFF());
+    SmartDashboard.putNumber("Set Max Output", pidController.getOutputMax());
+    SmartDashboard.putNumber("Set Min Output", pidController.getOutputMin());
+  }
+
+  public void teleopPeriodic() {
+  }
 }

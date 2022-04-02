@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.IO;
+import frc.robot.enums.Climb.ExtendPositions;
 import frc.robot.enums.Climb.HookPositions;
 import frc.robot.enums.Climb.LockPositions;
 import frc.robot.subsystems.Climber;
@@ -18,6 +19,7 @@ public class ClimbSequence extends SequentialCommandGroup {
   public ClimbSequence(Climber climber, IO io) {
     addCommands(
       new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kMidDegrees), climber),
+      new InstantCommand(() -> climber.setExtend(ExtendPositions.RAISE), climber),
 
       // <- Front of Robot
 

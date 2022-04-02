@@ -31,8 +31,8 @@ public class Intake extends SubsystemBase {
   public IntakePositions currentPosition = IntakePositions.UP;
 
   public Intake() {
-    // intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
-    // intakeRoller.setNeutralMode(NeutralMode.Brake);
+    intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
+    intakeRoller.setNeutralMode(NeutralMode.Brake);
 
     intakeArm = new CANSparkMax(Constants.Intake.kArmSparkMaxID, MotorType.kBrushless);
     intakeArm.restoreFactoryDefaults();
@@ -66,7 +66,7 @@ public class Intake extends SubsystemBase {
     if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
       speed = 0;
     }
-    // intakeRoller.set(ControlMode.PercentOutput, speed);
+    intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
   public void moveUp() {
@@ -85,14 +85,13 @@ public class Intake extends SubsystemBase {
     double sign = Math.signum(armSpeed);
     armSpeed = sign * Math.pow(armSpeed, 4);
     armSpeed = Math.min(armSpeed, 0.5);
-    // intakeArm.set(armSpeed);
+    intakeArm.set(armSpeed);
   }
 
   public void periodic() {
     SmartDashboard.putBoolean("Intake enabled", Constants.Intake.Enabled);
     SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
-    // SmartDashboard.putNumber("roller speed",
-    // intakeRoller.getMotorOutputPercent());
+    SmartDashboard.putNumber("roller speed", intakeRoller.getMotorOutputPercent());
     SmartDashboard.putNumber("arm speed", intakeArm.get());
 
     SmartDashboard.putNumber("Set P Gain", pidController.getP());

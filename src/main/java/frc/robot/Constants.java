@@ -4,6 +4,15 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.enums.Climb.HookPositions;
+import frc.robot.enums.Climb.LockPositions;
+import frc.robot.enums.Climb.ExtendPositions;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -111,8 +120,10 @@ public final class Constants {
 
         public final static double kMidDegrees = 0;
         public final static double kHighDegrees = kMidDegrees + 140;
+        public final static double kHalfRestDegrees = kHighDegrees + (180 - kHighDegrees % 180);
         public final static double kTraversalDegrees = kHighDegrees + 180;
         public final static double kRestDegrees = kTraversalDegrees + (180 - kTraversalDegrees % 180);
+
 
         public final static double degreesToRotations(double degrees) {
             return degrees * kDegreesToRotations;
@@ -126,6 +137,36 @@ public final class Constants {
         public static final SolenoidConfiguration kLock1 = new SolenoidConfiguration(1, 0, 1);
         public static final SolenoidConfiguration kLock2 = new SolenoidConfiguration(1, 2, 3);
         public static final SolenoidConfiguration kRaise = new SolenoidConfiguration(1, 4, 5);
+
+        public static final class Hook {
+            public final static DoubleSolenoid.Value kOpen = Value.kReverse;
+            public final static DoubleSolenoid.Value kClose = Value.kForward;
+
+            public final static Map<HookPositions, DoubleSolenoid.Value> kMap  = new HashMap<HookPositions, DoubleSolenoid.Value>() {{
+                put(HookPositions.OPEN, kOpen);
+                put(HookPositions.CLOSE, kClose);
+            }};
+        }
+
+        public static final class Lock {
+            public final static DoubleSolenoid.Value kLock = Value.kForward;
+            public final static DoubleSolenoid.Value kUnlock = Value.kReverse;
+
+            public final static Map<LockPositions, DoubleSolenoid.Value> kMap  = new HashMap<LockPositions, DoubleSolenoid.Value>() {{
+                put(LockPositions.LOCK, kLock);
+                put(LockPositions.UNLOCK, kUnlock);
+            }};
+        }
+
+        public static final class Extend {
+            public final static DoubleSolenoid.Value kRaise = Value.kForward;
+            public final static DoubleSolenoid.Value kLower = Value.kReverse;
+
+            public final static Map<ExtendPositions, DoubleSolenoid.Value> kMap  = new HashMap<ExtendPositions, DoubleSolenoid.Value>() {{
+                put(ExtendPositions.RAISE, kRaise);
+                put(ExtendPositions.LOWER, kLower);
+            }};
+        }
     }
 
     public static final class CTRE {

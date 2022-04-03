@@ -129,14 +129,14 @@ public final class Constants {
             return degrees * kDegreesToRotations;
         }
 
-        public static final SolenoidConfiguration kHook1 = new SolenoidConfiguration(0, 0, 1);
-        public static final SolenoidConfiguration kHook2 = new SolenoidConfiguration(0, 2, 3);
-        public static final SolenoidConfiguration kHook3 = new SolenoidConfiguration(0, 4, 5);
-        public static final SolenoidConfiguration kHook4 = new SolenoidConfiguration(0, 6, 7);
+        public static final SolenoidConfiguration kHook1 = new SolenoidConfiguration(1, 4, 5);
+        public static final SolenoidConfiguration kHook2 = new SolenoidConfiguration(0, 5, 4);
+        public static final SolenoidConfiguration kHook3 = new SolenoidConfiguration(0, 7, 6);
+        public static final SolenoidConfiguration kHook4 = new SolenoidConfiguration(1, 0, 1);
 
-        public static final SolenoidConfiguration kLock1 = new SolenoidConfiguration(1, 0, 1);
-        public static final SolenoidConfiguration kLock2 = new SolenoidConfiguration(1, 2, 3);
-        public static final SolenoidConfiguration kRaise = new SolenoidConfiguration(1, 4, 5);
+        public static final SolenoidConfiguration kLock1 = new SolenoidConfiguration(0, 0, 1);
+        public static final SolenoidConfiguration kLock2 = new SolenoidConfiguration(0, 2, 3); 
+        public static final SolenoidConfiguration kExtend = new SolenoidConfiguration(1, 2, 3);
 
         public static final class Hook {
             public final static DoubleSolenoid.Value kOpen = Value.kReverse;

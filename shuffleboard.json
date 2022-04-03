@@ -1,7 +1,7 @@
 {
   "tabPane": [
     {
-      "title": "SmartDashboard",
+      "title": "Dashboard",
       "autoPopulate": false,
       "autoPopulatePrefix": "SmartDashboard/",
       "widgetPane": {
@@ -11,94 +11,10 @@
         "vgap": 16.0,
         "titleType": 1,
         "tiles": {
-          "0,0": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Grid Layout",
-              "_title": "Subsystems",
-              "Layout/Number of columns": 3,
-              "Layout/Number of rows": 3,
-              "Layout/Label position": "HIDDEN",
-              "_children": {
-                "0,0": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Enable Drivetrain",
-                  "_title": "Enable Drivetrain"
-                },
-                "1,0": {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///SmartDashboard/Drivetrain Enabled",
-                  "_title": "Drivetrain Enabled",
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                },
-                "0,1": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Enable Intake",
-                  "_title": "Enable Intake"
-                },
-                "1,1": {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///SmartDashboard/Intake Enabled",
-                  "_title": "Intake Enabled",
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                },
-                "1,2": {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///SmartDashboard/Climber Enabled",
-                  "_title": "Climber Enabled",
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                },
-                "0,2": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Enable Climber",
-                  "_title": "Enable Climber"
-                },
-                "2,1": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Zero Intake",
-                  "_title": "SmartDashboard/Zero Intake"
-                },
-                "2,0": {
-                  "_type": "Grid Layout",
-                  "_title": "Grid Layout",
-                  "Layout/Number of columns": 3,
-                  "Layout/Number of rows": 3,
-                  "Layout/Label position": "BOTTOM",
-                  "_children": {}
-                },
-                "2,2": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Zero Climber",
-                  "_title": "Zero Climber"
-                }
-              }
-            }
-          },
-          "0,2": {
-            "size": [
-              4,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/arm encoder",
-              "_title": "Intake Position",
-              "Slider Settings/Min": 0.0,
-              "Slider Settings/Max": 20.0,
-              "Slider Settings/Block increment": 0.0625,
-              "Visuals/Display value": true
-            }
-          },
           "4,0": {
             "size": [
               4,
-              3
+              4
             ],
             "content": {
               "_type": "Grid Layout",
@@ -107,14 +23,19 @@
               "Layout/Number of rows": 4,
               "Layout/Label position": "HIDDEN",
               "_children": {
-                "0,0": {
-                  "_type": "Number Slider",
-                  "_source0": "network_table:///SmartDashboard/rotate 1 encoder",
-                  "_title": "Climber Position",
-                  "Slider Settings/Min": 0.0,
-                  "Slider Settings/Max": 150.0,
-                  "Slider Settings/Block increment": 0.0625,
-                  "Visuals/Display value": true
+                "0,1": {
+                  "_type": "Grid Layout",
+                  "_title": "Extend",
+                  "Layout/Number of columns": 1,
+                  "Layout/Number of rows": 1,
+                  "Layout/Label position": "BOTTOM",
+                  "_children": {
+                    "0,0": {
+                      "_type": "Text View",
+                      "_source0": "network_table:///SmartDashboard/Extend Position",
+                      "_title": "Extend"
+                    }
+                  }
                 },
                 "0,2": {
                   "_type": "Grid Layout",
@@ -142,11 +63,6 @@
                   "Layout/Number of rows": 1,
                   "Layout/Label position": "BOTTOM",
                   "_children": {
-                    "0,0": {
-                      "_type": "Text View",
-                      "_source0": "network_table:///SmartDashboard/Hook1 Position",
-                      "_title": "Hook 1"
-                    },
                     "1,0": {
                       "_type": "Text View",
                       "_source0": "network_table:///SmartDashboard/Hook2 Position",
@@ -161,27 +77,129 @@
                       "_type": "Text View",
                       "_source0": "network_table:///SmartDashboard/Hook4 Position",
                       "_title": "Hook 4"
+                    },
+                    "0,0": {
+                      "_type": "Text View",
+                      "_source0": "network_table:///SmartDashboard/Hook1 Position",
+                      "_title": "Hook 1"
                     }
                   }
                 },
-                "0,1": {
+                "0,0": {
                   "_type": "Grid Layout",
-                  "_title": "Extend",
-                  "Layout/Number of columns": 1,
+                  "_title": "Grid Layout",
+                  "Layout/Number of columns": 2,
                   "Layout/Number of rows": 1,
                   "Layout/Label position": "BOTTOM",
                   "_children": {
+                    "1,0": {
+                      "_type": "Simple Dial",
+                      "_source0": "network_table:///SmartDashboard/Rotate Speed",
+                      "_title": "Rotation Speed",
+                      "Range/Min": -1.0,
+                      "Range/Max": 1.0,
+                      "Visuals/Show value": true
+                    },
                     "0,0": {
-                      "_type": "Text View",
-                      "_source0": "network_table:///SmartDashboard/Extend Position",
-                      "_title": "Extend"
+                      "_type": "Number Slider",
+                      "_source0": "network_table:///SmartDashboard/Rotate Position",
+                      "_title": "Rotate Position in Degrees",
+                      "Slider Settings/Min": 0.0,
+                      "Slider Settings/Max": 360.0,
+                      "Slider Settings/Block increment": 0.0625,
+                      "Visuals/Display value": true
                     }
                   }
                 }
               }
             }
           },
-          "8,0": {
+          "0,0": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Subsystems",
+              "Layout/Number of columns": 3,
+              "Layout/Number of rows": 4,
+              "Layout/Label position": "HIDDEN",
+              "_children": {
+                "1,3": {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///SmartDashboard/Climber Enabled",
+                  "_title": "Climber Enabled",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                "0,3": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Enable Climber",
+                  "_title": "Enable Climber"
+                },
+                "0,2": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Enable Intake",
+                  "_title": "Enable Intake"
+                },
+                "0,1": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Enable Drivetrain",
+                  "_title": "Enable Drivetrain"
+                },
+                "1,2": {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///SmartDashboard/Intake Enabled",
+                  "_title": "Intake Enabled",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                "1,1": {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///SmartDashboard/Drivetrain Enabled",
+                  "_title": "Drivetrain Enabled",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                "2,3": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Zero Climber",
+                  "_title": "Zero Climber"
+                },
+                "2,2": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Zero Intake",
+                  "_title": "SmartDashboard/Zero Intake"
+                },
+                "2,1": {
+                  "_type": "Grid Layout",
+                  "_title": "Grid Layout",
+                  "Layout/Number of columns": 3,
+                  "Layout/Number of rows": 3,
+                  "Layout/Label position": "BOTTOM",
+                  "_children": {}
+                },
+                "1,0": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Enable All",
+                  "_title": "SmartDashboard/Enable All"
+                }
+              }
+            }
+          },
+          "0,2": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Chooser",
+              "_title": "Auto Chooser"
+            }
+          },
+          "0,3": {
             "size": [
               4,
               3
@@ -207,16 +225,6 @@
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Open H3",
                   "_title": "Open H3"
-                },
-                "0,5": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Open H4",
-                  "_title": "Open H4"
-                },
-                "1,0": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Lock L1",
-                  "_title": "Lock L1"
                 },
                 "0,3": {
                   "_type": "Command",
@@ -248,23 +256,58 @@
                   "_source0": "network_table:///SmartDashboard/Close H4",
                   "_title": "Close H4"
                 },
+                "0,5": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Open H4",
+                  "_title": "Open H4"
+                },
                 "0,0": {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Unlock L1",
                   "_title": "Unlock L1"
+                },
+                "1,0": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Lock L1",
+                  "_title": "Lock L1"
                 }
               }
             }
           },
-          "8,3": {
+          "8,0": {
             "size": [
-              2,
+              4,
               3
             ],
             "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/Climber State",
-              "_title": "SmartDashboard/Climber State"
+              "_type": "Grid Layout",
+              "_title": "Grid Layout",
+              "Layout/Number of columns": 2,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "BOTTOM",
+              "_children": {
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Arm Position",
+                  "_title": "Arm Position"
+                },
+                "0,1": {
+                  "_type": "Simple Dial",
+                  "_source0": "network_table:///SmartDashboard/Arm Speed",
+                  "_title": "Arm Speed",
+                  "Range/Min": -1.0,
+                  "Range/Max": 1.0,
+                  "Visuals/Show value": true
+                },
+                "1,1": {
+                  "_type": "Simple Dial",
+                  "_source0": "network_table:///SmartDashboard/Roller Speed",
+                  "_title": "Roller Speed",
+                  "Range/Min": -1.0,
+                  "Range/Max": 1.0,
+                  "Visuals/Show value": true
+                }
+              }
             }
           }
         }
@@ -358,7 +401,17 @@
                 {
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,3]/Value",
-                  "_title": "/LiveWindow/Ungrouped/DoubleSolenoid[1,3]/Value"
+                  "_title": "DoubleSolenoid[1,3]/Value"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]",
+                  "_title": "PIDController[2]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
+                  "_title": "PIDController[1]"
                 }
               ]
             }

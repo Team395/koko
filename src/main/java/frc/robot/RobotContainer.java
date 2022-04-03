@@ -11,16 +11,19 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Intake.IntakeCargo;
+import frc.robot.commands.Climber.ClimbSequence;
 import frc.robot.commands.Drivetrain.ControllerDrivetrain;
 import frc.robot.commands.Intake.ControllerIntake;
 import frc.robot.commands.Intake.OuttakeCargo;
 import frc.robot.commands.autonomous.DriveFeet;
 import frc.robot.commands.autonomous.TurnDegrees;
+import frc.robot.commands.enabling.EnableAll;
 import frc.robot.commands.enabling.EnableClimber;
 import frc.robot.commands.enabling.EnableDrivetrain;
 import frc.robot.commands.enabling.EnableIntake;
 import frc.robot.commands.zeroing.ZeroClimber;
 import frc.robot.commands.zeroing.ZeroIntake;
+import frc.robot.enums.Climb.ExtendPositions;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -43,20 +46,25 @@ public class RobotContainer {
 
   public boolean isDrivetrainEnabled = false;
   public boolean isIntakeEnabled = false;
-  public boolean climberEnabled = false;
+  public boolean isClimberEnabled = false;
+  public boolean isAllEnabled = false;
 
 
   public RobotContainer() {
     SmartDashboard.putData("Enable Drivetrain", new EnableDrivetrain(this));
     SmartDashboard.putData("Enable Intake", new EnableIntake(this));
     SmartDashboard.putData("Enable Climber", new EnableClimber(this));
+    SmartDashboard.putData("Enable All", new EnableAll(this));
 
     if (isDrivetrainEnabled) { new EnableDrivetrain(this); }
-    if (climberEnabled) { new EnableClimber(this); }
+    if (isClimberEnabled) { new EnableClimber(this); }
     if (isIntakeEnabled) { new EnableIntake(this); }
+    if (isAllEnabled) { new EnableAll(this); }
   }
 
   public void enableDrivetrain() {
+    if (isDrivetrainEnabled) { return; }
+
     drivetrain = new Drivetrain(io);
     drivetrain.setDefaultCommand(new ControllerDrivetrain(drivetrain, io));
 
@@ -64,6 +72,8 @@ public class RobotContainer {
   }
 
   public void enableIntake() {
+    if (isIntakeEnabled) { return; }
+
     intake = new Intake();
     configureIntakeBindings();
     intake.setDefaultCommand(new ControllerIntake(io, intake));
@@ -74,15 +84,19 @@ public class RobotContainer {
   }
 
   public void enableClimber() {
+    if (isClimberEnabled) { return; }
+
     climber = new Climber();
     configureClimberBindings();
 
     SmartDashboard.putData("Zero Climber", new ZeroClimber(climber));
 
-    climberEnabled = true;
+    isClimberEnabled = true;
   }
 
   public void addAutoChooser() {
+    if (autoChooser != null) { return; }
+
     autoChooser = new SendableChooser<Command>();
 
     autoChooser.setDefaultOption("No Auto", new InstantCommand());
@@ -108,16 +122,20 @@ public class RobotContainer {
       new DriveFeet(drivetrain, 5),
       new OuttakeCargo(intake, Constants.Intake.kOuttakeSeconds)
     ));
-    
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   private void configureClimberBindings() {
-    // io.operatorXboxYButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kMidDegrees), climber));
-    // io.operatorXboxBButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kHighDegrees), climber));
-    // io.operatorXboxAButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kTraversalDegrees), climber));
-    // io.operatorXboxXButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kRestDegrees), climber));
+    // io.driverXboxYButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kMidDegrees), climber));
+    // io.driverXboxBButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kHighDegrees), climber));
+    // io.driverXboxAButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kTraversalDegrees), climber));
+    // io.driverXboxXButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kRestDegrees), climber));
 
-    // io.driverXboxBButton.whenPressed(new ClimbSequence(climber, io));
+    io.driverXboxXButton.whenPressed(new ClimbSequence(climber, io));
+
+    io.driverLeftShoulderButton.whenPressed(new InstantCommand(() -> climber.setExtend(ExtendPositions.RAISE), climber));
+    io.driverLeftShoulderButton.whenReleased(new InstantCommand(() -> climber.setExtend(ExtendPositions.LOWER), climber));
   }
 
   private void configureIntakeBindings() {
@@ -133,6 +151,6 @@ public class RobotContainer {
   public void periodic() {
     SmartDashboard.putBoolean("Drivetrain Enabled", isDrivetrainEnabled);
     SmartDashboard.putBoolean("Intake Enabled", isIntakeEnabled);
-    SmartDashboard.putBoolean("Climber Enabled", climberEnabled);
+    SmartDashboard.putBoolean("Climber Enabled", isClimberEnabled);
   }
 }

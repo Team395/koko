@@ -58,10 +58,10 @@ public class Drivetrain extends SubsystemBase {
     // Clamp speeds between min and max
     leftSpeed = Math.signum(leftSpeed) > 0
       ? MathUtil.clamp(leftSpeed, Constants.Drivetrain.kMinSpeed, Constants.Drivetrain.kMaxSpeed)
-      : MathUtil.clamp(leftSpeed, -1 * Constants.Drivetrain.kMinSpeed, -1 * Constants.Drivetrain.kMaxSpeed); 
+      : MathUtil.clamp(leftSpeed, -1 * Constants.Drivetrain.kMaxSpeed, -1 * Constants.Drivetrain.kMinSpeed); 
     rightSpeed = Math.signum(rightSpeed) > 0
       ? MathUtil.clamp(rightSpeed, Constants.Drivetrain.kMinSpeed, Constants.Drivetrain.kMaxSpeed)
-      : MathUtil.clamp(rightSpeed, -1 * Constants.Drivetrain.kMinSpeed, -1 * Constants.Drivetrain.kMaxSpeed); 
+      : MathUtil.clamp(rightSpeed, -1 * Constants.Drivetrain.kMaxSpeed, -1 * Constants.Drivetrain.kMinSpeed); 
 
     leftLeader.set(TalonFXControlMode.PercentOutput, leftSpeed);
     rightLeader.set(TalonFXControlMode.PercentOutput, rightSpeed);

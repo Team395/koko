@@ -42,8 +42,8 @@ public final class Constants {
         public static final double drivetrainForward = -1;
         public static final double drivetrainBackward = 1;
 
-        public static final TalonFXInvertType kLeftInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
-        public static final TalonFXInvertType kRightInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
+        public static final TalonFXInvertType kLeftInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "true"
+        public static final TalonFXInvertType kRightInvert = TalonFXInvertType.Clockwise; // Same as invert = "false"
 
         public static final int kLeftLeaderFalconID = 1;
         public static final int kLeftFollowerFalconID = 3;
@@ -106,8 +106,8 @@ public final class Constants {
         public static final int kRollerSpxID = 5;
         public static final int kArmSparkMaxID = 8;
         public static final double kArmMaxSpeed = 0.8;
-        public static final double kRollerMaxSpeed = 0.5;
-        public static final double kRollerIntakeSpeed = Math.min(0.4, kRollerMaxSpeed);
+        public static final double kRollerMaxSpeed = 1.0;
+        public static final double kRollerIntakeSpeed = Math.min(1.0, kRollerMaxSpeed);
         public static final double kRollerOuttakeSpeed = kRollerIntakeSpeed;
         public static final double kOuttakeSeconds = 5;
         public static final double kIntakeSeconds = 5;
@@ -130,18 +130,26 @@ public final class Constants {
         public static final int kRotateFollowerSparkMaxID = 6;
         public static final double kRotateMaxSpeed = 0.5;
 
-        public final static Gains kGainsUnloaded = new Gains(0.4, 0.0, 0.0, 0.0, 0, 0.50);
+        public final static Gains kGainsUnloaded = new Gains(0.4, 0.0, 0.0, 0.0, 0, 0.1);
         public final static double kDegreesToRotations = 150d / 360d; // rotations/degrees
+        public final static double kRotationsToDegrees = 1 / kDegreesToRotations;
+        public final static double kRotateAcceptableErrorDegrees = 0.5;
+        public final static double kLockWaitSeconds = 0.1;
 
         public final static double kMidDegrees = 0;
         public final static double kHighDegrees = kMidDegrees + 140;
         public final static double kHalfRestDegrees = kHighDegrees + (180 - kHighDegrees % 180);
         public final static double kTraversalDegrees = kHighDegrees + 180;
-        public final static double kRestDegrees = kTraversalDegrees + (180 - kTraversalDegrees % 180);
+        // TODO: figure out why consistently undershooting full revolution
+        public final static double kRestDegrees = kTraversalDegrees + (180 - kTraversalDegrees % 180) + 15;
 
 
         public final static double degreesToRotations(double degrees) {
             return degrees * kDegreesToRotations;
+        }
+
+        public final static double rotationsToDegrees(double rotations) {
+            return rotations * kRotationsToDegrees;
         }
 
         public static final SolenoidConfiguration kHook1 = new SolenoidConfiguration(1, 4, 5);

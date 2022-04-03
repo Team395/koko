@@ -6,6 +6,7 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.IO;
 import frc.robot.enums.Climb.ExtendPositions;
@@ -18,10 +19,18 @@ public class ClimbSequence extends SequentialCommandGroup {
 
   public ClimbSequence(Climber climber, IO io) {
     addCommands(
-      new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kMidDegrees), climber),
+      new RotateToDegrees(climber, Constants.Climber.kMidDegrees),
       new InstantCommand(() -> climber.setExtend(ExtendPositions.RAISE), climber),
 
-      // <- Front of Robot
+      //      Front of Robot -->
+
+      //    3           1
+      //     >---------<
+      //    4     |     2
+      //          |      
+      //          |______________
+      //        __|__________\
+      //        [ O   O   O ] \__
 
       // (1) (2)
       //   \ /   (L1)
@@ -30,9 +39,10 @@ public class ClimbSequence extends SequentialCommandGroup {
       // (3) (4)
 
       new InstantCommand(() -> climber.setLock1(LockPositions.UNLOCK), climber),
-      new InstantCommand(() -> climber.setHook2(HookPositions.OPEN), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new InstantCommand(() -> climber.setHook1(HookPositions.OPEN), climber),
 
-      // (1)  2
+      //  1  (2)
       //   \ /    U1
       //    |
       //   / \   (L2)
@@ -40,7 +50,8 @@ public class ClimbSequence extends SequentialCommandGroup {
 
       new WaitForButton(io.driverXboxAButton, io),
 
-      new InstantCommand(() -> climber.setHook2(HookPositions.CLOSE), climber),
+      new InstantCommand(() -> climber.setHook1(HookPositions.CLOSE), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setLock1(LockPositions.LOCK), climber),
 
       // (1) (2)
@@ -50,85 +61,90 @@ public class ClimbSequence extends SequentialCommandGroup {
       // (3) (4)
 
       new InstantCommand(() -> climber.setLock2(LockPositions.UNLOCK), climber),
-      new InstantCommand(() -> climber.setHook4(HookPositions.OPEN), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new InstantCommand(() -> climber.setHook3(HookPositions.OPEN), climber),
 
       // (1) (2)
       //   \ /   (L1)
       //    |
       //   / \    U2
-      // (3)  4
+      //  3  (4)
 
-      new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kHighDegrees), climber),
+      new RotateToDegrees(climber, Constants.Climber.kHighDegrees),
 
-      //       4
-      //        \ __ (3)   U2
-      //        /
-      // (2) ‾‾|          (L1)
-      //      (1)
+      //          3
+      //  (4) __ /          U2
+      //         \
+      //         / ‾‾ (1)  (L1)
+      //      (2)
 
-      new InstantCommand(() -> climber.setHook4(HookPositions.CLOSE), climber),
+      new InstantCommand(() -> climber.setHook3(HookPositions.CLOSE), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setLock2(LockPositions.LOCK), climber),
 
-      //      (4)
-      //        \ __ (3)  (L2)
-      //        /
-      // (2) ‾‾|          (L1)
-      //      (1)
+      //         (3)
+      //  (4) __ /         (L2)
+      //         \
+      //         / ‾‾ (1)  (L1)
+      //      (2)
 
       new InstantCommand(() -> climber.setLock1(LockPositions.UNLOCK), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setHook1(HookPositions.OPEN), climber),
       new InstantCommand(() -> climber.setHook2(HookPositions.OPEN), climber),
 
-      //      (4)
-      //        \ __ (3)  (L2)
-      //        /
-      //   2 ‾‾|           U1
-      //       1
+      //         (3)
+      //  (4) __ /         (L2)
+      //         \
+      //         / ‾‾ 1     U1
+      //       2
 
-      new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kHalfRestDegrees), climber),
-
-      // (4) (3)
-      //   \ /   (L2)
-      //    |
-      //   / \    U1
-      //  2  1
-
-      new InstantCommand(() -> climber.setHook2(HookPositions.CLOSE), climber),
+      new RotateToDegrees(climber, Constants.Climber.kHalfRestDegrees),
 
       // (4) (3)
       //   \ /   (L2)
       //    |
       //   / \    U1
-      // (2)  1
-
-      new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kTraversalDegrees), climber),
-
-      //       1
-      //        \ __ (2)   U1
-      //        /
-      // (3) ‾‾|          (L2)
-      //      (4)
+      //  2   1
 
       new InstantCommand(() -> climber.setHook1(HookPositions.CLOSE), climber),
+
+      // (4) (3)
+      //   \ /   (L2)
+      //    |
+      //   / \    U1
+      //  2  (1)
+
+      new RotateToDegrees(climber, Constants.Climber.kTraversalDegrees),
+
+      //          2
+      //  (1) __ /          U1
+      //         \
+      //         / ‾‾ (4)  (L2)
+      //      (3)
+
+      new InstantCommand(() -> climber.setHook2(HookPositions.CLOSE), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setLock1(LockPositions.LOCK), climber),
 
-      //      (1)
-      //        \ __ (2)  (L1)
-      //        /
-      // (3) ‾‾|          (L2)
-      //      (4)
+      //         (2)
+      //  (1) __ /         (L1)
+      //         \
+      //         / ‾‾ (4)  (L2)
+      //      (3)
 
       new InstantCommand(() -> climber.setLock2(LockPositions.UNLOCK), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setHook4(HookPositions.OPEN), climber),
       new InstantCommand(() -> climber.setHook3(HookPositions.OPEN), climber),
 
-      //      (1)
-      //        \ __ (2)  (L1)
-      //        /
-      //  3  ‾‾|           U2
-      //       4
+      //         (2)
+      //  (1) __ /         (L1)
+      //         \
+      //         / ‾‾ 4     U2
+      //       3
 
-      new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kRestDegrees), climber),
+      new RotateToDegrees(climber, Constants.Climber.kRestDegrees),
 
       // (1) (2)
       //   \ /   (L1)
@@ -138,6 +154,7 @@ public class ClimbSequence extends SequentialCommandGroup {
 
       new InstantCommand(() -> climber.setHook4(HookPositions.CLOSE), climber),
       new InstantCommand(() -> climber.setHook3(HookPositions.CLOSE), climber),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setLock2(LockPositions.LOCK), climber)
 
       // (1) (2)

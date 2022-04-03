@@ -19,12 +19,16 @@ public class ControllerIntake extends CommandBase {
     this.intake = intake;
     this.intakeButton = io.getIntakeButton();
     this.outtakeButton = io.getOuttakeButton();
+
+    addRequirements(intake);
   }
 
   @Override
   public void initialize() {
     intake.setPosition(IntakePositions.UP);
     intake.setRollSpeed(0);
+
+    System.out.println("INTAKE SETUP");
 
     intakeButton.whenHeld(new IntakeCargo(intake), true);
     outtakeButton.whenHeld(new OuttakeCargo(intake), true);

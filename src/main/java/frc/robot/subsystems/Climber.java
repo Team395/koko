@@ -116,7 +116,7 @@ public class Climber extends SubsystemBase {
     climbRotate1.restoreFactoryDefaults();
     climbRotate2.restoreFactoryDefaults();
 
-    climbRotate1.setInverted(false);
+    climbRotate1.setInverted(true);
     var err = climbRotate2.follow(climbRotate1, true);
     if (err != REVLibError.kOk) {
       System.out.println(err);
@@ -177,10 +177,14 @@ public class Climber extends SubsystemBase {
     rotate2encoder.setPosition(0);
   }
 
+  public double getPositionDegrees() {
+    return Constants.Climber.rotationsToDegrees(rotate1encoder.getPosition());
+  }
+
   public void rotateToDegrees(Double degrees) {
     double setpoint = Constants.Climber.degreesToRotations(degrees);
     pidController.setReference(setpoint, ControlType.kPosition);
-    SmartDashboard.putNumber("Rotate Setpoint", setpoint);
+    SmartDashboard.putNumber("Rotate Setpoint", degrees);
   }
 
   public void setRotateSpeed(double speed) {
@@ -234,7 +238,7 @@ public class Climber extends SubsystemBase {
 
   public void periodic() {
     SmartDashboard.putNumber("Rotate Speed", climbRotate1.getAppliedOutput());
-    SmartDashboard.putNumber("Rotate Position", rotate1encoder.getPosition());
+    SmartDashboard.putNumber("Rotate Position", Constants.Climber.rotationsToDegrees(rotate1encoder.getPosition()));
 
     SmartDashboard.putString("Extend Position", state.ExtendState.toString());
     SmartDashboard.putString("Hook1 Position", state.Hook1State.toString());

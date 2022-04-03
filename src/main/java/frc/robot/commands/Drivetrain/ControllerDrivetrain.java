@@ -15,6 +15,8 @@ public class ControllerDrivetrain extends CommandBase {
   public ControllerDrivetrain(Drivetrain drivetrain, IO io) {
     m_drivetrain = drivetrain;
     m_io = io;
+
+    addRequirements(drivetrain);
   }
 
   @Override

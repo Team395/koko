@@ -64,6 +64,7 @@ public class Intake extends SubsystemBase {
     if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
       speed = 0;
     }
+    System.out.println(speed);
     intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
@@ -84,7 +85,9 @@ public class Intake extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("Arm Position", armEncoder.getPosition());
+    SmartDashboard.putString("Arm Position", currentPosition.toString());
+    // TODO: add
+    // SmartDashboard.putNumber("Arm Position Degrees", value)
     SmartDashboard.putNumber("Roller Speed", intakeRoller.getMotorOutputPercent());
     SmartDashboard.putNumber("Arm Speed", intakeArm.get());
   }

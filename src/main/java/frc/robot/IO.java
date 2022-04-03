@@ -1,9 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class IO {
+    // UsbCamera intakeCamera = CameraServer.startAutomaticCapture(0);
+    // UsbCamera climberCamera = CameraServer.startAutomaticCapture(1);
 
     XboxController driverController = new XboxController(0);
     XboxController operatorController = new XboxController(1);
@@ -28,18 +32,15 @@ public class IO {
 
 
     public double getDriverLeftTrigger() {
-        // TODO: why are we inverting the trigger value? they're bound to [0,+1] already
-        return -1 * driverController.getLeftTriggerAxis();
+        return driverController.getLeftTriggerAxis();
     }
 
     public double getDriverRightTrigger() {
-        // TODO: why are we inverting the trigger values? they're bound to [0,+1]
-        // already
-        return -1 * driverController.getRightTriggerAxis();
+        return driverController.getRightTriggerAxis();
     }
 
     public double getDriverLeftX() {
-        return -1 * driverController.getLeftX();
+        return driverController.getLeftX();
     }
 
     // Intake Testing
@@ -56,7 +57,7 @@ public class IO {
     }
 
     public JoystickButton getIntakeButton() {
-        return driverXboxBButton;
+        return driverXboxXButton;
     }
 
     public JoystickButton getOuttakeButton() {

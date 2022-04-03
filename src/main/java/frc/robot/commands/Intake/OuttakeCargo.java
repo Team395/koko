@@ -12,14 +12,21 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class OuttakeCargo extends CommandBase {
   public Intake intake;
-  private Timer timer = new Timer();
+  private Timer timer;
+  private double durationSeconds;
   private double startTime;
+
+  public OuttakeCargo(Intake intake, double durationSeconds) {
+    this.intake = intake;
+    this.durationSeconds = durationSeconds;
+
+    timer = new Timer();
+    timer.start();
+    startTime = timer.get();
+  }
 
   public OuttakeCargo(Intake intake) {
     this.intake = intake;
-
-    timer.start();
-    startTime = timer.get();
   }
 
   @Override
@@ -36,6 +43,6 @@ public class OuttakeCargo extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return timer.get() - startTime >= Constants.Intake.kOuttakeSeconds;
+    return timer != null ? timer.get() - startTime >= durationSeconds : false;
   }
 }

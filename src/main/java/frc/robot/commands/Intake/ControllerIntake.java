@@ -5,33 +5,33 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.IO;
 import frc.robot.enums.Intake.IntakePositions;
 import frc.robot.subsystems.Intake;
 
 public class ControllerIntake extends CommandBase {
   public Intake intake;
-  private IO io;
+  private JoystickButton intakeButton;
+  private JoystickButton outtakeButton;
 
   public ControllerIntake(IO io, Intake intake) {
-    this.io = io;
     this.intake = intake;
-
-    addRequirements(intake);
+    this.intakeButton = io.getIntakeButton();
+    this.outtakeButton = io.getOuttakeButton();
   }
 
   @Override
   public void initialize() {
     intake.setPosition(IntakePositions.UP);
     intake.setRollSpeed(0);
+
+    intakeButton.whenHeld(new IntakeCargo(intake), true);
+    outtakeButton.whenHeld(new OuttakeCargo(intake), true);
   }
 
   @Override
-  public void execute() {
-    intake.setPosition(io.getIntakeButton() ? IntakePositions.DOWN : IntakePositions.UP);
-    intake.setRollSpeed(Constants.Intake.kRollerIntakeSpeed);
-  }
+  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {

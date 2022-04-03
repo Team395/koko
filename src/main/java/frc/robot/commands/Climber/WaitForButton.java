@@ -19,6 +19,6 @@ public class WaitForButton extends CommandBase {
   
   @Override
   public boolean isFinished() {
-    return m_io.getButton(m_button);
+    return m_io.getButtonState(m_button);
   }
 }

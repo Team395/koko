@@ -91,22 +91,22 @@ public class RobotContainer {
 
     autoChooser.addOption("Drive +2 Balls", new SequentialCommandGroup(
       new DriveFeet(drivetrain, 5),
-      new OuttakeCargo(intake),
+      new OuttakeCargo(intake, Constants.Intake.kOuttakeSeconds),
       new DriveFeet(drivetrain, -3)
     ));
 
     autoChooser.addOption("Drive +3 Balls", new SequentialCommandGroup(
       new DriveFeet(drivetrain, 5),
-      new OuttakeCargo(intake),
+      new OuttakeCargo(intake, Constants.Intake.kOuttakeSeconds),
       new DriveFeet(drivetrain, -3),
       new TurnDegrees(drivetrain, 180),
       new ParallelCommandGroup(
         new DriveFeet(drivetrain, 2),
-        new IntakeCargo(intake)
+        new IntakeCargo(intake, Constants.Intake.kIntakeSeconds)
       ),
       new TurnDegrees(drivetrain, -180),
       new DriveFeet(drivetrain, 5),
-      new OuttakeCargo(intake)
+      new OuttakeCargo(intake, Constants.Intake.kOuttakeSeconds)
     ));
     
   }

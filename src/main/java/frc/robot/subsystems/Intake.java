@@ -27,7 +27,7 @@ public class Intake extends SubsystemBase {
   public RelativeEncoder armEncoder;
   public IO m_io;
 
-  public IntakePositions currentPosition = IntakePositions.UP;
+  public IntakePositions currentPosition = IntakePositions.UNSET;
 
   public Intake() {
     intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
@@ -69,6 +69,7 @@ public class Intake extends SubsystemBase {
 
   public void setPosition(IntakePositions position) {
     pidController.setReference(Constants.Intake.kMap.get(position), ControlType.kPosition);
+    currentPosition = position;
   }
 
   public void setMoveSpeed(double armSpeed) {

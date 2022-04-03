@@ -25,7 +25,7 @@ public class IO {
 
     public JoystickButton driverRightShoulderButton = new JoystickButton(driverController, 6);
     public JoystickButton driverLeftShoulderButton = new JoystickButton(driverController, 5);
-    
+
 
     public double getDriverLeftTrigger() {
         // TODO: why are we inverting the trigger value? they're bound to [0,+1] already
@@ -55,11 +55,15 @@ public class IO {
         return -1 * operatorController.getLeftY();
     }
 
-    public boolean getIntakeButton() {
-        return getButton(driverXboxBButton);
+    public JoystickButton getIntakeButton() {
+        return driverXboxBButton;
     }
 
-    public boolean getButton(JoystickButton button) {
+    public JoystickButton getOuttakeButton() {
+        return driverXboxBButton;
+    }
+
+    public boolean getButtonState(JoystickButton button) {
         return button.get();
     }
 }

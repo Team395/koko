@@ -1,7 +1,6 @@
 package frc.robot.subsystems.DrivetrainConfigurators;
 
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
@@ -28,7 +27,7 @@ public class DriveStraightConfigurator {
 		rightConfig.remoteFilter0.remoteSensorDeviceID = drivetrain.leftLeader.getDeviceID();
 		rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor;
 
-		setRobotDistanceConfigs(drivetrain.rightInvert, rightConfig);
+		setRobotDistanceConfigs(Constants.Drivetrain.kRightInvert, rightConfig);
 
 		// PIDF for distance
 		rightConfig.slot0.kP = Constants.Drivetrain.kGains_Distance.kP;
@@ -43,10 +42,7 @@ public class DriveStraightConfigurator {
 		rightConfig.remoteFilter1.remoteSensorDeviceID = drivetrain.pidgey.getDeviceID();
 		rightConfig.remoteFilter1.remoteSensorSource = RemoteSensorSource.Pigeon_Yaw;
 		rightConfig.auxiliaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.RemoteSensor1.toFeedbackDevice();
-		rightConfig.auxiliaryPID.selectedFeedbackCoefficient = 3600.0 / Constants.Drivetrain.kPigeonUnitsPerRotation; // convert
-		// yaw to
-		// tenths of
-		// a degree
+		rightConfig.auxiliaryPID.selectedFeedbackCoefficient = 3600.0 / Constants.Drivetrain.kPigeonUnitsPerRotation; // convert yaw to tenths of a degree
 
 		// PIDF for heading
 		rightConfig.slot1.kP = Constants.Drivetrain.kGains_Turning.kP;

@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.autonomous;
 
 import frc.robot.Constants;
@@ -12,9 +5,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainConfigurators.DriveStraightConfigurator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * An example command that uses an example subsystem.
- */
+
 public class DriveFeet extends CommandBase {
   private Drivetrain drivetrain;
   private double distanceInFeet;
@@ -31,7 +22,6 @@ public class DriveFeet extends CommandBase {
     addRequirements(drivetrain);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     _withinThresholdLoops = 0;
@@ -54,7 +44,6 @@ public class DriveFeet extends CommandBase {
     drivetrain.driveStraight(target_sensorUnits, target_turn);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     /* Check if closed loop error is within the threshld */
@@ -68,13 +57,11 @@ public class DriveFeet extends CommandBase {
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     drivetrain.tankDrive(0, 0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return (_withinThresholdLoops > 10);

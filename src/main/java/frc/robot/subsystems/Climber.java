@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.Climb.SetPosition;
+import frc.robot.commands.Climber.SetPosition;
 import frc.robot.enums.Climb.HookPositions;
 import frc.robot.enums.Climb.LockPositions;
 import frc.robot.enums.Climb.ExtendPositions;
@@ -180,7 +180,7 @@ public class Climber extends SubsystemBase {
   public void rotateToDegrees(Double degrees) {
     double setpoint = Constants.Climber.degreesToRotations(degrees);
     pidController.setReference(setpoint, ControlType.kPosition);
-    SmartDashboard.putNumber("Setpoint", setpoint);
+    SmartDashboard.putNumber("Rotate Setpoint", setpoint);
   }
 
   public void setRotateSpeed(double speed) {
@@ -193,7 +193,7 @@ public class Climber extends SubsystemBase {
 
     speed = sign * Math.min(Math.abs(speed), Constants.Climber.kRotateMaxSpeed);
 
-    // climbRotate1.set(speed);
+    climbRotate1.set(speed);
     // climbRotate2.set(-1 * speed);
   }
 
@@ -233,18 +233,8 @@ public class Climber extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("rotate 1 speed", climbRotate1.getAppliedOutput());
-    SmartDashboard.putNumber("rotate 2 speed", climbRotate2.getAppliedOutput());
-    SmartDashboard.putNumber("rotate 1 encoder", rotate1encoder.getPosition());
-    SmartDashboard.putNumber("rotate 2 encoder", rotate2encoder.getPosition());
-
-    SmartDashboard.putNumber("Set P Gain", pidController.getP());
-    SmartDashboard.putNumber("Set I Gain", pidController.getI());
-    SmartDashboard.putNumber("Set D Gain", pidController.getD());
-    SmartDashboard.putNumber("Set I Zone", pidController.getIZone());
-    SmartDashboard.putNumber("Set Feed Forward", pidController.getFF());
-    SmartDashboard.putNumber("Set Max Output", pidController.getOutputMax());
-    SmartDashboard.putNumber("Set Min Output", pidController.getOutputMin());
+    SmartDashboard.putNumber("Rotate Speed", climbRotate1.getAppliedOutput());
+    SmartDashboard.putNumber("Rotate Position", rotate1encoder.getPosition());
 
     SmartDashboard.putString("Extend Position", state.ExtendState.toString());
     SmartDashboard.putString("Hook1 Position", state.Hook1State.toString());
@@ -255,6 +245,5 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putString("Lock2 Position", state.Lock2State.toString());
   }
 
-  public void teleopPeriodic() {
-  }
+  public void teleopPeriodic() {}
 }

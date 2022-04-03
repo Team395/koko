@@ -20,7 +20,6 @@ import frc.robot.Constants;
 import frc.robot.IO;
 import frc.robot.enums.Intake.IntakePositions;
 
-/** Add your docs here. */
 public class Intake extends SubsystemBase {
   public VictorSPX intakeRoller;
   public CANSparkMax intakeArm;
@@ -59,25 +58,20 @@ public class Intake extends SubsystemBase {
 
   public void zeroEncoders() {
     armEncoder.setPosition(0);
-    System.out.println("Zero'd intake encoders.");
   }
 
-  public void roll(double speed) {
+  public void setRollSpeed(double speed) {
     if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
       speed = 0;
     }
     intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
-  public void moveUp() {
-    pidController.setReference(Constants.Intake.kUp, ControlType.kPosition);
+  public void setPosition(IntakePositions position) {
+    pidController.setReference(Constants.Intake.kMap.get(position), ControlType.kPosition);
   }
 
-  public void moveDown() {
-    pidController.setReference(Constants.Intake.kDown, ControlType.kPosition);
-  }
-
-  public void move(double armSpeed) {
+  public void setMoveSpeed(double armSpeed) {
     if (Math.abs(armSpeed) < Constants.IO.kJoystickDeadzone) {
       armSpeed = 0;
     }
@@ -89,20 +83,10 @@ public class Intake extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("Intake enabled", Constants.Intake.Enabled);
-    SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
-    SmartDashboard.putNumber("roller speed", intakeRoller.getMotorOutputPercent());
-    SmartDashboard.putNumber("arm speed", intakeArm.get());
-
-    SmartDashboard.putNumber("Set P Gain", pidController.getP());
-    SmartDashboard.putNumber("Set I Gain", pidController.getI());
-    SmartDashboard.putNumber("Set D Gain", pidController.getD());
-    SmartDashboard.putNumber("Set I Zone", pidController.getIZone());
-    SmartDashboard.putNumber("Set Feed Forward", pidController.getFF());
-    SmartDashboard.putNumber("Set Max Output", pidController.getOutputMax());
-    SmartDashboard.putNumber("Set Min Output", pidController.getOutputMin());
+    SmartDashboard.putNumber("Arm Position", armEncoder.getPosition());
+    SmartDashboard.putNumber("Roller Speed", intakeRoller.getMotorOutputPercent());
+    SmartDashboard.putNumber("Arm Speed", intakeArm.get());
   }
 
-  public void teleopPeriodic() {
-  }
+  public void teleopPeriodic() {}
 }

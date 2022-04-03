@@ -1,5 +1,5 @@
 
-package frc.robot.commands.Climb;
+package frc.robot.commands.Climber;
 
 public interface SetPositionCallable<P>{
   void set(P position);

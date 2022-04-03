@@ -7,10 +7,13 @@ package frc.robot;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.enums.Climb.HookPositions;
 import frc.robot.enums.Climb.LockPositions;
+import frc.robot.enums.Intake.IntakePositions;
 import frc.robot.enums.Climb.ExtendPositions;
 
 /**
@@ -38,15 +41,18 @@ public final class Constants {
         // Direction
         public static final double drivetrainForward = -1;
         public static final double drivetrainBackward = 1;
-        public static final boolean Enabled = false;
+
+        public static final TalonFXInvertType kLeftInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
+        public static final TalonFXInvertType kRightInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
 
         public static final int kLeftLeaderFalconID = 1;
         public static final int kLeftFollowerFalconID = 3;
         public static final int kRightLeaderFalconID = 2;
         public static final int kRightFollowerFalconID = 4;
 
-        public static final int kMinimumSpeed = 0;
-        public static final double kTurnClamp = 0.5;
+        public static final int kMinSpeed = 0;
+        public static final double kMaxTurn = 0.5;
+        public static final double kMaxSpeed = 0.5;
         public final static double kTurnAcceptableErrorDegrees = 0.5;
 
         /**
@@ -101,11 +107,20 @@ public final class Constants {
         public static final int kArmSparkMaxID = 8;
         public static final double kArmMaxSpeed = 0.8;
         public static final double kRollerMaxSpeed = 0.5;
+        public static final double kRollerIntakeSpeed = Math.min(0.4, kRollerMaxSpeed);
+        public static final double kRollerOuttakeSpeed = kRollerIntakeSpeed;
+        public static final double kOuttakeSeconds = 5;
+        public static final double kIntakeSeconds = 5;
 
         public final static Gains kGains = new Gains(0.1, 0.0, 10.0, 0.0, 0, 0.50);
 
         public final static double kUp = 0;
         public final static double kDown = 19;
+
+        public final static Map<IntakePositions, Double> kMap  = new HashMap<IntakePositions, Double>() {{
+            put(IntakePositions.UP, kUp);
+            put(IntakePositions.DOWN, kDown);
+        }};
     }
 
     public static final class Climber {

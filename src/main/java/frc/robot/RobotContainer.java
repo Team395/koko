@@ -83,10 +83,12 @@ public class RobotContainer {
   }
 
   private void configureClimberBindings() {
-    io.operatorXboxYButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kMidDegrees), climber));
-    io.operatorXboxBButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kHighDegrees), climber));
-    io.operatorXboxAButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kTraversalDegrees), climber));
-    io.operatorXboxXButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kRestDegrees), climber));
+    // io.operatorXboxYButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kMidDegrees), climber));
+    // io.operatorXboxBButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kHighDegrees), climber));
+    // io.operatorXboxAButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kTraversalDegrees), climber));
+    // io.operatorXboxXButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kRestDegrees), climber));
+
+    // io.driverXboxBButton.whenPressed(new ClimbSequence(climber, io));
   }
 
   private void configureIntakeBindings() {

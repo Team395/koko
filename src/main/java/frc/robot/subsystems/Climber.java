@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
@@ -11,23 +14,42 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.Climb.SetPosition;
 import frc.robot.enums.Climb.HookPositions;
 import frc.robot.enums.Climb.LockPositions;
 import frc.robot.enums.Climb.ExtendPositions;
 
-class ClimberState { // TODO: implement Sendable
-  public HookPositions Hook1State;
-  public HookPositions Hook2State;
-  public HookPositions Hook3State;
-  public HookPositions Hook4State;
-  public LockPositions Lock1State;
-  public LockPositions Lock2State;
-  public ExtendPositions ExtendState;
+class ClimberState implements Sendable { 
+  public HookPositions Hook1State = HookPositions.UNSET;
+  public HookPositions Hook2State = HookPositions.UNSET;
+  public HookPositions Hook3State = HookPositions.UNSET;
+  public HookPositions Hook4State = HookPositions.UNSET;
+  public LockPositions Lock1State = LockPositions.UNSET;
+  public LockPositions Lock2State = LockPositions.UNSET;
+  public ExtendPositions ExtendState = ExtendPositions.UNSET;
+
+  Climber climber;
+
+  ClimberState(Climber climber) {
+    this.climber = climber;
+  }
+
+  public void initSendable(SendableBuilder builder) {
+    builder.addStringProperty("Hook 1", () -> Hook1State.toString(), (s) -> {});
+    builder.addStringProperty("Hook 2", () -> Hook2State.toString(), (s) -> {});
+    builder.addStringProperty("Hook 3", () -> Hook3State.toString(), (s) -> {});
+    builder.addStringProperty("Hook 4", () -> Hook4State.toString(), (s) -> {});
+    builder.addStringProperty("Lock 1", () -> Lock1State.toString(), (s) -> {});
+    builder.addStringProperty("Lock 2", () -> Lock2State.toString(), (s) -> {});
+    builder.addStringProperty("Extend", () -> ExtendState.toString(), (s) -> {});
+  }
 }
 
 /** Add your docs here. */
@@ -48,7 +70,7 @@ public class Climber extends SubsystemBase {
   DoubleSolenoid lock2;
   DoubleSolenoid extend;
 
-  ClimberState state = new ClimberState();
+  ClimberState state = new ClimberState(this);
 
   public Climber() {
     hook1 = new DoubleSolenoid(
@@ -76,17 +98,17 @@ public class Climber extends SubsystemBase {
         Constants.Climber.kLock1.pcmId,
         PneumaticsModuleType.CTREPCM,
         Constants.Climber.kLock1.forwardChannel,
-        Constants.Climber.kLock1.forwardChannel);
+        Constants.Climber.kLock1.reverseChannel);
     lock2 = new DoubleSolenoid(
         Constants.Climber.kLock2.pcmId,
         PneumaticsModuleType.CTREPCM,
         Constants.Climber.kLock2.forwardChannel,
-        Constants.Climber.kLock2.forwardChannel);
+        Constants.Climber.kLock2.reverseChannel);
     extend = new DoubleSolenoid(
-        Constants.Climber.kRaise.pcmId,
+        Constants.Climber.kExtend.pcmId,
         PneumaticsModuleType.CTREPCM,
-        Constants.Climber.kRaise.forwardChannel,
-        Constants.Climber.kRaise.reverseChannel);
+        Constants.Climber.kExtend.forwardChannel,
+        Constants.Climber.kExtend.reverseChannel);
 
     climbRotate1 = new CANSparkMax(Constants.Climber.kRotateLeaderSparkMaxID, MotorType.kBrushless);
     climbRotate2 = new CANSparkMax(Constants.Climber.kRotateFollowerSparkMaxID, MotorType.kBrushless);
@@ -117,18 +139,37 @@ public class Climber extends SubsystemBase {
     pidController.setOutputRange(-1 * Constants.Climber.kGainsUnloaded.kPeakOutput,
         Constants.Climber.kGainsUnloaded.kPeakOutput);
 
-    hook2.set(Constants.Climber.Hook.kClose);
-    hook1.set(Constants.Climber.Hook.kClose);
-    hook3.set(Constants.Climber.Hook.kClose);
-    hook4.set(Constants.Climber.Hook.kClose);
+    setHook1(HookPositions.CLOSE);
+    setHook2(HookPositions.CLOSE);
+    setHook3(HookPositions.CLOSE);
+    setHook4(HookPositions.CLOSE);
 
-    lock1.set(Constants.Climber.Lock.kLock);
-    lock2.set(Constants.Climber.Lock.kLock);
+    ScheduledThreadPoolExecutor lockAfterDelay = new ScheduledThreadPoolExecutor(1);
+    lockAfterDelay.schedule(() -> {
+      setLock1(LockPositions.LOCK);
+      setLock2(LockPositions.LOCK);
+    }, 2, TimeUnit.SECONDS);
 
-    extend.set(Constants.Climber.Extend.kLower);
+    setExtend(ExtendPositions.LOWER);
 
     climbRotate1.burnFlash();
     climbRotate2.burnFlash();
+
+    SmartDashboard.putData("Climber State", state);
+
+    SmartDashboard.putData("Lock L1", new SetPosition<LockPositions>(this::setLock1, LockPositions.LOCK));
+    SmartDashboard.putData("Unlock L1", new SetPosition<LockPositions>(this::setLock1, LockPositions.UNLOCK));
+    SmartDashboard.putData("Lock L2", new SetPosition<LockPositions>(this::setLock2, LockPositions.LOCK));
+    SmartDashboard.putData("Unlock L2", new SetPosition<LockPositions>(this::setLock2, LockPositions.UNLOCK));
+
+    SmartDashboard.putData("Open H1", new SetPosition<HookPositions>(this::setHook1, HookPositions.OPEN));
+    SmartDashboard.putData("Close H1", new SetPosition<HookPositions>(this::setHook1, HookPositions.CLOSE));
+    SmartDashboard.putData("Open H2", new SetPosition<HookPositions>(this::setHook2, HookPositions.OPEN));
+    SmartDashboard.putData("Close H2", new SetPosition<HookPositions>(this::setHook2, HookPositions.CLOSE));
+    SmartDashboard.putData("Open H3", new SetPosition<HookPositions>(this::setHook3, HookPositions.OPEN));
+    SmartDashboard.putData("Close H3", new SetPosition<HookPositions>(this::setHook3, HookPositions.CLOSE));
+    SmartDashboard.putData("Open H4", new SetPosition<HookPositions>(this::setHook4, HookPositions.OPEN));
+    SmartDashboard.putData("Close H4", new SetPosition<HookPositions>(this::setHook4, HookPositions.CLOSE));
   }
 
   public void zeroEncoders() {
@@ -191,7 +232,6 @@ public class Climber extends SubsystemBase {
     state.ExtendState = position;
   }
 
-
   public void periodic() {
     SmartDashboard.putNumber("rotate 1 speed", climbRotate1.getAppliedOutput());
     SmartDashboard.putNumber("rotate 2 speed", climbRotate2.getAppliedOutput());
@@ -205,6 +245,14 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putNumber("Set Feed Forward", pidController.getFF());
     SmartDashboard.putNumber("Set Max Output", pidController.getOutputMax());
     SmartDashboard.putNumber("Set Min Output", pidController.getOutputMin());
+
+    SmartDashboard.putString("Extend Position", state.ExtendState.toString());
+    SmartDashboard.putString("Hook1 Position", state.Hook1State.toString());
+    SmartDashboard.putString("Hook2 Position", state.Hook2State.toString());
+    SmartDashboard.putString("Hook3 Position", state.Hook3State.toString());
+    SmartDashboard.putString("Hook4 Position", state.Hook4State.toString());
+    SmartDashboard.putString("Lock1 Position", state.Lock1State.toString());
+    SmartDashboard.putString("Lock2 Position", state.Lock2State.toString());
   }
 
   public void teleopPeriodic() {

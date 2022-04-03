@@ -6,5 +6,6 @@ package frc.robot.enums.Climb;
 
 public enum HookPositions {
     OPEN,
-    CLOSE
+    CLOSE,
+    UNSET
 }

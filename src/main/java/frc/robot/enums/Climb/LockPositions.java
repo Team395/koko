@@ -6,5 +6,6 @@ package frc.robot.enums.Climb;
 
 public enum LockPositions {
     LOCK,
-    UNLOCK
+    UNLOCK,
+    UNSET
 }

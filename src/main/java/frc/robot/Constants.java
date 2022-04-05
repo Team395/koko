@@ -127,17 +127,19 @@ public final class Constants {
         public static final boolean Enabled = false;
 
         public static final int kRotateLeaderSparkMaxID = 5;
-        public static final int kRotateFollowerSparkMaxID = 6;
+        public static final int kRotateFollowerSparkMaxID = 11;
         public static final double kRotateMaxSpeed = 0.5;
 
-        public final static Gains kGainsUnloaded = new Gains(0.4, 0.0, 0.0, 0.0, 0, 0.1);
+        public final static Gains kGainsLoaded = new Gains(0.9, 0.0, 0.0, 0.0, 0, 0.75);
+        public final static Gains kGainsUnloaded = new Gains(0.4, 0.0, 0.0, 0.0, 0, 0.5);
         public final static double kDegreesToRotations = 150d / 360d; // rotations/degrees
         public final static double kRotationsToDegrees = 1 / kDegreesToRotations;
+        // TODO: may need to increase threshold for climbing, had set to 5 when testing
         public final static double kRotateAcceptableErrorDegrees = 0.5;
         public final static double kLockWaitSeconds = 0.1;
 
         public final static double kMidDegrees = 0;
-        public final static double kHighDegrees = kMidDegrees + 140;
+        public final static double kHighDegrees = kMidDegrees + 160;
         public final static double kHalfRestDegrees = kHighDegrees + (180 - kHighDegrees % 180);
         public final static double kTraversalDegrees = kHighDegrees + 180;
         // TODO: figure out why consistently undershooting full revolution

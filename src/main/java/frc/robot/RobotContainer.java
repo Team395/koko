@@ -86,7 +86,7 @@ public class RobotContainer {
   public void enableClimber() {
     if (isClimberEnabled) { return; }
 
-    climber = new Climber();
+    climber = new Climber(io);
     configureClimberBindings();
 
     SmartDashboard.putData("Zero Climber", new ZeroClimber(climber));
@@ -132,10 +132,10 @@ public class RobotContainer {
     // io.driverXboxAButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kTraversalDegrees), climber));
     // io.driverXboxXButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kRestDegrees), climber));
 
-    io.driverXboxXButton.whenPressed(new ClimbSequence(climber, io));
+    io.driverXboxYButton.whenPressed(new ClimbSequence(climber, io));
 
-    io.driverLeftShoulderButton.whenPressed(new InstantCommand(() -> climber.setExtend(ExtendPositions.RAISE), climber));
-    io.driverLeftShoulderButton.whenReleased(new InstantCommand(() -> climber.setExtend(ExtendPositions.LOWER), climber));
+    // io.driverLeftShoulderButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(climber.getPositionDegrees() + 5), climber));
+    // io.driverRightShoulderButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(climber.getPositionDegrees() - 5), climber));
   }
 
   private void configureIntakeBindings() {

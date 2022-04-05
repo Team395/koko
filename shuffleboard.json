@@ -289,7 +289,7 @@
                 "1,0": {
                   "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Arm Position",
-                  "_title": "Arm Position"
+                  "_title": "/SmartDashboard/Arm Position"
                 },
                 "0,1": {
                   "_type": "Simple Dial",
@@ -308,6 +308,28 @@
                   "Visuals/Show value": true
                 }
               }
+            }
+          },
+          "4,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Raise Climber",
+              "_title": "Raise Climber"
+            }
+          },
+          "6,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Lower Climber",
+              "_title": "Lover Climber"
             }
           }
         }

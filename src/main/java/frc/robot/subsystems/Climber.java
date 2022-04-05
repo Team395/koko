@@ -12,6 +12,7 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.util.sendable.Sendable;
@@ -19,8 +20,10 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.IO;
 import frc.robot.commands.Climber.SetPosition;
 import frc.robot.enums.Climb.HookPositions;
 import frc.robot.enums.Climb.LockPositions;
@@ -72,7 +75,11 @@ public class Climber extends SubsystemBase {
 
   ClimberState state = new ClimberState(this);
 
-  public Climber() {
+  IO io;
+
+  public Climber(IO io) {
+    this.io = io;
+
     hook1 = new DoubleSolenoid(
         Constants.Climber.kHook1.pcmId,
         PneumaticsModuleType.CTREPCM,
@@ -122,6 +129,9 @@ public class Climber extends SubsystemBase {
       System.out.println(err);
     }
 
+    climbRotate1.setIdleMode(IdleMode.kBrake);
+    climbRotate2.setIdleMode(IdleMode.kBrake);
+
     climbRotate1.set(0);
 
     rotate1encoder = climbRotate1.getEncoder();
@@ -131,13 +141,13 @@ public class Climber extends SubsystemBase {
     rotate1encoder.setPosition(0);
     rotate2encoder.setPosition(0);
 
-    pidController.setP(Constants.Climber.kGainsUnloaded.kP);
-    pidController.setI(Constants.Climber.kGainsUnloaded.kI);
-    pidController.setD(Constants.Climber.kGainsUnloaded.kD);
-    pidController.setIZone(Constants.Climber.kGainsUnloaded.kIzone);
-    pidController.setFF(Constants.Climber.kGainsUnloaded.kF);
-    pidController.setOutputRange(-1 * Constants.Climber.kGainsUnloaded.kPeakOutput,
-        Constants.Climber.kGainsUnloaded.kPeakOutput);
+    pidController.setP(Constants.Climber.kGainsLoaded.kP);
+    pidController.setI(Constants.Climber.kGainsLoaded.kI);
+    pidController.setD(Constants.Climber.kGainsLoaded.kD);
+    pidController.setIZone(Constants.Climber.kGainsLoaded.kIzone);
+    pidController.setFF(Constants.Climber.kGainsLoaded.kF);
+    pidController.setOutputRange(-1 * Constants.Climber.kGainsLoaded.kPeakOutput,
+        Constants.Climber.kGainsLoaded.kPeakOutput);
 
     setHook1(HookPositions.CLOSE);
     setHook2(HookPositions.CLOSE);
@@ -170,6 +180,11 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putData("Close H3", new SetPosition<HookPositions>(this::setHook3, HookPositions.CLOSE));
     SmartDashboard.putData("Open H4", new SetPosition<HookPositions>(this::setHook4, HookPositions.OPEN));
     SmartDashboard.putData("Close H4", new SetPosition<HookPositions>(this::setHook4, HookPositions.CLOSE));
+
+    SmartDashboard.putData("Raise Climber", new SetPosition<ExtendPositions>(this::setExtend, ExtendPositions.RAISE));
+    SmartDashboard.putData("Lower Climber", new SetPosition<ExtendPositions>(this::setExtend, ExtendPositions.LOWER));
+
+    SmartDashboard.putData("Wind", new InstantCommand(() -> rotateToDegrees(0.0), this));
   }
 
   public void zeroEncoders() {
@@ -198,7 +213,6 @@ public class Climber extends SubsystemBase {
     speed = sign * Math.min(Math.abs(speed), Constants.Climber.kRotateMaxSpeed);
 
     climbRotate1.set(speed);
-    // climbRotate2.set(-1 * speed);
   }
 
   public void setHook1(HookPositions position) {

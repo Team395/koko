@@ -48,17 +48,22 @@ public class ClimbSequence extends SequentialCommandGroup {
       //   / \   (L2)
       // (3) (4)
 
-      new WaitForButton(io.driverXboxAButton, io),
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setHook1(HookPositions.CLOSE), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setLock1(LockPositions.LOCK), climber),
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
+      new InstantCommand(() -> climber.setExtend(ExtendPositions.LOWER), climber),
 
       // (1) (2)
       //   \ /   (L1)
       //    |
       //   / \   (L2)
       // (3) (4)
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setLock2(LockPositions.UNLOCK), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
@@ -70,6 +75,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //   / \    U2
       //  3  (4)
 
+      new WaitForButton(io.driverXboxAButton, io, climber),
+
       new RotateToDegrees(climber, Constants.Climber.kHighDegrees),
 
       //          3
@@ -77,6 +84,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //         \
       //         / ‾‾ (1)  (L1)
       //      (2)
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setHook3(HookPositions.CLOSE), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
@@ -87,6 +96,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //         \
       //         / ‾‾ (1)  (L1)
       //      (2)
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setLock1(LockPositions.UNLOCK), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
@@ -99,6 +110,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //         / ‾‾ 1     U1
       //       2
 
+      new WaitForButton(io.driverXboxAButton, io, climber),
+
       new RotateToDegrees(climber, Constants.Climber.kHalfRestDegrees),
 
       // (4) (3)
@@ -106,6 +119,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //    |
       //   / \    U1
       //  2   1
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setHook1(HookPositions.CLOSE), climber),
 
@@ -115,6 +130,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //   / \    U1
       //  2  (1)
 
+      new WaitForButton(io.driverXboxAButton, io, climber),
+
       new RotateToDegrees(climber, Constants.Climber.kTraversalDegrees),
 
       //          2
@@ -122,6 +139,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //         \
       //         / ‾‾ (4)  (L2)
       //      (3)
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setHook2(HookPositions.CLOSE), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
@@ -132,6 +151,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //         \
       //         / ‾‾ (4)  (L2)
       //      (3)
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setLock2(LockPositions.UNLOCK), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
@@ -144,6 +165,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //         / ‾‾ 4     U2
       //       3
 
+      new WaitForButton(io.driverXboxAButton, io, climber),
+
       new RotateToDegrees(climber, Constants.Climber.kRestDegrees),
 
       // (1) (2)
@@ -151,6 +174,8 @@ public class ClimbSequence extends SequentialCommandGroup {
       //    |
       //   / \    U2
       //  3   4
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
 
       new InstantCommand(() -> climber.setHook4(HookPositions.CLOSE), climber),
       new InstantCommand(() -> climber.setHook3(HookPositions.CLOSE), climber),

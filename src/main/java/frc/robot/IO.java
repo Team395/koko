@@ -43,7 +43,10 @@ public class IO {
         return driverController.getLeftX();
     }
 
-    // Intake Testing
+    public double getDriverRightX() {
+        return driverController.getRightX();
+    }
+
     public double getOperatorLeftTrigger() {
         return operatorController.getLeftTriggerAxis();
     }

@@ -15,6 +15,7 @@ public class ZeroClimber extends CommandBase {
     @Override
     public void execute() {
         climber.zeroEncoders();
+        climber.rotateToDegrees(0.0);
     }
 
     @Override

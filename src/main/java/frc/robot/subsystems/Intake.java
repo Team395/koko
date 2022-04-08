@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -14,6 +15,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,7 +23,7 @@ import frc.robot.IO;
 import frc.robot.enums.Intake.IntakePositions;
 
 public class Intake extends SubsystemBase {
-  public VictorSPX intakeRoller;
+  public TalonSRX intakeRoller;
   public CANSparkMax intakeArm;
   public SparkMaxPIDController pidController;
   public RelativeEncoder armEncoder;
@@ -30,8 +32,11 @@ public class Intake extends SubsystemBase {
   public IntakePositions currentPosition = IntakePositions.UNSET;
 
   public Intake() {
-    intakeRoller = new VictorSPX(Constants.Intake.kRollerSpxID);
+    intakeRoller = new TalonSRX(Constants.Intake.kRollerSrxID);
     intakeRoller.setNeutralMode(NeutralMode.Brake);
+    intakeRoller.configPeakCurrentLimit(20);
+    intakeRoller.configPeakCurrentDuration(3000);
+    intakeRoller.enableCurrentLimit(true);
 
     intakeArm = new CANSparkMax(Constants.Intake.kArmSparkMaxID, MotorType.kBrushless);
     intakeArm.restoreFactoryDefaults();
@@ -64,7 +69,8 @@ public class Intake extends SubsystemBase {
     if (Math.abs(speed) < Constants.IO.kJoystickDeadzone) {
       speed = 0;
     }
-    System.out.println(speed);
+    speed = MathUtil.clamp(speed, -1 * Constants.Intake.kRollerMaxSpeed, Constants.Intake.kRollerMaxSpeed);
+
     intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
@@ -86,10 +92,12 @@ public class Intake extends SubsystemBase {
 
   public void periodic() {
     SmartDashboard.putString("Arm Position", currentPosition.toString());
-    // TODO: add
-    // SmartDashboard.putNumber("Arm Position Degrees", value)
+    SmartDashboard.putNumber("Arm Position Degrees", armEncoder.getPosition());
     SmartDashboard.putNumber("Roller Speed", intakeRoller.getMotorOutputPercent());
     SmartDashboard.putNumber("Arm Speed", intakeArm.get());
+
+    SmartDashboard.putNumber("Roller Amps", intakeRoller.getStatorCurrent());
+    SmartDashboard.putNumber("Roller supply Amps", intakeRoller.getSupplyCurrent());
   }
 
   public void teleopPeriodic() {}

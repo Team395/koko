@@ -55,20 +55,18 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
-    // Clamp speeds between min and max
-    leftSpeed = Math.signum(leftSpeed) > 0
-      ? MathUtil.clamp(leftSpeed, Constants.Drivetrain.kMinSpeed, Constants.Drivetrain.kMaxSpeed)
-      : MathUtil.clamp(leftSpeed, -1 * Constants.Drivetrain.kMaxSpeed, -1 * Constants.Drivetrain.kMinSpeed); 
-    rightSpeed = Math.signum(rightSpeed) > 0
-      ? MathUtil.clamp(rightSpeed, Constants.Drivetrain.kMinSpeed, Constants.Drivetrain.kMaxSpeed)
-      : MathUtil.clamp(rightSpeed, -1 * Constants.Drivetrain.kMaxSpeed, -1 * Constants.Drivetrain.kMinSpeed); 
-
     leftLeader.set(TalonFXControlMode.PercentOutput, leftSpeed);
     rightLeader.set(TalonFXControlMode.PercentOutput, rightSpeed);
   }
 
   public void arcadeDrive(double speed, double turn) {
     turn = MathUtil.clamp(turn, -1 * Constants.Drivetrain.kMaxTurn, Constants.Drivetrain.kMaxTurn);
+
+    // Clamp speed between min and max
+    speed = Math.signum(speed) > 0
+      ? MathUtil.clamp(speed, Constants.Drivetrain.kMinSpeed, Constants.Drivetrain.kMaxSpeed)
+      : MathUtil.clamp(speed, -1 * Constants.Drivetrain.kMaxSpeed, -1 * Constants.Drivetrain.kMinSpeed); 
+
     tankDrive(speed + turn, speed - turn);
   }
 
@@ -79,7 +77,7 @@ public class Drivetrain extends SubsystemBase {
     } else {
       // Scale turn to account for deadzone
       turn = (turn - Math.signum(turn) * Constants.IO.kJoystickDeadzone) 
-        / (Constants.Drivetrain.kMaxSpeed - Constants.IO.kJoystickDeadzone);
+        / (1 - Constants.IO.kJoystickDeadzone);
       
       // Clamp turn to maximum values
       turn = MathUtil.clamp(turn, -1 * Constants.Drivetrain.kMaxTurn, Constants.Drivetrain.kMaxTurn);
@@ -90,6 +88,18 @@ public class Drivetrain extends SubsystemBase {
 
     double left = rightTrigger - leftTrigger;
     double right = rightTrigger - leftTrigger;
+
+    // Account for mechanical bias
+    left = left * Constants.Drivetrain.kLeftScale;
+    right = right * Constants.Drivetrain.kRightScale;
+
+    // Clamp speeds between min and max
+    left = Math.signum(left) > 0
+      ? MathUtil.clamp(left, Constants.Drivetrain.kMinSpeed, Constants.Drivetrain.kMaxSpeed)
+      : MathUtil.clamp(left, -1 * Constants.Drivetrain.kMaxSpeed, -1 * Constants.Drivetrain.kMinSpeed); 
+    right = Math.signum(right) > 0
+      ? MathUtil.clamp(right, Constants.Drivetrain.kMinSpeed, Constants.Drivetrain.kMaxSpeed)
+      : MathUtil.clamp(right, -1 * Constants.Drivetrain.kMaxSpeed, -1 * Constants.Drivetrain.kMinSpeed); 
 
     tankDrive(left + turn, right - turn);
   }
@@ -151,25 +161,23 @@ public class Drivetrain extends SubsystemBase {
   public double getHeading() {
     var pidgeyArray = new double[3];
     pidgey.getYawPitchRoll(pidgeyArray);
-    SmartDashboard.putNumber("pidgey yaw", pidgeyArray[0]);
     return pidgeyArray[0] * (Constants.Drivetrain.kGyroReversed ? -1 : 1);
   }
 
   public void periodic() {
     SmartDashboard.putNumber("left Leader speed", leftLeader.getMotorOutputPercent());
     SmartDashboard.putNumber("right Leader speed", rightLeader.getMotorOutputPercent());
-    SmartDashboard.putNumber("leftSensor", leftLeader.getSelectedSensorPosition());
-    SmartDashboard.putNumber("rightSensor", rightLeader.getSelectedSensorPosition());
-    SmartDashboard.putNumber("rightPrimary", rightLeader.getSelectedSensorPosition(0));
-    SmartDashboard.putNumber("rightAux", rightLeader.getSelectedSensorPosition(1));
-    SmartDashboard.putNumber("leftPrimary", leftLeader.getSelectedSensorPosition(0));
-    SmartDashboard.putNumber("leftAux", leftFollower.getSelectedSensorPosition(1));
-    SmartDashboard.putNumber("closedLoopTarget", rightLeader.getClosedLoopTarget());
-    SmartDashboard.putNumber("closedLoopError", rightLeader.getClosedLoopError());
-    SmartDashboard.putNumber("pidgey", rightLeader.getSelectedSensorPosition(1));
+    // SmartDashboard.putNumber("leftSensor", leftLeader.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("rightSensor", rightLeader.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("rightPrimary", rightLeader.getSelectedSensorPosition(0));
+    // SmartDashboard.putNumber("rightAux", rightLeader.getSelectedSensorPosition(1));
+    // SmartDashboard.putNumber("leftPrimary", leftLeader.getSelectedSensorPosition(0));
+    // SmartDashboard.putNumber("leftAux", leftFollower.getSelectedSensorPosition(1));
+    // SmartDashboard.putNumber("closedLoopTarget", rightLeader.getClosedLoopTarget());
+    // SmartDashboard.putNumber("closedLoopError", rightLeader.getClosedLoopError());
     var pidgeyArray = new double[3];
-    pidgey.getAccumGyro(pidgeyArray);
-    SmartDashboard.putNumber("pidgeyDirect", pidgeyArray[0]);
+    pidgey.getYawPitchRoll(pidgeyArray);
+    SmartDashboard.putNumber("pidgeyDirect", pidgeyArray[0] * (Constants.Drivetrain.kGyroReversed ? -1 : 1));
   }
 
   public void teleopPeriodic() {

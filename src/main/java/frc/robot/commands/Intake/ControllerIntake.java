@@ -4,8 +4,11 @@
 
 package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
 import frc.robot.IO;
 import frc.robot.enums.Intake.IntakePositions;
 import frc.robot.subsystems.Intake;
@@ -14,9 +17,11 @@ public class ControllerIntake extends CommandBase {
   public Intake intake;
   private JoystickButton intakeButton;
   private JoystickButton outtakeButton;
+  private IO io;
 
   public ControllerIntake(IO io, Intake intake) {
     this.intake = intake;
+    this.io = io;
     this.intakeButton = io.getIntakeButton();
     this.outtakeButton = io.getOuttakeButton();
 
@@ -32,6 +37,9 @@ public class ControllerIntake extends CommandBase {
 
     intakeButton.whenHeld(new IntakeCargo(intake), true);
     outtakeButton.whenHeld(new OuttakeCargo(intake), true);
+
+    io.driverXBoxLinesButton.whenHeld(new InstantCommand(() -> intake.setRollSpeed(Constants.Intake.kRollerIntakeSpeed)));
+    io.driverXBoxLinesButton.whenReleased(new InstantCommand(() -> intake.setRollSpeed(0)));
   }
 
   @Override
@@ -41,6 +49,7 @@ public class ControllerIntake extends CommandBase {
   public void end(boolean interrupted) {
     intake.setPosition(IntakePositions.UP);
     intake.setRollSpeed(0);
+
   }
 
   @Override

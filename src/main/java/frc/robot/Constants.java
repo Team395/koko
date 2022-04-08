@@ -34,13 +34,17 @@ public final class Constants {
     public static final int kTimeoutMs = 30;
 
     public static final class IO {
-        public static final double kJoystickDeadzone = 0.15;
+        public static final double kJoystickDeadzone = 0.1;
     }
 
     public static final class Drivetrain {
         // Direction
-        public static final double drivetrainForward = -1;
-        public static final double drivetrainBackward = 1;
+        public static final double drivetrainForward = 1;
+        public static final double drivetrainBackward = -1;
+
+        // Mechanical bias correction
+        public static final double kRightScale = 1.025;
+        public static final double kLeftScale = 2.0 - kRightScale;
 
         public static final TalonFXInvertType kLeftInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "true"
         public static final TalonFXInvertType kRightInvert = TalonFXInvertType.Clockwise; // Same as invert = "false"
@@ -51,7 +55,7 @@ public final class Constants {
         public static final int kRightFollowerFalconID = 4;
 
         public static final int kMinSpeed = 0;
-        public static final double kMaxTurn = 0.5;
+        public static final double kMaxTurn = 0.75;
         public static final double kMaxSpeed = 0.5;
         public final static double kTurnAcceptableErrorDegrees = 0.5;
 
@@ -63,15 +67,15 @@ public final class Constants {
          */
         public final static int kSensorUnitsPerRotation = 2048;
 
-        public static final int pidgeyCanId = 0; // TODO: fix
+        public static final int pidgeyCanId = 0;
         // This is a property of the Pigeon IMU, and should not be changed.
         public final static int kPigeonUnitsPerRotation = 8192;
-        public final static boolean kGyroReversed = false;
+        public final static boolean kGyroReversed = true;
 
         // Motor neutral dead-band, set to the minimum 0.1%.
         public final static double kNeutralDeadband = 0.001;
 
-        public final static double kMotorRotationsPerWheelRotation = 20.8333;
+        public final static double kMotorRotationsPerWheelRotation = 17.86;
         public final static double kInchesPerFoot = 12.0;
         public final static double kRotationsPerInch = 1 / (2 * Math.PI * 3);
         public final static double kSensorUnitsPerFoot = Constants.Drivetrain.kInchesPerFoot
@@ -90,7 +94,7 @@ public final class Constants {
          */
         public final static Gains kGains_Distance = new Gains(0.1, 0.0, 0.0, 0.0, 100, 0.50);
         public final static Gains kGains_Turning = new Gains(2.0, 0.0, 4.0, 0.0, 200, 1.00);
-        private final static double kGains_Pigeon_kP = 0.025;
+        private final static double kGains_Pigeon_kP = 0.04;
         public final static Gains kGains_Pigeon = new Gains(
                 kGains_Pigeon_kP,
                 0.0,
@@ -103,19 +107,19 @@ public final class Constants {
     public static final class Intake {
         public static final boolean Enabled = true;
 
-        public static final int kRollerSpxID = 5;
+        public static final int kRollerSrxID = 7;
         public static final int kArmSparkMaxID = 8;
         public static final double kArmMaxSpeed = 0.8;
         public static final double kRollerMaxSpeed = 1.0;
-        public static final double kRollerIntakeSpeed = Math.min(1.0, kRollerMaxSpeed);
-        public static final double kRollerOuttakeSpeed = kRollerIntakeSpeed;
+        public static final double kRollerIntakeSpeed = 0.85;
+        public static final double kRollerOuttakeSpeed = -1 * 1.0;
         public static final double kOuttakeSeconds = 5;
         public static final double kIntakeSeconds = 5;
 
         public final static Gains kGains = new Gains(0.1, 0.0, 10.0, 0.0, 0, 0.50);
 
-        public final static double kUp = 0;
-        public final static double kDown = 19;
+        public final static double kUp = -1;
+        public final static double kDown = 22; 
 
         public final static Map<IntakePositions, Double> kMap  = new HashMap<IntakePositions, Double>() {{
             put(IntakePositions.UP, kUp);
@@ -128,18 +132,19 @@ public final class Constants {
 
         public static final int kRotateLeaderSparkMaxID = 5;
         public static final int kRotateFollowerSparkMaxID = 11;
+        // public static final int kSpareSParkMaxID = 6;
         public static final double kRotateMaxSpeed = 0.5;
 
-        public final static Gains kGainsLoaded = new Gains(0.9, 0.0, 0.0, 0.0, 0, 0.75);
+        public final static Gains kGainsLoaded = new Gains(1.4, 0.0, 0.0, 0.0, 0, 0.75);
         public final static Gains kGainsUnloaded = new Gains(0.4, 0.0, 0.0, 0.0, 0, 0.5);
         public final static double kDegreesToRotations = 150d / 360d; // rotations/degrees
         public final static double kRotationsToDegrees = 1 / kDegreesToRotations;
         // TODO: may need to increase threshold for climbing, had set to 5 when testing
-        public final static double kRotateAcceptableErrorDegrees = 0.5;
+        public final static double kRotateAcceptableErrorDegrees = 1.5;
         public final static double kLockWaitSeconds = 0.1;
 
         public final static double kMidDegrees = 0;
-        public final static double kHighDegrees = kMidDegrees + 160;
+        public final static double kHighDegrees = kMidDegrees + 155;
         public final static double kHalfRestDegrees = kHighDegrees + (180 - kHighDegrees % 180);
         public final static double kTraversalDegrees = kHighDegrees + 180;
         // TODO: figure out why consistently undershooting full revolution
@@ -184,8 +189,8 @@ public final class Constants {
         }
 
         public static final class Extend {
-            public final static DoubleSolenoid.Value kRaise = Value.kForward;
-            public final static DoubleSolenoid.Value kLower = Value.kReverse;
+            public final static DoubleSolenoid.Value kRaise = Value.kReverse;
+            public final static DoubleSolenoid.Value kLower = Value.kForward;
 
             public final static Map<ExtendPositions, DoubleSolenoid.Value> kMap  = new HashMap<ExtendPositions, DoubleSolenoid.Value>() {{
                 put(ExtendPositions.RAISE, kRaise);

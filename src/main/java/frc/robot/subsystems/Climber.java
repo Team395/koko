@@ -21,7 +21,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.IO;
 import frc.robot.commands.Climber.SetPosition;
@@ -172,19 +174,51 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putData("Lock L2", new SetPosition<LockPositions>(this::setLock2, LockPositions.LOCK));
     SmartDashboard.putData("Unlock L2", new SetPosition<LockPositions>(this::setLock2, LockPositions.UNLOCK));
 
-    SmartDashboard.putData("Open H1", new SetPosition<HookPositions>(this::setHook1, HookPositions.OPEN));
-    SmartDashboard.putData("Close H1", new SetPosition<HookPositions>(this::setHook1, HookPositions.CLOSE));
-    SmartDashboard.putData("Open H2", new SetPosition<HookPositions>(this::setHook2, HookPositions.OPEN));
-    SmartDashboard.putData("Close H2", new SetPosition<HookPositions>(this::setHook2, HookPositions.CLOSE));
-    SmartDashboard.putData("Open H3", new SetPosition<HookPositions>(this::setHook3, HookPositions.OPEN));
-    SmartDashboard.putData("Close H3", new SetPosition<HookPositions>(this::setHook3, HookPositions.CLOSE));
-    SmartDashboard.putData("Open H4", new SetPosition<HookPositions>(this::setHook4, HookPositions.OPEN));
-    SmartDashboard.putData("Close H4", new SetPosition<HookPositions>(this::setHook4, HookPositions.CLOSE));
+    SmartDashboard.putData("Open H1", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock1, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook1, HookPositions.OPEN)
+    ));
+    SmartDashboard.putData("Close H1", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock1, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook1, HookPositions.CLOSE)
+    ));
+    SmartDashboard.putData("Open H2", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock1, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook2, HookPositions.OPEN)
+    ));
+    SmartDashboard.putData("Close H2", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock1, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook2, HookPositions.CLOSE)
+    ));
+    SmartDashboard.putData("Open H3", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock2, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook3, HookPositions.OPEN)
+    ));
+    SmartDashboard.putData("Close H3", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock2, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook3, HookPositions.CLOSE)
+    ));
+    SmartDashboard.putData("Open H4", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock2, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook4, HookPositions.OPEN)
+    ));
+    SmartDashboard.putData("Close H4", new SequentialCommandGroup(
+      new SetPosition<LockPositions>(this::setLock2, LockPositions.UNLOCK),
+      new WaitCommand(Constants.Climber.kLockWaitSeconds),
+      new SetPosition<HookPositions>(this::setHook4, HookPositions.CLOSE)
+    ));
 
     SmartDashboard.putData("Raise Climber", new SetPosition<ExtendPositions>(this::setExtend, ExtendPositions.RAISE));
     SmartDashboard.putData("Lower Climber", new SetPosition<ExtendPositions>(this::setExtend, ExtendPositions.LOWER));
 
-    SmartDashboard.putData("Wind", new InstantCommand(() -> rotateToDegrees(0.0), this));
+    SmartDashboard.putData("Rotate To 0", new InstantCommand(() -> rotateToDegrees(0.0), this));
   }
 
   public void zeroEncoders() {

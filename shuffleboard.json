@@ -331,6 +331,105 @@
               "_source0": "network_table:///SmartDashboard/Lower Climber",
               "_title": "Lover Climber"
             }
+          },
+          "6,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Rotate To 0",
+              "_title": "SmartDashboard/Rotate To 0"
+            }
+          },
+          "9,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Arm Position Degrees",
+              "_title": "SmartDashboard/Arm Position Degrees"
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Arm Speed",
+              "_title": "/SmartDashboard/Arm Speed"
+            }
+          },
+          "11,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Drive 2 forward",
+              "_title": "SmartDashboard/Drive 2 forward"
+            }
+          },
+          "12,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/pidgeyDirect",
+              "_title": "/SmartDashboard/pidgeyDirect"
+            }
+          },
+          "11,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Turn 90",
+              "_title": "SmartDashboard/Turn 90"
+            }
+          },
+          "12,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Zero Drivetrain Sensors",
+              "_title": "SmartDashboard/Zero Drivetrain Sensors"
+            }
+          },
+          "9,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Roller Amps",
+              "_title": "/SmartDashboard/Roller Amps"
+            }
+          },
+          "10,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Roller supply Amps",
+              "_title": "/SmartDashboard/Roller supply Amps"
+            }
           }
         }
       }

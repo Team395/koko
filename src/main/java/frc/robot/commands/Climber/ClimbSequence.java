@@ -12,13 +12,23 @@ import frc.robot.IO;
 import frc.robot.enums.Climb.ExtendPositions;
 import frc.robot.enums.Climb.HookPositions;
 import frc.robot.enums.Climb.LockPositions;
+import frc.robot.enums.Intake.IntakePositions;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 
 
 public class ClimbSequence extends SequentialCommandGroup {
+  Climber climber;
+  Intake intake;
+  IO io;
 
-  public ClimbSequence(Climber climber, IO io) {
-    addCommands(
+  public ClimbSequence(Climber climber, Intake intake, IO io) {
+    this.climber = climber;
+    this.intake = intake;
+    this.io = io;
+    
+    addCommands( 
+      new InstantCommand(() -> intake.setPosition(IntakePositions.DOWN), intake),
       new RotateToDegrees(climber, Constants.Climber.kMidDegrees),
       new InstantCommand(() -> climber.setExtend(ExtendPositions.RAISE), climber),
 
@@ -40,7 +50,7 @@ public class ClimbSequence extends SequentialCommandGroup {
 
       new InstantCommand(() -> climber.setLock1(LockPositions.UNLOCK), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
-      new InstantCommand(() -> climber.setHook1(HookPositions.OPEN), climber),
+      new InstantCommand(() -> climber.setHook2(HookPositions.OPEN), climber),
 
       //  1  (2)
       //   \ /    U1
@@ -50,12 +60,15 @@ public class ClimbSequence extends SequentialCommandGroup {
 
       new WaitForButton(io.driverXboxAButton, io, climber),
 
-      new InstantCommand(() -> climber.setHook1(HookPositions.CLOSE), climber),
+      new InstantCommand(() -> climber.setHook2(HookPositions.CLOSE), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
       new InstantCommand(() -> climber.setLock1(LockPositions.LOCK), climber),
 
       new WaitForButton(io.driverXboxAButton, io, climber),
       new InstantCommand(() -> climber.setExtend(ExtendPositions.LOWER), climber),
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
+      new RotateToDegrees(climber, -35),
 
       // (1) (2)
       //   \ /   (L1)
@@ -101,6 +114,9 @@ public class ClimbSequence extends SequentialCommandGroup {
 
       new InstantCommand(() -> climber.setLock1(LockPositions.UNLOCK), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
+
       new InstantCommand(() -> climber.setHook1(HookPositions.OPEN), climber),
       new InstantCommand(() -> climber.setHook2(HookPositions.OPEN), climber),
 
@@ -156,6 +172,9 @@ public class ClimbSequence extends SequentialCommandGroup {
 
       new InstantCommand(() -> climber.setLock2(LockPositions.UNLOCK), climber),
       new WaitCommand(Constants.Climber.kLockWaitSeconds),
+
+      new WaitForButton(io.driverXboxAButton, io, climber),
+
       new InstantCommand(() -> climber.setHook4(HookPositions.OPEN), climber),
       new InstantCommand(() -> climber.setHook3(HookPositions.OPEN), climber),
 
@@ -189,5 +208,10 @@ public class ClimbSequence extends SequentialCommandGroup {
       // (3) (4)
 
     );
+  }
+
+  @Override
+  public boolean isFinished() {
+    return io.driverXBoxSquaresButton.get();
   }
 }

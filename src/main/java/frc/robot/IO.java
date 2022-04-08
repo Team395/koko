@@ -21,6 +21,8 @@ public class IO {
     public JoystickButton driverXboxBButton = new JoystickButton(driverController, 2);
     public JoystickButton driverXboxXButton = new JoystickButton(driverController, 3);
     public JoystickButton driverXboxYButton = new JoystickButton(driverController, 4);
+    public JoystickButton driverXBoxSquaresButton = new JoystickButton(driverController, 7);
+    public JoystickButton driverXBoxLinesButton = new JoystickButton(driverController, 8);
 
     public JoystickButton operatorLeftStick = new JoystickButton(operatorController, 9);
 
@@ -56,10 +58,10 @@ public class IO {
     }
 
     public double getOperatorControllerRoller() {
-        return -1 * operatorController.getLeftY();
+        return -1 * driverController.getLeftY();
     }
 
-    public JoystickButton getIntakeButton() {
+    public JoystickButton  getIntakeButton() {
         return driverXboxXButton;
     }
 

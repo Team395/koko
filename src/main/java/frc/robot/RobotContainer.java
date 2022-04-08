@@ -69,6 +69,10 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new ControllerDrivetrain(drivetrain, io));
 
     isDrivetrainEnabled = true;
+
+    SmartDashboard.putData("Zero Drivetrain Sensors", new InstantCommand(drivetrain::zeroSensors, drivetrain));
+    SmartDashboard.putData("Drive 2 forward", new DriveFeet(drivetrain, 2.0));
+    SmartDashboard.putData("Turn 90", new TurnDegrees(drivetrain, 90));
   }
 
   public void enableIntake() {
@@ -132,7 +136,7 @@ public class RobotContainer {
     // io.driverXboxAButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kTraversalDegrees), climber));
     // io.driverXboxXButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(Constants.Climber.kRestDegrees), climber));
 
-    io.driverXboxYButton.whenPressed(new ClimbSequence(climber, io));
+    io.driverXboxYButton.whenPressed(new ClimbSequence(climber, intake, io));
 
     // io.driverLeftShoulderButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(climber.getPositionDegrees() + 5), climber));
     // io.driverRightShoulderButton.whenPressed(new InstantCommand(() -> climber.rotateToDegrees(climber.getPositionDegrees() - 5), climber));
